@@ -29,7 +29,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: '',
+    path: '/teste',
     redirectTo: '/tabs/tab1',
     pathMatch: 'full',
   },

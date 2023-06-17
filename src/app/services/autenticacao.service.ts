@@ -5,7 +5,7 @@ const USUARIO_AUTENTICADO = 'usuarioAutenticado';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AutenticacaoService {
 
   constructor() { }
 

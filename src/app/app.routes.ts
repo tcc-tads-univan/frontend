@@ -3,6 +3,10 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
+    loadComponent: () => import('./tela-inicio/tela-inicio.page').then( m => m.TelaInicioPage)
   },
+  // {
+  //   path: '/teste',
+  //   loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
+  // },
 ];
