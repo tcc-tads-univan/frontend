@@ -7,6 +7,10 @@ export const routes: Routes = [
       import('./validar-carona/validar-carona.page').then((m) => m.ValidarCaronaPage),
   },
   {
+    path: 'carona-confirmada',
+    loadComponent: () => import('./carona-confirmada/carona-confirmada.page').then( m => m.CaronaConfirmadaPage)
+  },
+  {
     path: '',
     redirectTo: '/aluno/validar-carona',
     pathMatch: 'full'
