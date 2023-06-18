@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Validar proposta de carona</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card color="light">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-item color="light">
+          <ion-avatar slot="start">
+            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
+          </ion-avatar>
+          <ion-label> Fernando Lorem (<ion-icon name="star"></ion-icon>4,3) </ion-label>
+        </ion-item>
+      </ion-card-title>
+      <ion-card-subtitle>
+        <p><ion-icon name="car"></ion-icon>Placa: ABC-1234</p>
+        <p><ion-icon name="card-outline"></ion-icon>R$ 52,30</p>
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>
+        <ion-icon name="navigate"></ion-icon>
+        Partida: Universidade Federal do Paraná
+      </p>
+      <p>
+        <ion-icon name="location-outline"></ion-icon>
+        Destino: R. Alexandre Gutierrez, 990
+      </p>
+    </ion-card-content>
+
+    <ion-button color="danger" fill="outline">
+      Recusar
+    </ion-button>
+    <ion-button color="success">
+      Aceitar
+    </ion-button>
+  </ion-card>
+</ion-content>
