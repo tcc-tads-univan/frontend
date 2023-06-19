@@ -1,7 +1,8 @@
 <ion-content [fullscreen]="true">
   <h1>Seu agendamento foi solicitado</h1>
   <p>Por favor aguarde, pois os motoristas irão analisar sua solicitação</p>
-  <ion-card>
+
+  <ion-card *ngIf="caronaSolicitada$ | async as caronaSolicitada; else loading">
     <ion-card-header>
       <ion-card-title>
         Informações do Agendamento
@@ -9,7 +10,7 @@
       <ion-card-subtitle>
         <h2>
           <ion-icon name="time-outline"></ion-icon>
-          22h00
+          {{caronaSolicitada.scheduleTime}}
         </h2>
       </ion-card-subtitle>
     </ion-card-header>
@@ -20,8 +21,21 @@
         Embarque em:
       </p>
       <h3>Universidade Federal do Paraná</h3>
-      <p>Jardim das Américas - Curitiba, PR, 80233-494</p>
+      <p>{{caronaSolicitada.lineAddress}}</p>
     </ion-card-content>
+    <ion-button
+      expand="block"
+      color="danger"
+      (click)="cancelarSolicitacaoCarona(caronaSolicitada.userId, 1)">
+      Cancelar
+    </ion-button>
   </ion-card>
-  <ion-button expand="block" color="danger">Cancelar</ion-button>
+
+  <ng-template #loading>
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    <ion-text color="primary">
+      <p class="ion-text-center">Carregando...</p>
+    </ion-text>
+  </ng-template>
+
 </ion-content>
