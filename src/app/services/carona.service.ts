@@ -13,29 +13,30 @@ export class CaronaService {
   constructor(private http: HttpClient) {
   }
 
-  teste() {
-    console.log(this.API_URL);
-  }
-
   solicitarCarona(aluno: string, campus: string, enderecoDestino: string, periodo: string) {
     const request: SolicitacaoCaronaDTO = {
       name: aluno,
-      lineAdress: enderecoDestino,
+      lineAddress: enderecoDestino,
       userId: 1,
       scheduleTime: periodo
     }
-    this.http.post<SolicitacaoCaronaDTO>(`${this.API_URL}/${campus}/Rides`, request, httpOptions);
+    return this.http.post<SolicitacaoCaronaDTO>(`${this.API_URL}/${campus}/Rides`, request, httpOptions);
+  }
+
+  // DS - HU07 -> param = idCarona: int
+  aprovarSolicitacaoCarona(idAluno: number) {
+    return this.http.post(`${this.API_URL}/TODO`, {}, httpOptions);
   }
 
   buscarSolicitacoesCaronaPorCampus(idCampus: number) {
-    this.http.get<SolicitacaoCaronaDTO[]>(`${this.API_URL}/${idCampus}/Rides`, httpOptions);
+    return this.http.get<SolicitacaoCaronaDTO[]>(`${this.API_URL}/${idCampus}/Rides`, httpOptions);
   }
 
   cancelarSolicitacaoCarona(idAluno: number, idCampus: number) {
-    this.http.delete(`${this.API_URL}/${idCampus}/Rides/${idAluno}`, httpOptions);
+    return this.http.delete(`${this.API_URL}/${idCampus}/Rides/${idAluno}`, httpOptions);
   }
 
   buscarSolicitacaoCaronaPorCampusEAluno(idAluno: number, idCampus: number) {
-    this.http.get<SolicitacaoCaronaDTO>(`${this.API_URL}/${idCampus}/Rides/${idAluno}`, httpOptions);
+    return this.http.get<SolicitacaoCaronaDTO>(`${this.API_URL}/${idCampus}/Rides/${idAluno}`, httpOptions);
   }
 }

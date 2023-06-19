@@ -1,6 +1,6 @@
 export interface SolicitacaoCaronaDTO {
   name: string,
   userId: number,
-  lineAdress: string,
+  lineAddress: string,
   scheduleTime: string
 }

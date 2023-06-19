@@ -8,37 +8,54 @@
   <h2 class="ion-justify-content-center">
     Universidade Federal do Paraná - SEPT
   </h2>
-  <ion-card color="light">
-    <ion-card-header>
-      <ion-card-title>
-        <ion-item color="light">
-          <ion-avatar slot="start">
-            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
-          </ion-avatar>
-          <ion-label> Mateus Bosman (<ion-icon name="star"></ion-icon>4,3) </ion-label>
-        </ion-item>
-      </ion-card-title>
-      <ion-card-subtitle>
-        <p><ion-icon name="call-outline"></ion-icon>(41) 99999-9999</p>
-        <p><ion-icon name="card-outline"></ion-icon>R$ 52,30</p>
-      </ion-card-subtitle>
-    </ion-card-header>
+  <div *ngIf="(solicitacoesCarona$ | async) as solicitacoesCarona; else loading">
+    <ion-card color="light" *ngFor="let solicitacao of solicitacoesCarona; trackBy: trackByItem">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-item color="light">
+            <ion-avatar slot="start">
+              <img alt="Avatar do usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
+            </ion-avatar>
+            <ion-label>
+              {{solicitacao.name}} (
+              <ion-icon name="star"></ion-icon>
+              4,3)
+            </ion-label>
+          </ion-item>
+        </ion-card-title>
+        <ion-card-subtitle>
+          <p>
+            <ion-icon name="call-outline"></ion-icon>
+            (41) 99999-9999
+          </p>
+          <p>
+            <ion-icon name="card-outline"></ion-icon>
+            R$ 52,30
+          </p>
+        </ion-card-subtitle>
+      </ion-card-header>
 
-    <ion-card-content>
-      <p>
-        <ion-icon name="time-outline"></ion-icon>
-        Saída às 15:00
-      </p>
-      <p>
-        <ion-icon name="location-outline"></ion-icon>
-        Destino: R. Alexandre Gutierrez, 990
-      </p>
-    </ion-card-content>
+      <ion-card-content>
+        <p>
+          <ion-icon name="time-outline"></ion-icon>
+          Saída às {{solicitacao.scheduleTime}}
+        </p>
+        <p>
+          <ion-icon name="location-outline"></ion-icon>
+          Destino: {{solicitacao.lineAddress}}
+        </p>
+      </ion-card-content>
 
-    <ion-button color="secondary" fill="outline">
-      <ion-icon name="map-outline"></ion-icon>
-      Visualizar Rota
-    </ion-button>
-    <ion-button color="success">Aceitar</ion-button>
-  </ion-card>
+      <ion-button color="secondary" fill="outline">
+        <ion-icon name="map-outline"></ion-icon>
+        Visualizar Rota
+      </ion-button>
+      <ion-button color="success" (click)="aprovarSolicitacaoCarona(solicitacao.userId)">Aceitar</ion-button>
+    </ion-card>
+  </div>
+  <ng-template #loading>
+    <ion-text color="danger">
+      <p class="ion-text-center">Não há solicitações de carona no momento!</p>
+    </ion-text>
+  </ng-template>
 </ion-content>
