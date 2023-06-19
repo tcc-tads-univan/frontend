@@ -2,6 +2,10 @@ import {Routes} from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'solicitar-carona',
+    loadComponent: () => import('./solicitar-carona/solicitar-carona.page').then( m => m.SolicitarCaronaPage)
+  },
+  {
     path: 'validar-carona',
     loadComponent: () =>
       import('./validar-carona/validar-carona.page').then((m) => m.ValidarCaronaPage),
