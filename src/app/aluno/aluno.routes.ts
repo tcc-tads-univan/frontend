@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/aluno/validar-carona',
+    redirectTo: '/aluno/solicitar-carona',
     pathMatch: 'full'
   }
 ];
