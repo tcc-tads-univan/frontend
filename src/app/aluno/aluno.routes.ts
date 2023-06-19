@@ -15,6 +15,10 @@ export const routes: Routes = [
     loadComponent: () => import('./carona-confirmada/carona-confirmada.page').then( m => m.CaronaConfirmadaPage)
   },
   {
+    path: 'carona-solicitada',
+    loadComponent: () => import('./carona-solicitada/carona-solicitada.page').then( m => m.CaronaSolicitadaPage)
+  },
+  {
     path: '',
     redirectTo: '/aluno/validar-carona',
     pathMatch: 'full'
