@@ -1,25 +1,31 @@
 <ion-content [fullscreen]="true">
   <ion-grid [fixed]="true">
     <ion-row class="ion-justify-content-center">
-      <h1 >Pegar carona</h1>
+      <h1>Pegar carona</h1>
     </ion-row>
     <h6>Agendamento</h6>
-    <ion-select label="Selecione o período" label-placement="floating" fill="outline">
-
-      <ion-select-option *ngFor="let time of time; let i = index" >{{time.hour}}</ion-select-option>
-    </ion-select>
-
-    <h6>Filtrar</h6>
-    <ion-input label="Faculdade..." label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
-    <ion-card *ngFor="let card of cards; let i = index"  [class.selected]="selectedCard === card" (click)="selectCard(card)" >
-      <ion-card-header>
-        <ion-card-title>{{ card.university }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        {{ card.address }}
-      </ion-card-content>
-    </ion-card>
-    <ion-button color="primary" expand="block">
+      <ion-item>
+        <ion-label>Selecione o período</ion-label>
+        <ion-datetime
+          minuteValues="0,30"
+          [hourValues]="horariosDisponiveis.length > 0 ? horariosDisponiveis : null"
+          presentation="time"
+          [(ngModel)]="periodoSelecionado"
+        >
+        </ion-datetime>
+      </ion-item>
+    <ion-searchbar placeholder="Pesquisar câmpus" [debounce]="150" (ionInput)="handleInput($event)"></ion-searchbar>
+    <ion-list>
+      <ion-radio-group [(ngModel)]="campusSelecionado">
+        <ion-item *ngFor="let campus of campiFiltrado; trackBy: trackByItem">
+          <ion-radio [value]="campus" justify="space-between">
+              <h6>{{campus.universidade}}</h6>
+              <p>{{campus.lineAddress}}</p>
+          </ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+    <ion-button color="primary" expand="block" (click)="handleSubmit()">
       Agendar Carona
     </ion-button>
   </ion-grid>
