@@ -14,10 +14,12 @@ export class CaronaService {
   }
 
   solicitarCarona(aluno: string, campus: string, enderecoDestino: string, periodo: string) {
+    const randomUserId = Math.floor((Math.random() * 100) + 1);
+
     const request: SolicitacaoCaronaDTO = {
       name: aluno,
       lineAddress: enderecoDestino,
-      userId: 1,
+      userId: randomUserId,
       scheduleTime: periodo
     }
     return this.http.post<SolicitacaoCaronaDTO>(`${this.API_URL}/${campus}/Rides`, request, httpOptions);
