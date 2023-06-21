@@ -1,26 +1,25 @@
-<ion-content [fullscreen]="true">
-  <h1>Seu agendamento foi solicitado</h1>
-  <p>Por favor aguarde, pois os motoristas irão analisar sua solicitação</p>
-
-  <ion-card *ngIf="caronaSolicitada$ | async as caronaSolicitada; else loading">
+<ion-content [fullscreen]="true" class="ion-padding" color="light">
+  <ion-text class="ion-text-center">
+    <ion-icon src="assets/undraw_confirmed_re_sef7.svg" class="bigger-icon"></ion-icon>
+    <h1>Seu agendamento foi solicitado</h1>
+    <p>Por favor aguarde, pois os motoristas irão analisar sua solicitação</p>
+  </ion-text>
+  <ion-card *ngIf="caronaSolicitada$ | async as caronaSolicitada; else loading" class="ion-padding">
     <ion-card-header>
       <ion-card-title>
         Informações do Agendamento
       </ion-card-title>
-      <ion-card-subtitle>
-        <h2>
-          <ion-icon name="time-outline"></ion-icon>
-          {{caronaSolicitada.scheduleTime}}
-        </h2>
-      </ion-card-subtitle>
     </ion-card-header>
-
     <ion-card-content>
-      <p>
+      <h2>
+        <ion-icon name="time-outline"></ion-icon>
+        {{caronaSolicitada.scheduleTime}}
+      </h2>
+      <h2>
         <ion-icon name="location-outline"></ion-icon>
         Embarque em:
-      </p>
-      <h3>Universidade Federal do Paraná</h3>
+      </h2>
+      <h3><strong>Universidade Federal do Paraná</strong></h3>
       <p>{{caronaSolicitada.lineAddress}}</p>
     </ion-card-content>
     <ion-button

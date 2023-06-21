@@ -1,6 +1,8 @@
-<ion-content [fullscreen]="true">
-  <h1>Tudo certo para sua carona</h1>
-  <h3>Encontre seu motorista às <strong>23h00</strong></h3>
+<ion-content [fullscreen]="true" class="ion-padding" color="light">
+  <ion-text class="ion-text-center">
+    <h1>Tudo certo para sua carona</h1>
+    <h3>Encontre seu motorista às <strong>23h00</strong></h3>
+  </ion-text>
   <ion-card>
     <ion-card-header>
       <ion-card-title>
@@ -8,18 +10,28 @@
           <ion-avatar slot="start">
             <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
           </ion-avatar>
-          <ion-label> Fernando Lorem (<ion-icon name="star"></ion-icon>4,3) </ion-label>
+          <ion-label>
+            Fernando Lorem
+            <ion-icon name="star"></ion-icon>
+            4,3
+          </ion-label>
         </ion-item>
       </ion-card-title>
-      <ion-card-subtitle>
-        <ion-icon name="call-outline"></ion-icon>
-        (41) 99999-9999
-      </ion-card-subtitle>
     </ion-card-header>
-
     <ion-card-content>
-      <ion-icon name="car"></ion-icon>
-      Placa do veículo: ABC-1234
+      <ion-text>
+        <p>
+          <ion-icon name="call-outline"></ion-icon>
+          (41) 99999-9999
+        </p>
+      </ion-text>
+      <ion-text>
+        <p>
+          <ion-icon name="car"></ion-icon>
+          Placa do veículo: ABC-1234
+        </p>
+      </ion-text>
     </ion-card-content>
   </ion-card>
+  <ion-icon src="assets/undraw_order_ride_re_372k.svg" class="bigger-icon"></ion-icon>
 </ion-content>

@@ -1,41 +1,46 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Alunos disponíveis em...</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding" color="light">
   <h2 class="ion-justify-content-center">
     Universidade Federal do Paraná - SEPT
   </h2>
   <div *ngIf="(solicitacoesCarona$ | async) as solicitacoesCarona; else loading">
-    <ion-card color="light" *ngFor="let solicitacao of solicitacoesCarona; trackBy: trackByItem">
+    <ion-card *ngFor="let solicitacao of solicitacoesCarona; trackBy: trackByItem">
       <ion-card-header>
         <ion-card-title>
-          <ion-item color="light">
+          <ion-item>
             <ion-avatar slot="start">
               <img alt="Avatar do usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
             </ion-avatar>
             <ion-label>
-              {{solicitacao.name}} (
-              <ion-icon name="star"></ion-icon>
-              4,3)
+              {{solicitacao.name.split(' ')[0] + ' ' + solicitacao.name.split(' ')[5]}}
             </ion-label>
           </ion-item>
         </ion-card-title>
         <ion-card-subtitle>
-          <p>
-            <ion-icon name="call-outline"></ion-icon>
-            (41) 99999-9999
-          </p>
+          Avaliação:
+          <ion-icon name="star"></ion-icon>
+          4,3
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-text color="primary">
           <p>
             <ion-icon name="card-outline"></ion-icon>
             R$ 52,30
           </p>
-        </ion-card-subtitle>
-      </ion-card-header>
-
-      <ion-card-content>
+        </ion-text>
+        <p>
+          <ion-icon name="call-outline"></ion-icon>
+          (41) 99999-9999
+        </p>
         <p>
           <ion-icon name="time-outline"></ion-icon>
           Saída às {{solicitacao.scheduleTime}}
@@ -44,13 +49,14 @@
           <ion-icon name="location-outline"></ion-icon>
           Destino: {{solicitacao.lineAddress}}
         </p>
+        <ion-item-group class="ion-margin-top">
+          <ion-button color="secondary" fill="outline">
+            <ion-icon name="map-outline"></ion-icon>
+            Visualizar Rota
+          </ion-button>
+          <ion-button color="success" (click)="aprovarSolicitacaoCarona(solicitacao.userId)">Aceitar</ion-button>
+        </ion-item-group>
       </ion-card-content>
-
-      <ion-button color="secondary" fill="outline">
-        <ion-icon name="map-outline"></ion-icon>
-        Visualizar Rota
-      </ion-button>
-      <ion-button color="success" (click)="aprovarSolicitacaoCarona(solicitacao.userId)">Aceitar</ion-button>
     </ion-card>
   </div>
   <ng-template #loading>

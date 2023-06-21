@@ -1,42 +1,57 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Validar proposta de carona</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Validar proposta</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-card color="light">
+<ion-content [fullscreen]="true" class="ion-padding" color="light">
+  <ion-card class="ion-padding">
     <ion-card-header>
       <ion-card-title>
-        <ion-item color="light">
+        <ion-item>
           <ion-avatar slot="start">
             <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
           </ion-avatar>
-          <ion-label> Fernando Lorem (<ion-icon name="star"></ion-icon>4,3) </ion-label>
+          <ion-label>
+            Fernando Lorem
+          </ion-label>
         </ion-item>
       </ion-card-title>
       <ion-card-subtitle>
-        <p><ion-icon name="car"></ion-icon>Placa: ABC-1234</p>
-        <p><ion-icon name="card-outline"></ion-icon>R$ 52,30</p>
+        Avaliação:
+        <ion-icon name="star"></ion-icon>
+        4,3
       </ion-card-subtitle>
     </ion-card-header>
-
     <ion-card-content>
-      <p>
-        <ion-icon name="navigate"></ion-icon>
-        Partida: Universidade Federal do Paraná
-      </p>
-      <p>
-        <ion-icon name="location-outline"></ion-icon>
-        Destino: R. Alexandre Gutierrez, 990
-      </p>
+      <ion-text>
+        <p>
+          <ion-icon name="car"></ion-icon>
+          Placa: ABC-1234
+        </p>
+        <p>
+          <ion-icon name="card-outline"></ion-icon>
+          R$ 52,30
+        </p>
+        <p>
+          <ion-icon name="navigate"></ion-icon>
+          Partida: Universidade Federal do Paraná
+        </p>
+        <p>
+          <ion-icon name="location-outline"></ion-icon>
+          Destino: R. Alexandre Gutierrez, 990
+        </p>
+      </ion-text>
+      <ion-button color="danger" fill="outline">
+        Recusar
+      </ion-button>
+      <ion-button color="success">
+        Aceitar
+      </ion-button>
     </ion-card-content>
-
-    <ion-button color="danger" fill="outline">
-      Recusar
-    </ion-button>
-    <ion-button color="success">
-      Aceitar
-    </ion-button>
   </ion-card>
+  <ion-icon src="assets/undraw_trip_re_f724.svg" class="bigger-icon"></ion-icon>
 </ion-content>

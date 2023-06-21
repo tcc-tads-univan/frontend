@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Acessar o sistema</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-item class="ion-justify-content-center">
+    <ion-icon src="assets/logo_1.svg" class="univan-logo"></ion-icon>
+  </ion-item>
+  <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+    <ion-list>
+      <ion-list-header>
+        <h2>Entrar</h2>
+      </ion-list-header>
+      <ion-item>
+        <ion-input
+          type="email"
+          label="Seu e-mail"
+          placeholder="exemplo@email.com"
+          [clearInput]="true"
+          formControlName="email"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input
+          type="password"
+          label="Sua senha"
+          placeholder="Insira a sua senha"
+          formControlName="senha"
+        ></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-button type="submit" expand="block">Acessar</ion-button>
+  </form>
+  <ion-item href="#" class="ion-text-center ion-margin-top">
+    <ion-label>Nao possui uma conta? <a>Cadastre-se!</a></ion-label>
+  </ion-item>
+</ion-content>

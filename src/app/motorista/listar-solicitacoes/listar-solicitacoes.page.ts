@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {IonicModule} from '@ionic/angular';
+import {IonicModule, ToastController} from '@ionic/angular';
 import {CaronaService} from "../../services/carona.service";
 import {SolicitacaoCaronaDTO} from "../../shared/models/solicitacao-carona-dto.model";
 import {Observable} from "rxjs";
@@ -17,7 +17,7 @@ import {Observable} from "rxjs";
 export class ListarSolicitacoesPage implements OnInit {
   solicitacoesCarona$!: Observable<SolicitacaoCaronaDTO[]>;
 
-  constructor(private caronaService: CaronaService) {
+  constructor(private caronaService: CaronaService, private toastController: ToastController) {
   }
 
   ngOnInit() {
@@ -28,8 +28,14 @@ export class ListarSolicitacoesPage implements OnInit {
     return item.userId;
   }
 
-  aprovarSolicitacaoCarona(idAluno: number) {
+  async aprovarSolicitacaoCarona(idAluno: number) {
     console.log("Aprovada a solicitação de carona do aluno=", idAluno);
     // this.caronaService.aprovarSolicitacaoCarona(idAluno);
+    this.toastController.create({
+      message: "Aluno ID=" + idAluno + " aprovado",
+      duration: 1500,
+      position: "bottom",
+      color: "success"
+    }).then(t => t.present());
   }
 }
