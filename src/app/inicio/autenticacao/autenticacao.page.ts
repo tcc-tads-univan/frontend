@@ -27,10 +27,7 @@ export class AutenticacaoPage implements OnInit {
 
   onSubmit() {
     if (this.email?.value && this.senha?.value) {
-      const loginDTO = {
-        email: this.email.value,
-        senha: this.senha.value
-      }
+      const loginDTO = new LoginDTO(this.email.value, this.senha.value);
       this.autenticacaoService.autenticarUsuario(loginDTO);
     }
     console.log("Campos invalidos");

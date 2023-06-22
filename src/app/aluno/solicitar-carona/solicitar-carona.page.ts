@@ -17,14 +17,8 @@ import {Router} from "@angular/router";
 })
 export class SolicitarCaronaPage implements OnInit {
   public campi: Campus[] = [
-    {
-      universidade: 'Universidade Federal do Paraná',
-      lineAddress: 'Rua João Assef 1010'
-    },
-    {
-      universidade: 'Pontifícia Universidade Católica do Paraná',
-      lineAddress: 'Rua João Assef 1011'
-    }
+    new Campus(1, 'Universidade Federal do Paraná', 'Rua João Assef 1010'),
+    new Campus(2, 'Pontifícia Universidade Católica do Paraná', 'Rua João Assef 1011')
   ];
   public campiFiltrado = [...this.campi];
 
@@ -49,16 +43,20 @@ export class SolicitarCaronaPage implements OnInit {
 
   handleInput(event: any) {
     const query = event.target.value.toLowerCase();
-    this.campiFiltrado = this.campi.filter((c) => c.universidade.toLowerCase().indexOf(query) > -1);
+    this.campiFiltrado = this.campi.filter((c) => c.collegeName.toLowerCase().indexOf(query) > -1);
   }
 
   handleSubmit() {
     if (this.periodoSelecionado && this.campusSelecionado) {
-      const campus: string = this.campusSelecionado.universidade === 'Universidade Federal do Paraná' ? '1' : '2';
-      this.caronaService.solicitarCarona(`Aluno ${new Date()}`, campus, this.campusSelecionado.lineAddress, this.periodoSelecionado).subscribe(
-        _ => { console.log("Solicitado com sucesso!"); }
-      );
-      this.router.navigate(['/']);
+      // POC
+      const date = new Date(this.periodoSelecionado);
+      this.caronaService.solicitarCarona(this.campusSelecionado, `${date.getHours()}:${date.getMinutes()}`)
+        .subscribe(
+          _ => {
+            console.log("Solicitado com sucesso!");
+          }
+        );
+      this.router.navigate(['/aluno/carona-solicitada']);
     }
   }
 }

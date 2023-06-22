@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
   <ion-text class="ion-text-center">
     <h1>Tudo certo para sua carona</h1>
-    <h3>Encontre seu motorista às <strong>23h00</strong></h3>
+    <h3>Encontre seu motorista às <strong>{{agendamento.scheduledTime}}</strong></h3>
   </ion-text>
   <ion-card>
     <ion-card-header>
@@ -11,7 +11,7 @@
             <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
           </ion-avatar>
           <ion-label>
-            Fernando Lorem
+            {{agendamento.driverName}}
             <ion-icon name="star"></ion-icon>
             4,3
           </ion-label>

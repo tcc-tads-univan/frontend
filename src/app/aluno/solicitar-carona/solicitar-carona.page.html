@@ -23,7 +23,7 @@
     <ion-radio-group [(ngModel)]="campusSelecionado">
       <ion-item *ngFor="let campus of campiFiltrado; trackBy: trackByItem">
         <ion-radio [value]="campus" justify="space-between">
-          <h6>{{campus.universidade}}</h6>
+          <h6>{{campus.collegeName}}</h6>
           <p>{{campus.lineAddress}}</p>
         </ion-radio>
       </ion-item>

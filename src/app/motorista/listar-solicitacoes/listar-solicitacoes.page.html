@@ -20,7 +20,7 @@
               <img alt="Avatar do usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
             </ion-avatar>
             <ion-label>
-              {{solicitacao.name.split(' ')[0] + ' ' + solicitacao.name.split(' ')[5]}}
+              {{solicitacao.studentName}}
             </ion-label>
           </ion-item>
         </ion-card-title>
@@ -54,7 +54,7 @@
             <ion-icon name="map-outline"></ion-icon>
             Visualizar Rota
           </ion-button>
-          <ion-button color="success" (click)="aprovarSolicitacaoCarona(solicitacao.userId)">Aceitar</ion-button>
+          <ion-button color="success" (click)="aprovarSolicitacaoCarona(solicitacao.studentId)">Aceitar</ion-button>
         </ion-item-group>
       </ion-card-content>
     </ion-card>

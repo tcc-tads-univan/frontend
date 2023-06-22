@@ -1,6 +1,9 @@
-export interface SolicitacaoCaronaDTO {
-  name: string,
-  userId: number,
-  lineAddress: string,
-  scheduleTime: string
+export class SolicitacaoCaronaDTO {
+  constructor(
+    public studentName: string,
+    public studentId: number,
+    public lineAddress: string,
+    public scheduleTime: string
+  ) {
+  }
 }

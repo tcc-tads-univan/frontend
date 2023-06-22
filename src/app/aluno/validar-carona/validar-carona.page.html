@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
-  <ion-card class="ion-padding">
+  <ion-card class="ion-padding" *ngIf="agendamento$ | async as agendamento; else loading">
     <ion-card-header>
       <ion-card-title>
         <ion-item>
@@ -16,7 +16,7 @@
             <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
           </ion-avatar>
           <ion-label>
-            Fernando Lorem
+            {{agendamento.driverName}}
           </ion-label>
         </ion-item>
       </ion-card-title>
@@ -38,20 +38,27 @@
         </p>
         <p>
           <ion-icon name="navigate"></ion-icon>
-          Partida: Universidade Federal do Paraná
+          Partida: {{agendamento.origin}}
         </p>
         <p>
           <ion-icon name="location-outline"></ion-icon>
-          Destino: R. Alexandre Gutierrez, 990
+          Destino: {{agendamento.destination}}
         </p>
       </ion-text>
       <ion-button color="danger" fill="outline">
         Recusar
       </ion-button>
-      <ion-button color="success">
+      <ion-button color="success" (click)="aceitarPropostaCarona(agendamento.scheduleId, agendamento)">
         Aceitar
       </ion-button>
     </ion-card-content>
   </ion-card>
+  <ng-template #loading>
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    <ion-text color="primary">
+      <p class="ion-text-center">Carregando...</p>
+    </ion-text>
+  </ng-template>
+
   <ion-icon src="assets/undraw_trip_re_f724.svg" class="bigger-icon"></ion-icon>
 </ion-content>

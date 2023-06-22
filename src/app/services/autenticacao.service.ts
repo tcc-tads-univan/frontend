@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
 import {LoginDTO} from "../shared/models/login-dto.model";
-
-const USUARIO_AUTENTICADO = 'usuarioAutenticado';
+import {LocalStorageService} from "./local-storage.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutenticacaoService {
 
-  constructor() { }
+  constructor(private localStorageService: LocalStorageService) { }
 
   autenticarUsuario(login: LoginDTO) {
-    localStorage.setItem(USUARIO_AUTENTICADO, 'true[' + JSON.stringify(login) + ']');
+    this.localStorageService.salvarTokenAutenticacao(JSON.stringify(login));
   }
 
   logout() {
-    localStorage.removeItem(USUARIO_AUTENTICADO);
+    this.localStorageService.limparTokenAutenticacao();
   }
 }

@@ -1,4 +1,8 @@
-export interface Campus {
-  universidade: string;
-  lineAddress: string;
+export class Campus {
+  constructor(
+    public collegeId: number,
+    public collegeName: string,
+    public lineAddress: string
+  ) {
+  }
 }

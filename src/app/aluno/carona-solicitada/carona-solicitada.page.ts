@@ -5,6 +5,7 @@ import {IonicModule} from '@ionic/angular';
 import {SolicitacaoCaronaDTO} from "../../shared/models/solicitacao-carona-dto.model";
 import {CaronaService} from "../../services/carona.service";
 import {Observable} from "rxjs";
+import {LocalStorageService} from "../../services/local-storage.service";
 
 @Component({
   selector: 'app-carona-solicitada',
@@ -12,21 +13,24 @@ import {Observable} from "rxjs";
   styleUrls: ['./carona-solicitada.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  providers: [CaronaService]
+  providers: [CaronaService, LocalStorageService]
 })
 export class CaronaSolicitadaPage implements OnInit {
   caronaSolicitada$!: Observable<SolicitacaoCaronaDTO>;
+  caronaStorage!: {idAluno: number, idCampus: number}; // POC
 
-  constructor(private caronaService: CaronaService) {
+  // POC
+  constructor(private caronaService: CaronaService, private poc: LocalStorageService) {
   }
 
   ngOnInit() {
-    this.caronaSolicitada$ = this.caronaService.buscarSolicitacaoCaronaPorCampusEAluno(1, 1);
+    this.caronaStorage = this.poc.recuperarCarona(); // POC
+    this.caronaSolicitada$ = this.caronaService.buscarSolicitacaoCaronaPorCampusEAluno(this.caronaStorage.idAluno, this.caronaStorage.idCampus);
   }
 
   cancelarSolicitacaoCarona(idAluno: number, idCampus: number) {
     this.caronaService.cancelarSolicitacaoCarona(idAluno, idCampus).subscribe(
-      sucesso => {
+      _ => {
         console.log('Solicitaçao cancelada com sucesso');
       }
     );

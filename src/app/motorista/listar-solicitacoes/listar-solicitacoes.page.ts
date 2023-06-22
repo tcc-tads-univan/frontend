@@ -5,6 +5,7 @@ import {IonicModule, ToastController} from '@ionic/angular';
 import {CaronaService} from "../../services/carona.service";
 import {SolicitacaoCaronaDTO} from "../../shared/models/solicitacao-carona-dto.model";
 import {Observable} from "rxjs";
+import {LocalStorageService} from "../../services/local-storage.service";
 
 @Component({
   selector: 'app-listar-solicitacoes',
@@ -17,20 +18,23 @@ import {Observable} from "rxjs";
 export class ListarSolicitacoesPage implements OnInit {
   solicitacoesCarona$!: Observable<SolicitacaoCaronaDTO[]>;
 
-  constructor(private caronaService: CaronaService, private toastController: ToastController) {
+  // POC
+  constructor(private caronaService: CaronaService, private toastController: ToastController, private poc: LocalStorageService) {
   }
 
   ngOnInit() {
-    this.solicitacoesCarona$ = this.caronaService.buscarSolicitacoesCaronaPorCampus(1);
+    this.solicitacoesCarona$ = this.caronaService.buscarSolicitacoesCaronaPorCampus(this.poc.recuperarCarona().idCampus);
   }
 
   trackByItem(index: number, item: SolicitacaoCaronaDTO) {
-    return item.userId;
+    return item.studentId;
   }
 
   async aprovarSolicitacaoCarona(idAluno: number) {
-    console.log("Aprovada a solicitação de carona do aluno=", idAluno);
-    // this.caronaService.aprovarSolicitacaoCarona(idAluno);
+    this.caronaService.aprovarSolicitacaoCarona(idAluno).subscribe(_ => {
+      console.log("Solicitado");
+    });
+
     this.toastController.create({
       message: "Aluno ID=" + idAluno + " aprovado",
       duration: 1500,
