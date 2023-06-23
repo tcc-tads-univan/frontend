@@ -7,8 +7,7 @@ export const routes: Routes = [
   },
   {
     path: 'validar-carona',
-    loadComponent: () =>
-      import('./validar-carona/validar-carona.page').then((m) => m.ValidarCaronaPage),
+    loadComponent: () => import('./validar-carona/validar-carona.page').then((m) => m.ValidarCaronaPage),
   },
   {
     path: 'carona-confirmada',

@@ -50,12 +50,14 @@ export class SolicitarCaronaPage implements OnInit {
     if (this.periodoSelecionado && this.campusSelecionado) {
       // POC
       const date = new Date(this.periodoSelecionado);
-      this.caronaService.solicitarCarona(this.campusSelecionado, `${date.getHours()}:${date.getMinutes()}`)
-        .subscribe(
-          _ => {
-            console.log("Solicitado com sucesso!");
-          }
-        );
+      this.caronaService.solicitarCarona(
+        this.campusSelecionado,
+        `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`
+      ).subscribe(
+        _ => {
+          console.log("Solicitado com sucesso!");
+        }
+      );
       this.router.navigate(['/aluno/carona-solicitada']);
     }
   }
