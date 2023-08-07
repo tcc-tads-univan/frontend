@@ -12,14 +12,18 @@
   <ion-item>
     <ion-label>Selecione o período</ion-label>
     <ion-datetime
-      minuteValues="0, 30"
-      [hourValues]="horariosDisponiveis.length > 0 ? horariosDisponiveis : null"
+      locale="pt-BR"
       presentation="time"
+      [minuteValues]="[0,30]"
+      [hourValues]="horariosDisponiveis.length > 0 ? horariosDisponiveis : null"
       [(ngModel)]="periodoSelecionado">
     </ion-datetime>
   </ion-item>
-  <ion-searchbar placeholder="Pesquisar câmpus" [debounce]="150" (ionInput)="handleInput($event)"></ion-searchbar>
   <ion-list>
+    <ion-list-header>
+      <ion-label>Selecione o câmpus</ion-label>
+    </ion-list-header>
+    <ion-searchbar placeholder="Pesquisar câmpus" [debounce]="150" (ionInput)="handleInput($event)"></ion-searchbar>
     <ion-radio-group [(ngModel)]="campusSelecionado">
       <ion-item *ngFor="let campus of campiFiltrado; trackBy: trackByItem">
         <ion-radio [value]="campus" justify="space-between">
@@ -29,7 +33,12 @@
       </ion-item>
     </ion-radio-group>
   </ion-list>
-  <ion-button color="primary" expand="block" (click)="handleSubmit()">
-    Agendar Carona
-  </ion-button>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button color="primary" expand="block" (click)="handleSubmit()">
+      Agendar Carona
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
