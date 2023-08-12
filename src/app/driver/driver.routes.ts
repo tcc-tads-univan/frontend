@@ -7,6 +7,10 @@ export const routes: Routes = [
       import('./carpool-requests/carpool-requests.page').then((m) => m.CarpoolRequestsPage),
   },
   {
+    path: 'cadastro',
+    loadComponent: () => import('./registration/registration.page').then( m => m.RegistrationPage)
+  },
+  {
     path: '',
     redirectTo: '/motorista/caronas',
     pathMatch: 'full'

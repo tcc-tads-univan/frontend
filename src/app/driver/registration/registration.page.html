@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cadastre-se</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (ngSubmit)="handleSubmit()">
+    <ion-list>
+      <ion-item>
+        <ion-input
+          type="text"
+          label="Nome Completo"
+          placeholder="Nome Sobrenome"
+          labelPlacement="floating"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="CPF"
+          placeholder="xxx.xxx.xxx-xx"
+          labelPlacement="floating"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="CNH"
+          placeholder="xxxxxxxxxxx"
+          labelPlacement="floating"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Telefone Celular"
+          placeholder="+55 (xx) xxxxx-xxxx"
+          labelPlacement="floating"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          type="email"
+          label="Email"
+          placeholder="seuemail@exemplo.com"
+          labelPlacement="floating"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Sua senha"
+          [type]="passwordVisible ? 'text' : 'password'"
+          placeholder="Insira uma senha segura"
+          labelPlacement="floating"
+        >
+        </ion-input>
+        <ion-button fill="outline" color="dark" class="ion-float-right" (click)="togglePasswordVisibility()">
+          <ion-icon [name]="passwordVisible ? 'eye-off' : 'eye'"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="ion-padding">
+    <ion-button type="submit" expand="block" color="primary">Cadastre-se</ion-button>
+    <span>Já possui uma conta?</span>
+    <ion-button type="button" [routerLink]="['/login']" expand="block" color="success">Entrar</ion-button>
+  </ion-toolbar>
+</ion-footer>
