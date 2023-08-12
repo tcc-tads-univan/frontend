@@ -8,31 +8,31 @@ import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-solicitar-carona',
-    templateUrl: './solicitar-carona.page.html',
-    styleUrls: ['./solicitar-carona.page.scss'],
+    templateUrl: './request-carpool.page.html',
+    styleUrls: ['./request-carpool.page.scss'],
     standalone: true,
     imports: [IonicModule, CommonModule, FormsModule],
     providers: [CarpoolService]
 })
-export class SolicitarCaronaPage implements OnInit {
-    public campi: Campus[] = [
+export class RequestCarpoolPage implements OnInit {
+    public campiList: Array<Campus> = [
         new Campus(1, 'Universidade Federal do Paraná', 'Rua João Assef 1010'),
         new Campus(2, 'Pontifícia Universidade Católica do Paraná', 'Rua João Assef 1011')
     ];
-    public campiFiltrado = [...this.campi];
+    public filteredCampiList = [...this.campiList];
 
-    public horariosDisponiveis: number[] = [];
-    private _horarioAtual = new Date().getHours();
+    public avaliableHours: Array<number> = [];
+    private _currentHour = new Date().getHours();
 
-    periodoSelecionado!: string;
-    campusSelecionado!: Campus;
+    selectedTimePeriod!: string;
+    selectedCampus!: Campus;
 
     constructor(private carpoolService: CarpoolService, private router: Router) {
     }
 
     ngOnInit() {
-        for (let i = this._horarioAtual; i < 24; i++) {
-            this.horariosDisponiveis.push(i);
+        for (let i = this._currentHour; i < 24; i++) {
+            this.avaliableHours.push(i);
         }
     }
 
@@ -42,15 +42,15 @@ export class SolicitarCaronaPage implements OnInit {
 
     handleInput(event: any) {
         const query = event.target.value.toLowerCase();
-        this.campiFiltrado = this.campi.filter((c) => c.collegeName.toLowerCase().indexOf(query) > -1);
+        this.filteredCampiList = this.campiList.filter((c) => c.collegeName.toLowerCase().indexOf(query) > -1);
     }
 
     handleSubmit() {
-        if (this.periodoSelecionado && this.campusSelecionado) {
+        if (this.selectedTimePeriod && this.selectedCampus) {
             // POC
-            const date = new Date(this.periodoSelecionado);
-            this.carpoolService.solicitarCarona(
-                this.campusSelecionado,
+            const date = new Date(this.selectedTimePeriod);
+            this.carpoolService.requestCarpool(
+                this.selectedCampus,
                 `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`
             ).subscribe(
                 _ => {

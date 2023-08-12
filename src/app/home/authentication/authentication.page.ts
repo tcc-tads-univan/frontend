@@ -7,13 +7,13 @@ import {LoginDTO} from "../../shared/models/login-dto.model";
 
 @Component({
   selector: 'app-autenticacao',
-  templateUrl: './autenticacao.page.html',
-  styleUrls: ['./autenticacao.page.scss'],
+  templateUrl: './authentication.page.html',
+  styleUrls: ['./authentication.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule],
   providers: [AuthenticationService]
 })
-export class AutenticacaoPage implements OnInit {
+export class AuthenticationPage implements OnInit {
   authForm = this.formBuilder.group({
     email: ['', [Validators.email, Validators.required]],
     senha: ['', [Validators.required]]

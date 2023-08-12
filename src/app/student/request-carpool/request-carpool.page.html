@@ -15,8 +15,8 @@
       locale="pt-BR"
       presentation="time"
       [minuteValues]="[0,30]"
-      [hourValues]="horariosDisponiveis.length > 0 ? horariosDisponiveis : null"
-      [(ngModel)]="periodoSelecionado">
+      [hourValues]="avaliableHours.length > 0 ? avaliableHours : null"
+      [(ngModel)]="selectedTimePeriod">
     </ion-datetime>
   </ion-item>
   <ion-list>
@@ -24,8 +24,8 @@
       <ion-label>Selecione o câmpus</ion-label>
     </ion-list-header>
     <ion-searchbar placeholder="Pesquisar câmpus" [debounce]="150" (ionInput)="handleInput($event)"></ion-searchbar>
-    <ion-radio-group [(ngModel)]="campusSelecionado">
-      <ion-item *ngFor="let campus of campiFiltrado; trackBy: trackByItem">
+    <ion-radio-group [(ngModel)]="selectedCampus">
+      <ion-item *ngFor="let campus of filteredCampiList; trackBy: trackByItem">
         <ion-radio [value]="campus" justify="space-between">
           <h6>{{campus.collegeName}}</h6>
           <p>{{campus.lineAddress}}</p>

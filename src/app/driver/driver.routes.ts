@@ -4,7 +4,7 @@ export const routes: Routes = [
   {
     path: 'caronas',
     loadComponent: () =>
-      import('./listar-solicitacoes/listar-solicitacoes.page').then((m) => m.ListarSolicitacoesPage),
+      import('./carpool-requests/carpool-requests.page').then((m) => m.CarpoolRequestsPage),
   },
   {
     path: '',

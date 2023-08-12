@@ -4,7 +4,7 @@
     <h1>Seu agendamento foi solicitado</h1>
     <p>Por favor aguarde, pois os motoristas irão analisar sua solicitação</p>
   </ion-text>
-  <ion-card *ngIf="caronaSolicitada$ | async as caronaSolicitada; else loading" class="ion-padding">
+  <ion-card *ngIf="carpoolRequest$ | async as caronaSolicitada; else loading" class="ion-padding">
     <ion-card-header>
       <ion-card-title>
         Informações do Agendamento
@@ -25,7 +25,7 @@
     <ion-button
       expand="block"
       color="danger"
-      (click)="cancelarSolicitacaoCarona(caronaSolicitada.studentId, caronaStorage.campusId)">
+      (click)="cancelCarpoolRequest(caronaSolicitada.studentId, carpoolStorage.campusId)">
       Cancelar
     </ion-button>
   </ion-card>

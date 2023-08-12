@@ -10,13 +10,13 @@ import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-validar-carona',
-    templateUrl: './validar-carona.page.html',
-    styleUrls: ['./validar-carona.page.scss'],
+    templateUrl: './validate-carpool-proposal.page.html',
+    styleUrls: ['./validate-carpool-proposal.page.scss'],
     standalone: true,
     imports: [IonicModule, CommonModule, FormsModule],
     providers: [CarpoolService, LocalStorageService]
 })
-export class ValidarCaronaPage implements OnInit {
+export class ValidateCarpoolProposalPage implements OnInit {
     agendamento$!: Observable<Agendamento>;
 
     constructor(private carpoolService: CarpoolService, private router: Router, private poc: LocalStorageService) {
@@ -29,7 +29,7 @@ export class ValidarCaronaPage implements OnInit {
 
     approveCarpoolProposal(carpoolId: number, pocado: Agendamento) {
         this.poc.enfiarUmaFacaNoEstomagoDoMateusWosniaki(pocado);
-        this.carpoolService.aceitarPropostaCarona(carpoolId).subscribe(_ => {
+        this.carpoolService.validateApprovedCarpoolRequest(carpoolId).subscribe(_ => {
             console.log("Aprovado");
             this.router.navigate(['/aluno/carona-confirmada']);
         });

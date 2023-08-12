@@ -6,12 +6,12 @@ import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-tela-inicio',
-  templateUrl: './tela-inicio.page.html',
-  styleUrls: ['./tela-inicio.page.scss'],
+  templateUrl: './landing-page.page.html',
+  styleUrls: ['./landing-page.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink]
 })
-export class TelaInicioPage implements OnInit {
+export class LandingPagePage implements OnInit {
 
   constructor() {
   }

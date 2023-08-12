@@ -9,13 +9,13 @@ import {LocalStorageService} from "../../services/local-storage.service";
 
 @Component({
   selector: 'app-listar-solicitacoes',
-  templateUrl: './listar-solicitacoes.page.html',
-  styleUrls: ['./listar-solicitacoes.page.scss'],
+  templateUrl: './carpool-requests.page.html',
+  styleUrls: ['./carpool-requests.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
   providers: [CarpoolService]
 })
-export class ListarSolicitacoesPage implements OnInit {
+export class CarpoolRequestsPage implements OnInit {
   solicitacoesCarona$!: Observable<SolicitacaoCaronaDTO[]>;
 
   // POC
@@ -23,7 +23,7 @@ export class ListarSolicitacoesPage implements OnInit {
   }
 
   ngOnInit() {
-    this.solicitacoesCarona$ = this.carpoolService.buscarSolicitacoesCaronaPorCampus(this.poc.getCarpoolInfo().campusId);
+    this.solicitacoesCarona$ = this.carpoolService.findCarpoolRequestsByCampus(this.poc.getCarpoolInfo().campusId);
   }
 
   trackByItem(index: number, item: SolicitacaoCaronaDTO) {
@@ -31,7 +31,7 @@ export class ListarSolicitacoesPage implements OnInit {
   }
 
   async aprovarSolicitacaoCarona(idAluno: number) {
-    this.carpoolService.aprovarSolicitacaoCarona(idAluno).subscribe(_ => {
+    this.carpoolService.approveCarpoolRequest(idAluno).subscribe(_ => {
       console.log("Solicitado");
     });
 

@@ -9,27 +9,27 @@ import {LocalStorageService} from "../../services/local-storage.service";
 
 @Component({
   selector: 'app-carona-solicitada',
-  templateUrl: './carona-solicitada.page.html',
-  styleUrls: ['./carona-solicitada.page.scss'],
+  templateUrl: './carpool-requested.page.html',
+  styleUrls: ['./carpool-requested.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
   providers: [CarpoolService, LocalStorageService]
 })
-export class CaronaSolicitadaPage implements OnInit {
-  caronaSolicitada$!: Observable<SolicitacaoCaronaDTO>;
-  caronaStorage!: {studentId: number, campusId: number}; // POC
+export class CarpoolRequestedPage implements OnInit {
+  carpoolRequest$!: Observable<SolicitacaoCaronaDTO>;
+  carpoolStorage!: {studentId: number, campusId: number}; // POC
 
   // POC
   constructor(private carpoolService: CarpoolService, private poc: LocalStorageService) {
   }
 
   ngOnInit() {
-    this.caronaStorage = this.poc.getCarpoolInfo(); // POC
-    this.caronaSolicitada$ = this.carpoolService.findCarpoolRequestByStudentAndCampus(this.caronaStorage.studentId, this.caronaStorage.campusId);
+    this.carpoolStorage = this.poc.getCarpoolInfo(); // POC
+    this.carpoolRequest$ = this.carpoolService.findCarpoolRequestByStudentAndCampus(this.carpoolStorage.studentId, this.carpoolStorage.campusId);
   }
 
-  cancelarSolicitacaoCarona(studentId: number, campusId: number) {
-    this.carpoolService.cancelarSolicitacaoCarona(studentId, campusId).subscribe(
+  cancelCarpoolRequest(studentId: number, campusId: number) {
+    this.carpoolService.cancelCarpoolRequest(studentId, campusId).subscribe(
       _ => {
         console.log('Solicitaçao cancelada com sucesso');
       }

@@ -3,11 +3,11 @@ import {Routes} from "@angular/router";
 export const routes: Routes = [
   {
     path: 'inicio',
-    loadComponent: () => import('./tela-inicio/tela-inicio.page').then(m => m.TelaInicioPage)
+    loadComponent: () => import('./landing-page/landing-page.page').then(m => m.LandingPagePage)
   },
   {
     path: 'autenticacao',
-    loadComponent: () => import('./autenticacao/autenticacao.page').then( m => m.AutenticacaoPage)
+    loadComponent: () => import('./authentication/authentication.page').then(m => m.AuthenticationPage)
   },
   {
     path: '',

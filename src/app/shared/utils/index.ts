@@ -7,7 +7,7 @@ export const httpOptions = {
   }),
 }
 
-export function getApiURL(apiEndpoint: ApiEndpoints) {
+export function getApiURL(apiEndpoint: ApiEndpoints | string) {
   const API_GATEWAY_URL = "https://backend.redisland-d18d0338.eastus2.azurecontainerapps.io";
   return API_GATEWAY_URL.concat(apiEndpoint);
 }
