@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule, ToastController} from '@ionic/angular';
-import {CaronaService} from "../../services/carona.service";
+import {CarpoolService} from "../../services/carpool.service";
 import {SolicitacaoCaronaDTO} from "../../shared/models/solicitacao-carona-dto.model";
 import {Observable} from "rxjs";
 import {LocalStorageService} from "../../services/local-storage.service";
@@ -13,17 +13,17 @@ import {LocalStorageService} from "../../services/local-storage.service";
   styleUrls: ['./listar-solicitacoes.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  providers: [CaronaService]
+  providers: [CarpoolService]
 })
 export class ListarSolicitacoesPage implements OnInit {
   solicitacoesCarona$!: Observable<SolicitacaoCaronaDTO[]>;
 
   // POC
-  constructor(private caronaService: CaronaService, private toastController: ToastController, private poc: LocalStorageService) {
+  constructor(private carpoolService: CarpoolService, private toastController: ToastController, private poc: LocalStorageService) {
   }
 
   ngOnInit() {
-    this.solicitacoesCarona$ = this.caronaService.buscarSolicitacoesCaronaPorCampus(this.poc.recuperarCarona().idCampus);
+    this.solicitacoesCarona$ = this.carpoolService.buscarSolicitacoesCaronaPorCampus(this.poc.getCarpoolInfo().campusId);
   }
 
   trackByItem(index: number, item: SolicitacaoCaronaDTO) {
@@ -31,7 +31,7 @@ export class ListarSolicitacoesPage implements OnInit {
   }
 
   async aprovarSolicitacaoCarona(idAluno: number) {
-    this.caronaService.aprovarSolicitacaoCarona(idAluno).subscribe(_ => {
+    this.carpoolService.aprovarSolicitacaoCarona(idAluno).subscribe(_ => {
       console.log("Solicitado");
     });
 

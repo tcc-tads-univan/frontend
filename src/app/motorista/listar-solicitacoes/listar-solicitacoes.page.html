@@ -34,27 +34,27 @@
         <ion-text color="primary">
           <p>
             <ion-icon name="card-outline"></ion-icon>
-            R$ 52,30
+            Valor: <strong>R$ 52,30</strong>
           </p>
         </ion-text>
         <p>
           <ion-icon name="call-outline"></ion-icon>
-          (41) 99999-9999
+          Telefone: (41) 99999-9999
         </p>
         <p>
           <ion-icon name="time-outline"></ion-icon>
-          Saída às {{solicitacao.scheduleTime}}
+          Saída: <strong>{{solicitacao.scheduleTime}}</strong>
         </p>
         <p>
           <ion-icon name="location-outline"></ion-icon>
           Destino: {{solicitacao.lineAddress}}
         </p>
         <ion-item-group class="ion-margin-top">
-          <ion-button color="secondary" fill="outline">
+          <ion-button color="secondary" fill="outline" expand="block">
             <ion-icon name="map-outline"></ion-icon>
             Visualizar Rota
           </ion-button>
-          <ion-button color="success" (click)="aprovarSolicitacaoCarona(solicitacao.studentId)">Aceitar</ion-button>
+          <ion-button color="success" expand="block" (click)="aprovarSolicitacaoCarona(solicitacao.studentId)">Aceitar</ion-button>
         </ion-item-group>
       </ion-card-content>
     </ion-card>

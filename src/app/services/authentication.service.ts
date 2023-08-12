@@ -5,15 +5,15 @@ import {LocalStorageService} from "./local-storage.service";
 @Injectable({
   providedIn: 'root'
 })
-export class AutenticacaoService {
+export class AuthenticationService {
 
   constructor(private localStorageService: LocalStorageService) { }
 
-  autenticarUsuario(login: LoginDTO) {
-    this.localStorageService.salvarTokenAutenticacao(JSON.stringify(login));
+  authenticateUser(login: LoginDTO) {
+    this.localStorageService.saveAuthToken(JSON.stringify(login));
   }
 
   logout() {
-    this.localStorageService.limparTokenAutenticacao();
+    this.localStorageService.clearAuthToken();
   }
 }

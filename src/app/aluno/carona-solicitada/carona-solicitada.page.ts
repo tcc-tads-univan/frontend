@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {SolicitacaoCaronaDTO} from "../../shared/models/solicitacao-carona-dto.model";
-import {CaronaService} from "../../services/carona.service";
+import {CarpoolService} from "../../services/carpool.service";
 import {Observable} from "rxjs";
 import {LocalStorageService} from "../../services/local-storage.service";
 
@@ -13,23 +13,23 @@ import {LocalStorageService} from "../../services/local-storage.service";
   styleUrls: ['./carona-solicitada.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  providers: [CaronaService, LocalStorageService]
+  providers: [CarpoolService, LocalStorageService]
 })
 export class CaronaSolicitadaPage implements OnInit {
   caronaSolicitada$!: Observable<SolicitacaoCaronaDTO>;
-  caronaStorage!: {idAluno: number, idCampus: number}; // POC
+  caronaStorage!: {studentId: number, campusId: number}; // POC
 
   // POC
-  constructor(private caronaService: CaronaService, private poc: LocalStorageService) {
+  constructor(private carpoolService: CarpoolService, private poc: LocalStorageService) {
   }
 
   ngOnInit() {
-    this.caronaStorage = this.poc.recuperarCarona(); // POC
-    this.caronaSolicitada$ = this.caronaService.buscarSolicitacaoCaronaPorCampusEAluno(this.caronaStorage.idAluno, this.caronaStorage.idCampus);
+    this.caronaStorage = this.poc.getCarpoolInfo(); // POC
+    this.caronaSolicitada$ = this.carpoolService.findCarpoolRequestByStudentAndCampus(this.caronaStorage.studentId, this.caronaStorage.campusId);
   }
 
-  cancelarSolicitacaoCarona(idAluno: number, idCampus: number) {
-    this.caronaService.cancelarSolicitacaoCarona(idAluno, idCampus).subscribe(
+  cancelarSolicitacaoCarona(studentId: number, campusId: number) {
+    this.carpoolService.cancelarSolicitacaoCarona(studentId, campusId).subscribe(
       _ => {
         console.log('Solicitaçao cancelada com sucesso');
       }

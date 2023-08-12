@@ -1,46 +1,42 @@
 import { Injectable } from '@angular/core';
 import {Agendamento} from "../shared/models/agendamento.model";
+import {LocalStorageKeys} from "../shared/enums/local-storage-keys";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalStorageService {
-  ALUNO_STORAGE = 'alunoStorage';
-  AGENDAMENTO_STORAGE = 'agendamentoStorage';
-  AUTH_STORAGE = 'authToken';
-  CARONA_STORAGE = 'caronaStorage';
-
   constructor() { }
 
-  salvarTokenAutenticacao(token: string) {
-    localStorage.setItem(this.AUTH_STORAGE, 'true[' + token + ']');
+  saveAuthToken(token: string) {
+    localStorage.setItem(LocalStorageKeys.AUTH, 'true[' + token + ']');
   }
 
-  limparTokenAutenticacao() {
-    localStorage.removeItem(this.AUTH_STORAGE);
+  clearAuthToken() {
+    localStorage.removeItem(LocalStorageKeys.AUTH);
   }
 
-  salvarAluno(idAluno: number, nomeAluno: string) {
-    localStorage.setItem(this.ALUNO_STORAGE, JSON.stringify({idAluno, nomeAluno}));
+  saveUserInfo(studentId: number, studentName: string) {
+    localStorage.setItem(LocalStorageKeys.STUDENT, JSON.stringify({studentId, studentName}));
   }
 
-  recuperarAluno(): {idAluno: number, nomeAluno: string} {
-    return JSON.parse(localStorage.getItem(this.ALUNO_STORAGE) ?? JSON.stringify({}));
+  getUserInfo(): {studentId: number, studentName: string} {
+    return JSON.parse(localStorage.getItem(LocalStorageKeys.STUDENT) ?? JSON.stringify({}));
   }
 
-  salvarCarona(idAluno: number, idCampus: number, nomeUniversidade: string) {
-    localStorage.setItem(this.CARONA_STORAGE, JSON.stringify({idAluno, idCampus, nomeUniversidade}));
+  saveCarpoolInfo(studentId: number, campusId: number, collegeName: string) {
+    localStorage.setItem(LocalStorageKeys.CARPOOL, JSON.stringify({studentId, campusId, collegeName}));
   }
 
-  recuperarCarona(): {idAluno: number, idCampus: number, nomeUniversidade: string}  {
-    return JSON.parse(localStorage.getItem(this.CARONA_STORAGE) ?? JSON.stringify({}));
+  getCarpoolInfo(): {studentId: number, campusId: number, collegeName: string}  {
+    return JSON.parse(localStorage.getItem(LocalStorageKeys.CARPOOL) ?? JSON.stringify({}));
   }
 
   enfiarUmaFacaNoEstomagoDoMateusWosniaki(agenamento: Agendamento) {
-    localStorage.setItem(this.AGENDAMENTO_STORAGE, JSON.stringify(agenamento));
+    localStorage.setItem(LocalStorageKeys.AGENDAMENTO, JSON.stringify(agenamento));
   }
 
   fuzilarOMateusWosniaki(): Agendamento {
-    return JSON.parse(localStorage.getItem(this.AGENDAMENTO_STORAGE) ?? JSON.stringify({}));
+    return JSON.parse(localStorage.getItem(LocalStorageKeys.AGENDAMENTO) ?? JSON.stringify({}));
   }
 }

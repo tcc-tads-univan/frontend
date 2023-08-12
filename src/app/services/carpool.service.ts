@@ -10,7 +10,7 @@ import {Agendamento} from "../shared/models/agendamento.model";
 @Injectable({
   providedIn: 'root'
 })
-export class CaronaService {
+export class CarpoolService {
   BASE_URL = "https://backend.redisland-d18d0338.eastus2.azurecontainerapps.io";
   API_URL = this.BASE_URL + "/api/College";
   MATEUS_WOSNIAKI_VERMENTO = this.BASE_URL + "/api/Schedule";
@@ -23,8 +23,8 @@ export class CaronaService {
     const idAluno = Math.floor((Math.random() * 100) + 1);
     const nomeAluno = `Aluno ${idAluno}`;
 
-    this.localStorageService.salvarAluno(idAluno, nomeAluno);
-    this.localStorageService.salvarCarona(idAluno, campus.collegeId, campus.collegeName);
+    this.localStorageService.saveUserInfo(idAluno, nomeAluno);
+    this.localStorageService.saveCarpoolInfo(idAluno, campus.collegeId, campus.collegeName);
 
     const request: SolicitacaoCaronaDTO = new SolicitacaoCaronaDTO(
       nomeAluno,
@@ -41,13 +41,13 @@ export class CaronaService {
     const idMotorista = Math.floor((Math.random() * 100) + 1);
     const nomeMotorista = `Motorista ${idMotorista}`;
 
-    const caronaStorage = this.localStorageService.recuperarCarona();
+    const caronaStorage = this.localStorageService.getCarpoolInfo();
     const carona = new Carona(
       idMotorista,
       nomeMotorista,
       idAluno,
-      caronaStorage.idCampus,
-      caronaStorage.nomeUniversidade
+      caronaStorage.campusId,
+      caronaStorage.collegeName
     );
 
     return this.http.post<Carona>(`${this.MATEUS_WOSNIAKI_VERMENTO}`, carona, httpOptions);
@@ -61,12 +61,12 @@ export class CaronaService {
     return this.http.delete(`${this.API_URL}/${idCampus}/Rides/${idAluno}`, httpOptions);
   }
 
-  buscarSolicitacaoCaronaPorCampusEAluno(idAluno: number, idCampus: number) {
-    return this.http.get<SolicitacaoCaronaDTO>(`${this.API_URL}/${idCampus}/Rides/${idAluno}`, httpOptions);
+  findCarpoolRequestByStudentAndCampus(studentId: number, campusId: number) {
+    return this.http.get<SolicitacaoCaronaDTO>(`${this.API_URL}/${campusId}/Rides/${studentId}`, httpOptions);
   }
 
   socoNaCostelaDoMateusVermentoWosniaki() {
-    const id = this.localStorageService.recuperarAluno().idAluno;
+    const id = this.localStorageService.getUserInfo().studentId;
     return this.http.get<Agendamento>(`${this.MATEUS_WOSNIAKI_VERMENTO}/${id}`, httpOptions);
   }
 

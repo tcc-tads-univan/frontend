@@ -29,16 +29,12 @@
     <ion-card-content>
       <ion-text>
         <p>
-          <ion-icon name="car"></ion-icon>
-          Placa: ABC-1234
-        </p>
-        <p>
           <ion-icon name="card-outline"></ion-icon>
-          R$ 52,30
+          Preço: <strong>R$ 52,30</strong>
         </p>
         <p>
           <ion-icon name="navigate"></ion-icon>
-          Partida: {{agendamento.origin}}
+          Origem: {{agendamento.origin}}
         </p>
         <p>
           <ion-icon name="location-outline"></ion-icon>
@@ -48,7 +44,7 @@
       <ion-button color="danger" fill="outline">
         Recusar
       </ion-button>
-      <ion-button color="success" (click)="aceitarPropostaCarona(agendamento.scheduleId, agendamento)">
+      <ion-button color="success" (click)="approveCarpoolProposal(agendamento.scheduleId, agendamento)">
         Aceitar
       </ion-button>
     </ion-card-content>
