@@ -10,28 +10,31 @@
           <ion-avatar slot="start">
             <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
           </ion-avatar>
-          <ion-label>
-            {{agendamento.driverName}}
-            <ion-icon name="star"></ion-icon>
-            4,3
-          </ion-label>
+          <ion-col>
+            <ion-label>
+              Joao Almeida
+            </ion-label>
+            <ion-card-subtitle>
+              Telefone: 419923123
+            </ion-card-subtitle>
+          </ion-col>
         </ion-item>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-text>
         <p>
-          <ion-icon name="call-outline"></ion-icon>
-          (41) 99999-9999
+          <ion-icon name="navigate"></ion-icon>
+          Origem: a
         </p>
-      </ion-text>
-      <ion-text>
         <p>
-          <ion-icon name="car"></ion-icon>
-          Placa do veículo: ABC-1234
+          <ion-icon name="location-outline"></ion-icon>
+          Destino:a
         </p>
       </ion-text>
     </ion-card-content>
   </ion-card>
-  <ion-icon src="assets/undraw_order_ride_re_372k.svg" class="bigger-icon"></ion-icon>
+  <ion-fab vertical="bottom">
+    <ion-icon src="assets/undraw_order_ride_re_372k.svg" class="bigger-icon"></ion-icon>
+  </ion-fab>
 </ion-content>

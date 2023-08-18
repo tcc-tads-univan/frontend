@@ -1,3 +1,21 @@
 .bigger-icon {
   font-size: 80vw;
+  --inner-border-width: 0 0 0px 0;
+}
+.ion-justify-content-between {
+  display: flex;
+}
+.price {
+  display: flex;
+  right: -21px;
+  position: relative;
+  top: -12px;
+}
+.icon-price {
+  bottom: -3px;
+  position: relative;
+  left: -1px;
+}
+.card-content-md p {
+  margin-bottom: 6px;
 }

@@ -8,29 +8,35 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
-  <ion-card class="ion-padding" *ngIf="agendamento$ | async as agendamento; else loading">
+  <ion-card class="ion-padding"  *ngIf="agendamento$ | async as agendamento; else loading" >
     <ion-card-header>
       <ion-card-title>
+        <ion-label class="price ion-justify-content-end">
+          <ion-icon class="icon-price" name="card-outline"></ion-icon>
+          R$ 52,30
+        </ion-label>
         <ion-item>
           <ion-avatar slot="start">
             <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
           </ion-avatar>
-          <ion-label>
-            {{agendamento.driverName}}
-          </ion-label>
+          <ion-col>
+            <ion-label>
+              {{agendamento.driverName}}
+            </ion-label>
+            <ion-card-subtitle>
+              Avaliação:
+              <ion-icon name="star"></ion-icon>
+              4,3
+            </ion-card-subtitle>
+          </ion-col>
         </ion-item>
       </ion-card-title>
-      <ion-card-subtitle>
-        Avaliação:
-        <ion-icon name="star"></ion-icon>
-        4,3
-      </ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
       <ion-text>
         <p>
-          <ion-icon name="card-outline"></ion-icon>
-          Preço: <strong>R$ 52,30</strong>
+          <ion-icon name="time-outline"></ion-icon>
+          Horário: 14:30
         </p>
         <p>
           <ion-icon name="navigate"></ion-icon>
@@ -38,15 +44,19 @@
         </p>
         <p>
           <ion-icon name="location-outline"></ion-icon>
-          Destino: {{agendamento.destination}}
+          Destino:{{agendamento.destination}}
         </p>
       </ion-text>
-      <ion-button color="danger" fill="outline">
-        Recusar
-      </ion-button>
-      <ion-button color="success" (click)="approveCarpoolProposal(agendamento.scheduleId, agendamento)">
-        Aceitar
-      </ion-button>
+    </ion-card-content>
+    <ion-card-content>
+      <ion-col class="ion-justify-content-between">
+        <ion-button color="danger" fill="outline" class="ion-margin-end">
+          Recusar
+        </ion-button>
+        <ion-button color="success" class="ion-margin-start">
+          Aceitar
+        </ion-button>
+      </ion-col>
     </ion-card-content>
   </ion-card>
   <ng-template #loading>
@@ -56,5 +66,7 @@
     </ion-text>
   </ng-template>
 
-  <ion-icon src="assets/undraw_trip_re_f724.svg" class="bigger-icon"></ion-icon>
+  <ion-fab vertical="bottom">
+    <ion-icon src="assets/undraw_trip_re_f724.svg" class="bigger-icon ion-align-items-baseline" ></ion-icon>
+  </ion-fab>
 </ion-content>
