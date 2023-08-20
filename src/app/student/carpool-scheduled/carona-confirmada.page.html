@@ -12,8 +12,9 @@
           </ion-avatar>
           <ion-label>
             {{agendamento.driverName}}
-            <ion-icon name="star"></ion-icon>
-            4,3
+            <ion-card-subtitle>
+            Telefone: XXXXXX
+          </ion-card-subtitle>
           </ion-label>
         </ion-item>
       </ion-card-title>
@@ -21,17 +22,18 @@
     <ion-card-content>
       <ion-text>
         <p>
-          <ion-icon name="call-outline"></ion-icon>
-          (41) 99999-9999
+          <ion-icon name="navigate"></ion-icon>
+          Origem: Rua Joao
         </p>
-      </ion-text>
-      <ion-text>
         <p>
-          <ion-icon name="car"></ion-icon>
-          Placa do veículo: ABC-1234
+          <ion-icon name="location-outline"></ion-icon>
+          Destino: Rua Paulo
         </p>
       </ion-text>
     </ion-card-content>
   </ion-card>
-  <ion-icon src="assets/undraw_order_ride_re_372k.svg" class="bigger-icon"></ion-icon>
+
+  <ion-fab vertical="bottom">
+    <ion-icon src="assets/undraw_order_ride_re_372k.svg" class="bigger-icon"></ion-icon>
+  </ion-fab>
 </ion-content>
