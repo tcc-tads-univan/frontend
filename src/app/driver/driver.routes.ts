@@ -11,6 +11,10 @@ export const routes: Routes = [
     loadComponent: () => import('./registration/registration.page').then( m => m.RegistrationPage)
   },
   {
+    path: 'van',
+    loadComponent: () => import('./register-edit-vehicle/register-edit-vehicle.page').then( m => m.RegisterEditVehiclePage)
+  },
+  {
     path: '',
     redirectTo: '/motorista/caronas',
     pathMatch: 'full'

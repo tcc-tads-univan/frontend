@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Seu veículo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="trash-outline" color="danger"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="display-info">
+      <ion-col class="ion-text-center">
+        <h2>Olá {{driver.name}}</h2>
+        <ion-icon name="bus-outline" size="large"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-padding ion-margin-end">
+        <form [formGroup]="vehicleForm" (ngSubmit)="handleSubmit()">
+          <ion-list>
+            <ion-item>
+              <ion-input formControlName="licensePlate" label="Placa do veículo" labelPlacement="floating"
+                         placeholder="ABC-1234" errorText="Insira uma placa válida"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input formControlName="model" label="Modelo do veículo" labelPlacement="floating"
+                         placeholder="Mercedes-Benz Sprinter 2.1 CDI" maxlength="80"
+                         errorText="Preencha o modelo do veículo"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input formControlName="fabricationYear" label="Ano de fabricação" labelPlacement="floating"
+                         placeholder="2015" type="number" min="1980" errorText="Insira um ano de fabricação válido (Entre 1980 e o ano atual)"
+                         [max]="currentYear"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input formControlName="seatsNumber" label="Quantidade de assentos" type="number"
+                         labelPlacement="floating" placeholder="12" min="0" errorText="Insira a quantidade válida (Entre 0 e 20)"
+                         max="20"></ion-input>
+            </ion-item>
+          </ion-list>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="ion-padding">
+    <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">Salvar</ion-button>
+  </ion-toolbar>
+</ion-footer>
