@@ -1,28 +1,79 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {RouterLink} from "@angular/router";
+import {DriverService} from "../../services/driver.service";
+import {DriverRegistration} from "../../shared/models/driver-registration";
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterLink],
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  providers: [DriverService]
 })
 export class RegistrationPage implements OnInit {
+  registrationForm = this.fb.group({
+    name: ['', [Validators.minLength(5), Validators.required]],
+    email: ['', [Validators.email, Validators.required]],
+    phonenumber: ['', [Validators.required]],
+    cpf: ['', [Validators.required]],
+    cnh: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(6)]]
+  });
+
   passwordVisible = false;
-  constructor() {
+
+  constructor(private fb: FormBuilder, private driverService: DriverService) {
   }
 
   ngOnInit() {
   }
 
-  handleSubmit() {}
+  handleSubmit() {
+    if (this.registrationForm.valid) {
+      const driver = new DriverRegistration();
+
+      driver.name = this.name?.value ?? '';
+      driver.cpf = this.cpf?.value ?? '';
+      driver.cnh = this.cnh?.value ?? '';
+      driver.phonenumber = this.phonenumber?.value ?? '';
+      driver.email = this.email?.value ?? '';
+      driver.password = this.password?.value ?? '';
+
+      this.driverService.registerDriver(driver).subscribe(
+        res => console.log(res)
+      );
+    }
+  }
 
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;
   }
 
+  get name() {
+    return this.registrationForm.get('name');
+  }
+
+  get cpf() {
+    return this.registrationForm.get('cpf');
+  }
+
+  get cnh() {
+    return this.registrationForm.get('cnh');
+  }
+
+  get phonenumber() {
+    return this.registrationForm.get('phonenumber');
+  }
+
+  get email() {
+    return this.registrationForm.get('email');
+  }
+
+  get password() {
+    return this.registrationForm.get('password');
+  }
 }

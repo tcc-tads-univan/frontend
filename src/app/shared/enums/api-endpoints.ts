@@ -2,5 +2,6 @@ export enum ApiEndpoints {
   COLLEGE = "/college",
   CARONA = "/carona",
   AGENDAMENTO = "/agendamento",
-  ROTA = "/rota"
+  ROTA = "/rota",
+  DRIVER = "/driver"
 }
