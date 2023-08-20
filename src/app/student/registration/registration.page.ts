@@ -1,18 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {IonicModule} from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
+import {StudentRegistration} from "../../shared/models/student-registration";
 import {RouterLink} from "@angular/router";
-import {DriverService} from "../../services/driver.service";
-import {DriverRegistration} from "../../shared/models/driver-registration";
 
 @Component({
-  selector: 'app-driver-registration',
+  selector: 'app-student-registration',
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
-  providers: [DriverService]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink]
 })
 export class RegistrationPage implements OnInit {
   registrationForm = this.fb.group({
@@ -20,32 +18,27 @@ export class RegistrationPage implements OnInit {
     email: ['', [Validators.email, Validators.required]],
     phonenumber: ['', [Validators.required]],
     cpf: ['', [Validators.required]],
-    cnh: ['', [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
   passwordVisible = false;
 
-  constructor(private fb: FormBuilder, private driverService: DriverService) {
-  }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
   }
 
   handleSubmit() {
     if (this.registrationForm.valid) {
-      const driver = new DriverRegistration();
+      const student = new StudentRegistration();
 
-      driver.name = this.name?.value ?? '';
-      driver.cpf = this.cpf?.value ?? '';
-      driver.cnh = this.cnh?.value ?? '';
-      driver.phonenumber = this.phonenumber?.value ?? '';
-      driver.email = this.email?.value ?? '';
-      driver.password = this.password?.value ?? '';
+      student.name = this.name?.value ?? '';
+      student.cpf = this.cpf?.value ?? '';
+      student.phonenumber = this.phonenumber?.value ?? '';
+      student.email = this.email?.value ?? '';
+      student.password = this.password?.value ?? '';
 
-      this.driverService.registerDriver(driver).subscribe(
-        res => console.log(res)
-      );
+      console.log(student);
     }
   }
 
@@ -59,10 +52,6 @@ export class RegistrationPage implements OnInit {
 
   get cpf() {
     return this.registrationForm.get('cpf');
-  }
-
-  get cnh() {
-    return this.registrationForm.get('cnh');
   }
 
   get phonenumber() {
