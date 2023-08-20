@@ -6,7 +6,7 @@ export const routes: Routes = [
     loadComponent: () => import('./landing-page/landing-page.page').then(m => m.LandingPagePage)
   },
   {
-    path: 'autenticacao',
+    path: 'entrar',
     loadComponent: () => import('./authentication/authentication.page').then(m => m.AuthenticationPage)
   },
   {

@@ -8,10 +8,11 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h3>Preencha suas informações</h3>
-
   <form [formGroup]="registrationForm" (ngSubmit)="handleSubmit()">
     <ion-list>
+      <ion-list-header>
+        <h3>Preencha suas informações</h3>
+      </ion-list-header>
       <ion-item>
         <ion-input
           formControlName="name"
@@ -78,6 +79,7 @@
           <ion-icon [name]="passwordVisible ? 'eye-off' : 'eye'"></ion-icon>
         </ion-button>
       </ion-item>
+
     </ion-list>
   </form>
 </ion-content>

@@ -4,7 +4,7 @@ import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angula
 import {IonicModule} from '@ionic/angular';
 import {RouterLink} from "@angular/router";
 import {DriverService} from "../../services/driver.service";
-import {DriverRegistration} from "../../shared/models/driver-registration";
+import {DriverRegistration} from "../../shared/models/driver/driver-registration";
 
 @Component({
   selector: 'app-driver-registration',

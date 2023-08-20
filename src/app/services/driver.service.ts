@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {DriverRegistration} from "../shared/models/driver-registration";
+import {DriverRegistration} from "../shared/models/driver/driver-registration";
 import {getApiURL, httpOptions} from "../shared/utils";
 import {ApiEndpoints} from "../shared/enums/api-endpoints";
 

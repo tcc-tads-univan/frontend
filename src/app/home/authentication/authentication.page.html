@@ -6,36 +6,57 @@
     <ion-title>Acessar o sistema</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding">
-  <ion-item class="ion-justify-content-center">
-    <ion-icon src="assets/logo_1.svg" class="univan-logo"></ion-icon>
-  </ion-item>
-  <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-    <ion-list>
-      <ion-list-header>
-        <h2>Entrar</h2>
-      </ion-list-header>
-      <ion-item>
-        <ion-input
-          type="email"
-          label="Seu e-mail"
-          placeholder="exemplo@email.com"
-          [clearInput]="true"
-          formControlName="email"
-        ></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input
-          type="password"
-          label="Sua senha"
-          placeholder="Insira a sua senha"
-          formControlName="senha"
-        ></ion-input>
-      </ion-item>
-    </ion-list>
-    <ion-button type="submit" expand="block">Acessar</ion-button>
-  </form>
-  <ion-item href="#" class="ion-text-center ion-margin-top">
-    <ion-label>Nao possui uma conta? <a>Cadastre-se!</a></ion-label>
-  </ion-item>
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="display-info">
+      <ion-col class="ion-text-center">
+        <ion-icon src="assets/logo_1.svg" class="univan-logo"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
+      <ion-row>
+        <ion-col class="ion-padding ion-margin-end">
+          <ion-list>
+            <ion-list-header>
+              <h2>Identifique-se</h2>
+            </ion-list-header>
+
+            <ion-item>
+              <ion-input
+                type="email"
+                label="Seu email"
+                labelPlacement="floating"
+                placeholder="exemplo@email.com"
+                formControlName="email"
+                errorText="Insira um email válido"
+              ></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-input
+                type="password"
+                label="Sua senha"
+                labelPlacement="floating"
+                placeholder="Insira a sua senha"
+                formControlName="password"
+                errorText="Insira uma senha válida (Mín. 6 caracteres)"
+              ></ion-input>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" expand="block" [disabled]="!loginForm.valid">Acessar</ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar class="ion-padding ion-text-center">
+    <ion-label>Nao possui uma conta? <a>Cadastre-se!</a></ion-label>
+  </ion-toolbar>
+</ion-footer>

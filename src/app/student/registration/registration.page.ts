@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import {StudentRegistration} from "../../shared/models/student-registration";
+import {StudentRegistration} from "../../shared/models/student/student-registration";
 import {RouterLink} from "@angular/router";
 
 @Component({

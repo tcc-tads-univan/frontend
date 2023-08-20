@@ -6,7 +6,7 @@ import {AuthenticationService} from "../../services/authentication.service";
 import {LoginDTO} from "../../shared/models/login-dto.model";
 
 @Component({
-  selector: 'app-autenticacao',
+  selector: 'app-authentication',
   templateUrl: './authentication.page.html',
   styleUrls: ['./authentication.page.scss'],
   standalone: true,
@@ -14,31 +14,34 @@ import {LoginDTO} from "../../shared/models/login-dto.model";
   providers: [AuthenticationService]
 })
 export class AuthenticationPage implements OnInit {
-  authForm = this.formBuilder.group({
+  loginForm = this.fb.group({
     email: ['', [Validators.email, Validators.required]],
-    senha: ['', [Validators.required]]
+    password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
-  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService) {
+  constructor(private fb: FormBuilder, private authService: AuthenticationService) {
   }
 
   ngOnInit() {
   }
 
-  onSubmit() {
-    if (this.email?.value && this.senha?.value) {
-      const loginDTO = new LoginDTO(this.email.value, this.senha.value);
-      this.authenticationService.authenticateUser(loginDTO);
+  handleSubmit() {
+    if (this.loginForm.valid) {
+      const loginDTO = new LoginDTO(this.email!.value ?? '', this.password!.value ?? '');
+      this.authService.authenticateUser(loginDTO);
+
+      console.log(loginDTO);
+    } else {
+      console.log("Campos inválidos");
     }
-    console.log("Campos invalidos");
   }
 
   get email() {
-    return this.authForm.get('email');
+    return this.loginForm.get('email');
   }
 
-  get senha() {
-    return this.authForm.get('senha');
+  get password() {
+    return this.loginForm.get('password');
   }
 
 }
