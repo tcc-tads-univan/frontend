@@ -6,14 +6,14 @@ import {LocalStorageService} from "../../services/local-storage.service";
 import {Agendamento} from "../../shared/models/agendamento.model";
 
 @Component({
-  selector: 'app-carona-confirmada',
-  templateUrl: './carona-confirmada.page.html',
-  styleUrls: ['./carona-confirmada.page.scss'],
+  selector: 'app-carpool-scheduled',
+  templateUrl: './carpool-scheduled.html',
+  styleUrls: ['./carpool-scheduled.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
   providers: [LocalStorageService]
 })
-export class CaronaConfirmadaPage implements OnInit {
+export class CarpoolScheduled implements OnInit {
   agendamento!: Agendamento;
 
   constructor(private poc: LocalStorageService) { }

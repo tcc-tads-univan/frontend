@@ -11,11 +11,15 @@ export const routes: Routes = [
   },
   {
     path: 'carona-confirmada',
-    loadComponent: () => import('./carpool-scheduled/carona-confirmada.page').then(m => m.CaronaConfirmadaPage)
+    loadComponent: () => import('./carpool-scheduled/carpool-scheduled').then(m => m.CarpoolScheduled)
   },
   {
     path: 'carona-solicitada',
     loadComponent: () => import('./carpool-requested/carpool-requested.page').then(m => m.CarpoolRequestedPage)
+  },
+  {
+    path: 'cadastro',
+    loadComponent: () => import('./registration/registration.page').then( m => m.RegistrationPage)
   },
   {
     path: '',

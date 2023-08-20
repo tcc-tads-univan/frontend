@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 import {LocalStorageService} from "../../services/local-storage.service";
 
 @Component({
-  selector: 'app-listar-solicitacoes',
+  selector: 'app-carpool-requests',
   templateUrl: './carpool-requests.page.html',
   styleUrls: ['./carpool-requests.page.scss'],
   standalone: true,

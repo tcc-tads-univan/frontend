@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 import {LocalStorageService} from "../../services/local-storage.service";
 
 @Component({
-  selector: 'app-carona-solicitada',
+  selector: 'app-carpool-requested',
   templateUrl: './carpool-requested.page.html',
   styleUrls: ['./carpool-requested.page.scss'],
   standalone: true,

@@ -9,7 +9,7 @@ import {Agendamento} from "../../shared/models/agendamento.model";
 import {Router} from "@angular/router";
 
 @Component({
-    selector: 'app-validar-carona',
+    selector: 'app-validate-carpool-proposal',
     templateUrl: './validate-carpool-proposal.page.html',
     styleUrls: ['./validate-carpool-proposal.page.scss'],
     standalone: true,

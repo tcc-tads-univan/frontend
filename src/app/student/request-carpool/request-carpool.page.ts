@@ -7,7 +7,7 @@ import {Campus} from "../../shared/models/campus.model";
 import {Router} from "@angular/router";
 
 @Component({
-    selector: 'app-solicitar-carona',
+    selector: 'app-request-carpool',
     templateUrl: './request-carpool.page.html',
     styleUrls: ['./request-carpool.page.scss'],
     standalone: true,
