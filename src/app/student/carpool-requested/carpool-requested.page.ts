@@ -6,6 +6,7 @@ import {SolicitacaoCaronaDTO} from "../../shared/models/solicitacao-carona-dto.m
 import {CarpoolService} from "../../services/carpool.service";
 import {Observable} from "rxjs";
 import {LocalStorageService} from "../../services/local-storage.service";
+import {CarpoolDetails} from "../../shared/models/carpool/carpool-details";
 
 @Component({
   selector: 'app-carpool-requested',
@@ -16,24 +17,24 @@ import {LocalStorageService} from "../../services/local-storage.service";
   providers: [CarpoolService, LocalStorageService]
 })
 export class CarpoolRequestedPage implements OnInit {
-  carpoolRequest$!: Observable<SolicitacaoCaronaDTO>;
-  carpoolStorage!: {studentId: number, campusId: number}; // POC
+  requestedCarpool$!: Observable<CarpoolDetails>;
+  storedData!: { studentId: number, campusId: number };
 
-  // POC
-  constructor(private carpoolService: CarpoolService, private poc: LocalStorageService) {
+  constructor(private carpoolService: CarpoolService, private localStorageService: LocalStorageService) {
   }
 
   ngOnInit() {
-    this.carpoolStorage = this.poc.getCarpoolInfo(); // POC
-    this.carpoolRequest$ = this.carpoolService.findCarpoolRequestByStudentAndCampus(this.carpoolStorage.studentId, this.carpoolStorage.campusId);
+    this.storedData = this.localStorageService.getCarpoolInfo();
+    this.requestedCarpool$ = this.carpoolService.findCarpoolRequestByStudentAndCampus(this.storedData.studentId, this.storedData.campusId);
   }
 
-  cancelCarpoolRequest(studentId: number, campusId: number) {
-    this.carpoolService.cancelCarpoolRequest(studentId, campusId).subscribe(
-      _ => {
-        console.log('Solicitaçao cancelada com sucesso');
-      }
-    );
+  cancelCarpoolRequest() {
+    this.carpoolService
+      .cancelCarpoolRequest(this.storedData.studentId, this.storedData.campusId)
+      .subscribe({
+        next: value => console.log('Solicitaçao cancelada com sucesso'),
+        error: err => console.error(`[${err.status}] ${err.message}`)
+      });
   }
 
 }

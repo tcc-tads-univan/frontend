@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Alunos disponíveis em...</ion-title>
+    <ion-title>Solicitações de Carona</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,57 +11,52 @@
   <h2 class="ion-justify-content-center">
     Universidade Federal do Paraná - SEPT
   </h2>
-  <div *ngIf="(solicitacoesCarona$ | async) as solicitacoesCarona; else loading">
-    <ion-card *ngFor="let solicitacao of solicitacoesCarona; trackBy: trackByItem">
+  <div *ngIf="(requestedCarpools$ | async) as requestedCarpools; else loading">
+    <ion-card *ngFor="let request of requestedCarpools; trackBy: trackByItem">
       <ion-card-header>
         <ion-card-title>
           <ion-item>
             <ion-avatar slot="start">
-              <img alt="Avatar do usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
+              <img alt="Avatar do usuário" [src]="request.photoUrl ?? 'https://ionicframework.com/docs/img/demos/avatar.svg'"/>
             </ion-avatar>
             <ion-label>
-              {{solicitacao.studentName}}
+              {{request.name}}
             </ion-label>
           </ion-item>
         </ion-card-title>
         <ion-card-subtitle>
           Avaliação:
           <ion-icon name="star"></ion-icon>
-          4,3
+          {{request.rating}}
         </ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
-        <ion-text color="primary">
-          <p>
-            <ion-icon name="card-outline"></ion-icon>
-            Valor: <strong>R$ 52,30</strong>
-          </p>
-        </ion-text>
         <p>
           <ion-icon name="call-outline"></ion-icon>
-          Telefone: (41) 99999-9999
+          Telefone: {{request.phoneNumber}}
         </p>
         <p>
           <ion-icon name="time-outline"></ion-icon>
-          Saída: <strong>{{solicitacao.scheduleTime}}</strong>
+          Saída: <strong>{{request.scheduleTime}}</strong>
         </p>
         <p>
           <ion-icon name="location-outline"></ion-icon>
-          Destino: {{solicitacao.lineAddress}}
+          Destino: {{request.lineAddress}}
         </p>
         <ion-item-group class="ion-margin-top">
           <ion-button color="secondary" fill="outline" expand="block">
             <ion-icon name="map-outline"></ion-icon>
             Visualizar Rota
           </ion-button>
-          <ion-button color="success" expand="block" (click)="aprovarSolicitacaoCarona(solicitacao.studentId)">Aceitar</ion-button>
+          <ion-button color="success" expand="block" (click)="approveCarpoolRequest(request.studentId!)">Aceitar</ion-button>
         </ion-item-group>
       </ion-card-content>
     </ion-card>
   </div>
   <ng-template #loading>
-    <ion-text color="danger">
-      <p class="ion-text-center">Não há solicitações de carona no momento!</p>
-    </ion-text>
+    <ion-item color="warning">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <p class="ion-margin-start">Não há solicitações de carona disponíveis no momento</p>
+    </ion-item>
   </ng-template>
 </ion-content>

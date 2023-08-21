@@ -6,6 +6,8 @@ import {CarpoolService} from "../../services/carpool.service";
 import {SolicitacaoCaronaDTO} from "../../shared/models/solicitacao-carona-dto.model";
 import {Observable} from "rxjs";
 import {LocalStorageService} from "../../services/local-storage.service";
+import {RequestedCarpool} from "../../shared/models/carpool/requested-carpool";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-carpool-requests',
@@ -16,30 +18,42 @@ import {LocalStorageService} from "../../services/local-storage.service";
   providers: [CarpoolService]
 })
 export class CarpoolRequestsPage implements OnInit {
-  solicitacoesCarona$!: Observable<SolicitacaoCaronaDTO[]>;
+  requestedCarpools$!: Observable<RequestedCarpool[]>;
 
-  // POC
-  constructor(private carpoolService: CarpoolService, private toastController: ToastController, private poc: LocalStorageService) {
+  constructor(
+    private carpoolService: CarpoolService,
+    private toastController: ToastController,
+    private localStorageService: LocalStorageService, // POC
+    private router: Router
+  ) {
   }
 
   ngOnInit() {
-    this.solicitacoesCarona$ = this.carpoolService.findCarpoolRequestsByCampus(this.poc.getCarpoolInfo().campusId);
+    this.requestedCarpools$ = this.carpoolService.findCarpoolRequestsByCampus(this.localStorageService.getCarpoolInfo().campusId);
   }
 
-  trackByItem(index: number, item: SolicitacaoCaronaDTO) {
+  trackByItem(idx: number, item: RequestedCarpool) {
     return item.studentId;
   }
 
-  async aprovarSolicitacaoCarona(idAluno: number) {
-    this.carpoolService.approveCarpoolRequest(idAluno).subscribe(_ => {
-      console.log("Solicitado");
-    });
+  approveCarpoolRequest(studentId: number) {
+    this.carpoolService
+      .approveCarpoolRequest(studentId)
+      .subscribe({
+        next: data => {
+          this.router.navigate(['/motorista']);
+        },
+        error: err => {
+          this.toastController.create({
+            message: "Problema ao aceitar a carona",
+            duration: 1500,
+            position: "bottom",
+            color: "danger",
+            icon: "bug-outline"
+          }).then(toast => toast.present());
 
-    this.toastController.create({
-      message: "Aluno ID=" + idAluno + " aprovado",
-      duration: 1500,
-      position: "bottom",
-      color: "success"
-    }).then(t => t.present());
+          console.error(`[${err.status}] ${err.message}`);
+        }
+      });
   }
 }

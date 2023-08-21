@@ -2,37 +2,39 @@ import {Injectable} from '@angular/core';
 import {SolicitacaoCaronaDTO} from "../shared/models/solicitacao-carona-dto.model";
 import {HttpClient} from "@angular/common/http";
 import {getApiURL, httpOptions} from "../shared/utils";
-import {Campus} from "../shared/models/campus.model";
 import {LocalStorageService} from "./local-storage.service";
 import {Carona} from "../shared/models/carona.model";
 import {Agendamento} from "../shared/models/agendamento.model";
+import {CollegeCampus} from "../shared/models/college-campus";
+import {ApiEndpoints} from "../shared/enums/api-endpoints";
+import {CarpoolRequest} from "../shared/models/carpool/carpool-request";
+import {CarpoolDetails} from "../shared/models/carpool/carpool-details";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarpoolService {
-  API_URL = getApiURL("/api/College");
+  RIDE_API = getApiURL(ApiEndpoints.RIDE);
   MATEUS_WOSNIAKI_VERMENTO = getApiURL("/api/Schedule");
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
   }
 
-  requestCarpool(campus: Campus, scheduleTime: string) {
+  requestCarpool(campus: CollegeCampus, scheduleTime: string) {
     // POC
     const studentId = Math.floor((Math.random() * 100) + 1);
     const studentName = `Aluno ${studentId}`;
 
     this.localStorageService.saveUserInfo(studentId, studentName);
-    this.localStorageService.saveCarpoolInfo(studentId, campus.collegeId, campus.collegeName);
+    this.localStorageService.saveCarpoolInfo(studentId, campus.campusId!, campus.college?.name!);
 
-    const request: SolicitacaoCaronaDTO = new SolicitacaoCaronaDTO(
-      studentName,
+    const request: CarpoolRequest = {
       studentId,
-      campus.lineAddress,
+      campusId: campus.campusId!,
       scheduleTime
-    );
+    };
 
-    return this.http.post<SolicitacaoCaronaDTO>(`${this.API_URL}/${campus.collegeId}/Rides`, request, httpOptions);
+    return this.http.post(`${this.RIDE_API}`, request, httpOptions);
   }
 
   approveCarpoolRequest(studentId: number) {
@@ -53,15 +55,17 @@ export class CarpoolService {
   }
 
   findCarpoolRequestsByCampus(campusId: number) {
-    return this.http.get<SolicitacaoCaronaDTO[]>(`${this.API_URL}/${campusId}/Rides`, httpOptions);
+    return this.http.get<SolicitacaoCaronaDTO[]>(`${this.RIDE_API}/${campusId}/Rides`, httpOptions);
   }
 
   cancelCarpoolRequest(studentId: number, campusId: number) {
-    return this.http.delete(`${this.API_URL}/${campusId}/Rides/${studentId}`, httpOptions);
+    return this.http.delete(`${this.RIDE_API}/${campusId}/Rides/${studentId}`, httpOptions);
   }
 
   findCarpoolRequestByStudentAndCampus(studentId: number, campusId: number) {
-    return this.http.get<SolicitacaoCaronaDTO>(`${this.API_URL}/${campusId}/Rides/${studentId}`, httpOptions);
+    const API = getApiURL(ApiEndpoints.CAMPI);
+
+    return this.http.get<CarpoolDetails>(`${API}/${campusId}/Student/${studentId}/Ride`, httpOptions);
   }
 
   socoNaCostelaDoMateusVermentoWosniaki() {

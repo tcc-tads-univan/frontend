@@ -1,63 +1,81 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {IonicModule} from '@ionic/angular';
+import {IonicModule, ToastController} from '@ionic/angular';
 import {CarpoolService} from "../../services/carpool.service";
-import {Campus} from "../../shared/models/campus.model";
 import {Router} from "@angular/router";
+import {CollegeService} from "../../services/college.service";
+import {CollegeCampus} from "../../shared/models/college-campus";
+import {convertDateToScheduleTime} from "../../shared/utils";
 
 @Component({
-    selector: 'app-request-carpool',
-    templateUrl: './request-carpool.page.html',
-    styleUrls: ['./request-carpool.page.scss'],
-    standalone: true,
-    imports: [IonicModule, CommonModule, FormsModule],
-    providers: [CarpoolService]
+  selector: 'app-request-carpool',
+  templateUrl: './request-carpool.page.html',
+  styleUrls: ['./request-carpool.page.scss'],
+  standalone: true,
+  imports: [IonicModule, CommonModule, FormsModule],
+  providers: [CarpoolService, CollegeService]
 })
 export class RequestCarpoolPage implements OnInit {
-    public campiList: Array<Campus> = [
-        new Campus(1, 'Universidade Federal do Paraná', 'Rua João Assef 1010'),
-        new Campus(2, 'Pontifícia Universidade Católica do Paraná', 'Rua João Assef 1011')
-    ];
-    public filteredCampiList = [...this.campiList];
+  private _campiList!: CollegeCampus[];
+  private _currentHour = new Date().getHours();
 
-    public avaliableHours: Array<number> = [];
-    private _currentHour = new Date().getHours();
+  public filteredCampiList!: CollegeCampus[];
+  public avaliableHours: number[] = [];
 
-    selectedTimePeriod!: string;
-    selectedCampus!: Campus;
+  public selectedTimePeriod!: string;
+  public selectedCampus!: CollegeCampus;
 
-    constructor(private carpoolService: CarpoolService, private router: Router) {
+  constructor(
+    private carpoolService: CarpoolService,
+    private collegeService: CollegeService,
+    private router: Router,
+    private toastController: ToastController
+  ) {
+  }
+
+  ngOnInit() {
+    for (let i = this._currentHour; i < 24; i++) {
+      this.avaliableHours.push(i);
     }
 
-    ngOnInit() {
-        for (let i = this._currentHour; i < 24; i++) {
-            this.avaliableHours.push(i);
-        }
-    }
+    this.collegeService.findAllCampi().subscribe(
+      campi => {
+        this._campiList = campi;
+        this.filteredCampiList = [...campi];
+      }
+    );
+  }
 
-    trackByItem(index: number, item: Campus) {
-        return item.lineAddress;
-    }
+  trackByItem(_idx: number, item: CollegeCampus) {
+    return item.campusId;
+  }
 
-    handleInput(event: any) {
-        const query = event.target.value.toLowerCase();
-        this.filteredCampiList = this.campiList.filter((c) => c.collegeName.toLowerCase().indexOf(query) > -1);
+  handleInput(event: any) {
+    if (this.filteredCampiList) {
+      const query = event.target.value.toLowerCase();
+      this.filteredCampiList = this._campiList.filter((c) => c.campusName!.toLowerCase().indexOf(query) > -1);
     }
+  }
 
-    handleSubmit() {
-        if (this.selectedTimePeriod && this.selectedCampus) {
-            // POC
-            const date = new Date(this.selectedTimePeriod);
-            this.carpoolService.requestCarpool(
-                this.selectedCampus,
-                `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`
-            ).subscribe(
-                _ => {
-                    console.log("Solicitado com sucesso!");
-                }
-            );
-            this.router.navigate(['/aluno/carona-solicitada']);
-        }
+  handleSubmit() {
+    if (this.selectedTimePeriod && this.selectedCampus) {
+      this.carpoolService
+        .requestCarpool(this.selectedCampus, convertDateToScheduleTime(new Date(this.selectedTimePeriod)))
+        .subscribe({
+          next: data => this.router.navigate(['/aluno/carona-solicitada']),
+          error: err => {
+            this.toastController.create({
+              message: 'Erro ao solicitar a carona!',
+              duration: 1500,
+              position: 'top',
+              color: 'danger',
+              icon: 'bug-outline'
+            }).then(toast => toast.present());
+
+            console.error(`[${err.status}] ${err.message}`);
+          }
+        });
     }
+  }
 }

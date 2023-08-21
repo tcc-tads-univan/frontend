@@ -23,15 +23,26 @@
     <ion-list-header>
       <ion-label>Selecione o câmpus</ion-label>
     </ion-list-header>
-    <ion-searchbar placeholder="Pesquisar câmpus" [debounce]="150" (ionInput)="handleInput($event)"></ion-searchbar>
-    <ion-radio-group [(ngModel)]="selectedCampus">
-      <ion-item *ngFor="let campus of filteredCampiList; trackBy: trackByItem">
-        <ion-radio [value]="campus" justify="space-between">
-          <h6>{{campus.collegeName}}</h6>
-          <p>{{campus.lineAddress}}</p>
-        </ion-radio>
+
+    <ng-container *ngIf="!filteredCampiList || filteredCampiList.length <= 0">
+      <ion-item color="warning">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <p class="ion-margin-start">Não foi possível recuperar a lista de campi</p>
       </ion-item>
-    </ion-radio-group>
+    </ng-container>
+
+    <ng-container *ngIf="filteredCampiList && filteredCampiList.length > 0">
+      <ion-searchbar placeholder="Pesquisar câmpus" [debounce]="150" (ionInput)="handleInput($event)"></ion-searchbar>
+      <ion-radio-group [(ngModel)]="selectedCampus">
+        <ion-item *ngFor="let campus of filteredCampiList; trackBy: trackByItem">
+          <ion-radio [value]="campus" justify="space-between">
+            <h6>{{campus.campusName}}</h6>
+            <p>{{campus.completeLineAddress}}</p>
+          </ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ng-container>
+
   </ion-list>
 </ion-content>
 
