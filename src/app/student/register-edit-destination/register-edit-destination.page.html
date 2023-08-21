@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cadastre-se</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <h3>Preencha suas informações</h3>
+
+  <form [formGroup]="addressForm" (ngSubmit)="handleSubmit()">
+    <ion-list>
+      <ion-item>
+        <ion-input
+          formControlName="name"
+          type="text"
+          label="Nome Completo"
+          placeholder="Nome Sobrenome"
+          labelPlacement="floating"
+          errorText="Preencha o seu nome completo"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          formControlName="cpf"
+          label="CPF"
+          placeholder="xxx.xxx.xxx-xx"
+          labelPlacement="floating"
+          errorText="Insira um CPF válido"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          formControlName="phonenumber"
+          label="Telefone Celular"
+          placeholder="(xx) xxxxx-xxxx"
+          labelPlacement="floating"
+          errorText="Insira um telefone válido"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          formControlName="email"
+          type="email"
+          label="Email"
+          placeholder="seuemail@exemplo.com"
+          labelPlacement="floating"
+          errorText="Insira um email válido"
+        ></ion-input>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="ion-padding">
+    <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">Cadastre-se</ion-button>
+    <span>Já possui uma conta?</span>
+    <ion-button type="button" [routerLink]="['/login']" expand="block" color="success">Entrar</ion-button>
+  </ion-toolbar>
+</ion-footer>

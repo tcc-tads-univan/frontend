@@ -25,5 +25,9 @@ export const routes: Routes = [
     path: '',
     redirectTo: '/aluno/solicitar-carona',
     pathMatch: 'full'
+  },
+  {
+    path: 'register-edit-destination',
+    loadComponent: () => import('./register-edit-destination/register-edit-destination.page').then( m => m.RegisterEditDestinationPage)
   }
 ];
