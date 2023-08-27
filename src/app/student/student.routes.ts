@@ -29,5 +29,9 @@ export const routes: Routes = [
   {
     path: 'register-edit-destination',
     loadComponent: () => import('./register-edit-destination/register-edit-destination.page').then( m => m.RegisterEditDestinationPage)
+  },
+  {
+    path: 'historico',
+    loadComponent: () => import('./carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
   }
 ];

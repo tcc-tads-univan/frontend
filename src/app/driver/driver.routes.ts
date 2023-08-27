@@ -22,5 +22,9 @@ export const routes: Routes = [
     path: '',
     redirectTo: '/motorista/inicio',
     pathMatch: 'full'
+  },
+  {
+    path: 'historico',
+    loadComponent: () => import('./carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
   }
 ];
