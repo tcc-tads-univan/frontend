@@ -33,5 +33,9 @@ export const routes: Routes = [
   {
     path: 'historico',
     loadComponent: () => import('./carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
+  },
+  {
+    path: 'mensalista',
+    loadComponent: () => import('./regular-student/regular-student.page').then( m => m.RegularStudentPage)
   }
 ];

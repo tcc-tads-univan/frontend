@@ -1,0 +1,92 @@
+/* CLASS */
+.card-padding {
+  padding: 0 0 0 0;
+  margin-top: 20px;
+}
+.title {
+  font-weight: 600;
+  padding-bottom: 5px;
+}
+.avatar-medium {
+  height: 66px;
+  width: 72px;
+}
+.notify-button {
+  display: grid;
+  width: 97%;
+}
+
+ion-header ion-toolbar:first-of-type {
+  padding-top: var(--ion-safe-area-top, 0);
+  justify-content: center;
+  display: grid;
+}
+
+/* ID */
+#generic-text {
+  font-size: 13px;
+}
+#notify-card {
+  padding-bottom: 10px;
+  margin-top: 24px;
+}
+#monthly-price {
+  height: 14%;
+}
+
+#month {
+  right: 6px;
+  position: relative;
+  font-size: 24px;
+  font-weight: 600;
+  top: -7px;
+}
+#price  {
+  right: -22px;
+  position: relative;
+  font-weight: 600;
+  color: #3422F2;
+  font-size: 24px;
+  top: -7px;
+}
+#student-name {
+  font-size: 16px;
+  font-weight: 300;
+  position: relative;
+  top: -17px;
+  right: 6px;
+}
+#pending {
+  color: #C17418;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 16px;
+  right: -40px;
+  position: relative;
+  top: -16px;
+}
+#paidOut {
+  color: #18C161;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 16px;
+  right: -59px;
+  position: relative;
+  top: -16px;
+}
+#generic-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  margin-top: 55px;
+}
+/* HTML */
+ion-item {
+  --border-color: transparent;
+}
+ion-card-subtitle {
+  padding-top: 5px;
+}
+ion-card {
+  border-radius: 10px;
+}
