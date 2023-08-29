@@ -1,0 +1,35 @@
+/* CLASS */
+.card-padding {
+  padding: 0 0 0 0;
+}
+.title {
+  font-weight: 600;
+  padding-bottom: 5px;
+}
+.avatar-medium {
+  height: 66px;
+  width: 72px;
+}
+.notify-button {
+  display: grid;
+  width: 97%;
+}
+
+/* ID */
+#generic-text {
+  font-size: 13px;
+}
+#notify-card {
+  padding-bottom: 10px;
+}
+
+/* HTML */
+ion-item {
+  --border-color: transparent;
+}
+ion-card-subtitle {
+  padding-top: 5px;
+}
+ion-card {
+  border-radius: 10px;
+}
