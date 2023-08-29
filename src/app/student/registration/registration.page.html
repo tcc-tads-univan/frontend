@@ -1,15 +1,13 @@
-<ion-header>
+<ion-header collapse="condense">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Cadastre-se</ion-title>
+    <ion-title class="ion-text-center">Cadastre-se</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <h3>Preencha suas informações</h3>
-
+<ion-content [fullscreen]="true" class="ion-padding">
   <form [formGroup]="registrationForm" (ngSubmit)="handleSubmit()">
     <ion-list>
       <ion-item>
@@ -64,18 +62,29 @@
           errorText="Insira uma senha válida  (+6 caracteres)"
         >
         </ion-input>
-        <ion-button type="button" fill="outline" color="dark" class="ion-float-right" (click)="togglePasswordVisibility()">
+        <ion-button type="button" fill="outline" color="dark" class="ion-float-right"
+                    (click)="togglePasswordVisibility()">
           <ion-icon [name]="passwordVisible ? 'eye-off' : 'eye'"></ion-icon>
         </ion-button>
       </ion-item>
     </ion-list>
+
+    <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">
+      Cadastre-se
+      <ion-icon name="person-add-outline" slot="end"></ion-icon>
+    </ion-button>
   </form>
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar class="ion-padding">
-    <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">Cadastre-se</ion-button>
-    <span>Já possui uma conta?</span>
-    <ion-button type="button" [routerLink]="['/login']" expand="block" color="success">Entrar</ion-button>
+  <ion-toolbar>
+    <p class="ion-text-center">Já possui uma conta?</p>
+    <ion-button class="ion-margin"
+                type="button" [routerLink]="['/login']"
+                expand="block"
+                color="success">
+      Entrar
+      <ion-icon name="log-out-outline" slot="end"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-footer>
