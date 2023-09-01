@@ -17,7 +17,7 @@ import {convertDateToScheduleTime} from "../../shared/utils";
   providers: [CarpoolService, CollegeService]
 })
 export class RequestCarpoolPage implements OnInit {
-  private _campiList!: CollegeCampus[];
+  private _campiList: CollegeCampus[] = [];
   private _currentHour = new Date().getHours();
 
   public filteredCampiList!: CollegeCampus[];

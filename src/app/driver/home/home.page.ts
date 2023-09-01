@@ -4,6 +4,8 @@ import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {RouterLink} from "@angular/router";
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import {CollegeService} from "../../services/college.service";
+import {CollegeCampus} from "../../shared/models/college-campus";
 
 @Component({
   selector: 'app-home',
@@ -11,19 +13,23 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
   styleUrls: ['./home.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink, ScrollingModule],
+  providers: [CollegeService]
 })
 export class HomePage implements OnInit {
-  selectedCampus!: { campusName: string, completeLineAddress: string };
-  _campiList = Array.from({length: 100000}).map((_, i) => _ = {
-    campusName: "campus " + i,
-    completeLineAddress: "rua pinto " + i
-  });
-  filteredCampiList = [...this._campiList];
+  _campiList: CollegeCampus[] = [];
+  filteredCampiList: CollegeCampus[] = [];
+  selectedCampus!: CollegeCampus;
 
-  constructor() {
+  constructor(private collegeService: CollegeService) {
   }
 
   ngOnInit() {
+    this.collegeService.findAllCampi().subscribe(
+      campi => {
+        this._campiList = campi;
+        this.filteredCampiList = [...this._campiList];
+      }
+    )
   }
 
   trackByItem(idx: number, item: any) {

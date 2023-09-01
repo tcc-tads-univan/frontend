@@ -34,7 +34,7 @@ export class CarpoolService {
       scheduleTime
     };
 
-    return this.http.post(`${this.RIDE_API}`, request, httpOptions);
+    return this.http.post(this.RIDE_API, request, httpOptions);
   }
 
   approveCarpoolRequest(studentId: number) {
