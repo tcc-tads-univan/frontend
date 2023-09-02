@@ -13,7 +13,7 @@
       <ion-card-title>
         <ion-label class="price ion-justify-content-end">
           <ion-icon class="icon-price" name="card-outline"></ion-icon>
-          R$ 52,30
+          {{agendamento.ridePrice}}
         </ion-label>
         <ion-item>
           <ion-avatar slot="start">
@@ -21,11 +21,11 @@
           </ion-avatar>
           <ion-col class="ion-justify-content-between">
             <ion-label>
-              {{agendamento.driverName}}
+              {{agendamento.driver.name}}Diogo
             </ion-label>
             <ion-card-subtitle>
               <ion-icon name="star"></ion-icon>
-              4,3
+              {{agendamento.driver.rating}}4,5
        </ion-card-subtitle>
           </ion-col>
         </ion-item>
@@ -35,15 +35,15 @@
       <ion-text>
         <p>
           <ion-icon name="time-outline"></ion-icon>
-          Horário: 16:30
+          Horário: {{agendamento.scheduleTime}}
         </p>
         <p>
           <ion-icon name="navigate"></ion-icon>
-          Origem: {{agendamento.origin}}
+          Origem: {{agendamento.originAddress}}
         </p>
         <p>
           <ion-icon name="location-outline"></ion-icon>
-          Destino: {{agendamento.destination}}
+          Destino: {{agendamento.destinationAddress}}
         </p>
       </ion-text>
     </ion-card-content>
@@ -53,7 +53,7 @@
         <ion-button color="danger" fill="outline" class="ion-margin-end">
           Recusar
         </ion-button>
-        <ion-button color="success" class="ion-margin-start">
+        <ion-button color="success" (click)="approveCarpoolProposal(agendamento.scheduleId)" class="ion-margin-start">
           Aceitar
         </ion-button>
       </ion-row>

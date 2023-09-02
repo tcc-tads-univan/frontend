@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import {LocalStorageService} from "../../services/local-storage.service";
 import {Agendamento} from "../../shared/models/agendamento.model";
+import {CarpoolService} from "../../services/carpool.service";
+import {Schedule} from "../../shared/models/carpool/schedule";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-carpool-scheduled',
@@ -11,15 +14,15 @@ import {Agendamento} from "../../shared/models/agendamento.model";
   styleUrls: ['./carpool-scheduled.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  providers: [LocalStorageService]
+  providers: [CarpoolService]
 })
 export class CarpoolScheduled implements OnInit {
-  agendamento!: Agendamento;
+  agendamento!: Observable<Schedule>;
 
-  constructor(private poc: LocalStorageService) { }
+  constructor(private carpoolService: CarpoolService) { }
 
   ngOnInit() {
-    this.agendamento = this.poc.fuzilarOMateusWosniaki();
+    this.agendamento = this.carpoolService.getScheduleInfo();
   }
 
 }

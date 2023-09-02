@@ -32,11 +32,11 @@ export class LocalStorageService {
     return JSON.parse(localStorage.getItem(LocalStorageKeys.CARPOOL) ?? JSON.stringify({}));
   }
 
-  enfiarUmaFacaNoEstomagoDoMateusWosniaki(agenamento: Agendamento) {
+  saveSchedule(agenamento: Agendamento) {
     localStorage.setItem(LocalStorageKeys.AGENDAMENTO, JSON.stringify(agenamento));
   }
 
-  fuzilarOMateusWosniaki(): Agendamento {
+  getSchedule(): Agendamento {
     return JSON.parse(localStorage.getItem(LocalStorageKeys.AGENDAMENTO) ?? JSON.stringify({}));
   }
 }

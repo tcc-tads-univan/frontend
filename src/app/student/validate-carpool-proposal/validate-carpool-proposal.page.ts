@@ -7,6 +7,7 @@ import {Observable} from "rxjs";
 import {LocalStorageService} from "../../services/local-storage.service";
 import {Agendamento} from "../../shared/models/agendamento.model";
 import {Router} from "@angular/router";
+import {Schedule} from "../../shared/models/carpool/schedule";
 
 @Component({
     selector: 'app-validate-carpool-proposal',
@@ -17,18 +18,17 @@ import {Router} from "@angular/router";
     providers: [CarpoolService, LocalStorageService]
 })
 export class ValidateCarpoolProposalPage implements OnInit {
-    agendamento$!: Observable<Agendamento>;
+    agendamento$!: Observable<Schedule>;
 
-    constructor(private carpoolService: CarpoolService, private router: Router, private poc: LocalStorageService) {
+    constructor(private carpoolService: CarpoolService, private router: Router) {
     }
 
     ngOnInit() {
         // poc
-        this.agendamento$ = this.carpoolService.socoNaCostelaDoMateusVermentoWosniaki();
+        this.agendamento$ = this.carpoolService.getSchedule();
     }
 
-    approveCarpoolProposal(carpoolId: number, pocado: Agendamento) {
-        this.poc.enfiarUmaFacaNoEstomagoDoMateusWosniaki(pocado);
+    approveCarpoolProposal(carpoolId: number) {
         this.carpoolService.validateApprovedCarpoolRequest(carpoolId).subscribe(_ => {
             console.log("Aprovado");
             this.router.navigate(['/aluno/carona-confirmada']);

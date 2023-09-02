@@ -1,7 +1,8 @@
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
+  <div *ngIf="agendamento | async as schedule">
   <ion-text class="ion-text-center">
     <h1>Tudo certo para sua carona</h1>
-    <h3>Encontre seu motorista às <strong>{{agendamento.scheduledTime}}</strong></h3>
+    <h3>Encontre seu motorista às <strong>{{schedule.scheduleTime}}</strong></h3>
   </ion-text>
   <ion-card>
     <ion-card-header>
@@ -11,9 +12,9 @@
             <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
           </ion-avatar>
           <ion-label>
-            {{agendamento.driverName}}
+            {{schedule.driver.name}}Diogo
             <ion-card-subtitle>
-            Telefone: XXXXXX
+              {{schedule.driver.phoneNumber}}41 93618-6498
           </ion-card-subtitle>
           </ion-label>
         </ion-item>
@@ -23,16 +24,16 @@
       <ion-text>
         <p>
           <ion-icon name="navigate"></ion-icon>
-          Origem: Rua Joao
+          {{schedule.originAddress}}
         </p>
         <p>
           <ion-icon name="location-outline"></ion-icon>
-          Destino: Rua Paulo
+          {{schedule.destinationAddress}}
         </p>
       </ion-text>
     </ion-card-content>
   </ion-card>
-
+  </div>
   <ion-fab vertical="bottom">
     <ion-icon src="assets/undraw_order_ride_re_372k.svg" class="bigger-icon"></ion-icon>
   </ion-fab>
