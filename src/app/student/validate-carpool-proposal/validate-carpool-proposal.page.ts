@@ -5,7 +5,6 @@ import {IonicModule} from '@ionic/angular';
 import {CarpoolService} from "../../services/carpool.service";
 import {Observable} from "rxjs";
 import {LocalStorageService} from "../../services/local-storage.service";
-import {Agendamento} from "../../shared/models/agendamento.model";
 import {Router} from "@angular/router";
 import {Schedule} from "../../shared/models/carpool/schedule";
 

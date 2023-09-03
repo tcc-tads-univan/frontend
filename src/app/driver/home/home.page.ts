@@ -5,7 +5,7 @@ import {IonicModule} from '@ionic/angular';
 import {RouterLink} from "@angular/router";
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {CollegeService} from "../../services/college.service";
-import {CollegeCampus} from "../../shared/models/college-campus";
+import {CollegeCampus} from "../../shared/models/college/college-campus";
 
 @Component({
   selector: 'app-home',

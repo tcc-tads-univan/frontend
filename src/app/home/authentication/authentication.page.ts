@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {AuthenticationService} from "../../services/authentication.service";
-import {LoginDTO} from "../../shared/models/login-dto.model";
+import {LoginDTO} from "../../shared/models/user/login-dto.model";
 
 @Component({
   selector: 'app-authentication',
@@ -27,7 +27,7 @@ export class AuthenticationPage implements OnInit {
 
   handleSubmit() {
     if (this.loginForm.valid) {
-      const loginDTO = new LoginDTO(this.email!.value ?? '', this.password!.value ?? '');
+      const loginDTO: LoginDTO = {email: this.email!.value ?? '', password: this.password!.value ?? ''};
       this.authService.authenticateUser(loginDTO);
 
       console.log(loginDTO);

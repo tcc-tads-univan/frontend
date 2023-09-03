@@ -1,10 +1,7 @@
-export class StudentRegistration {
-  constructor(
-    public name?: string,
-    public cpf?: string,
-    public phonenumber?: string,
-    public email?: string,
-    public password?: string
-  ) {
-  }
+export interface StudentRegistration {
+  name: string,
+  cpf: string,
+  phonenumber: string,
+  email: string,
+  password: string,
 }

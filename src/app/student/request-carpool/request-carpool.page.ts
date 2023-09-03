@@ -5,7 +5,7 @@ import {IonicModule, ToastController} from '@ionic/angular';
 import {CarpoolService} from "../../services/carpool.service";
 import {Router} from "@angular/router";
 import {CollegeService} from "../../services/college.service";
-import {CollegeCampus} from "../../shared/models/college-campus";
+import {CollegeCampus} from "../../shared/models/college/college-campus";
 import {convertDateToScheduleTime} from "../../shared/utils";
 
 @Component({
@@ -17,10 +17,10 @@ import {convertDateToScheduleTime} from "../../shared/utils";
   providers: [CarpoolService, CollegeService]
 })
 export class RequestCarpoolPage implements OnInit {
-  private _campiList: CollegeCampus[] = [];
-  private _currentHour = new Date().getHours();
+  private campiList: CollegeCampus[] = [];
+  private currentHour = new Date().getHours();
 
-  public filteredCampiList!: CollegeCampus[];
+  public filteredCampiList: CollegeCampus[] = [];
   public avaliableHours: number[] = [];
 
   public selectedTimePeriod!: string;
@@ -35,13 +35,13 @@ export class RequestCarpoolPage implements OnInit {
   }
 
   ngOnInit() {
-    for (let i = this._currentHour; i < 24; i++) {
+    for (let i = this.currentHour; i < 24; i++) {
       this.avaliableHours.push(i);
     }
 
     this.collegeService.findAllCampi().subscribe(
       campi => {
-        this._campiList = campi;
+        this.campiList = campi;
         this.filteredCampiList = [...campi];
       }
     );
@@ -54,7 +54,7 @@ export class RequestCarpoolPage implements OnInit {
   handleInput(event: any) {
     if (this.filteredCampiList) {
       const query = event.target.value.toLowerCase();
-      this.filteredCampiList = this._campiList.filter((c) => c.campusName!.toLowerCase().indexOf(query) > -1);
+      this.filteredCampiList = this.campiList.filter((c) => c.campusName!.toLowerCase().indexOf(query) > -1);
     }
   }
 

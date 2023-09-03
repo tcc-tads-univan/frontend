@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import {LocalStorageService} from "../../services/local-storage.service";
-import {Agendamento} from "../../shared/models/agendamento.model";
 import {CarpoolService} from "../../services/carpool.service";
 import {Schedule} from "../../shared/models/carpool/schedule";
 import {Observable} from "rxjs";

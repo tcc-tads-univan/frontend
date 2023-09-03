@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {IonicModule} from '@ionic/angular';
-import {SolicitacaoCaronaDTO} from "../../shared/models/solicitacao-carona-dto.model";
+import {IonicModule, ToastController} from '@ionic/angular';
 import {CarpoolService} from "../../services/carpool.service";
 import {Observable} from "rxjs";
 import {LocalStorageService} from "../../services/local-storage.service";
 import {CarpoolDetails} from "../../shared/models/carpool/carpool-details";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-carpool-requested',
@@ -20,11 +20,28 @@ export class CarpoolRequestedPage implements OnInit {
   requestedCarpool$!: Observable<CarpoolDetails>;
   storedData!: { studentId: number, campusId: number };
 
-  constructor(private carpoolService: CarpoolService, private localStorageService: LocalStorageService) {
+  public alertButtons = [
+    {
+      text: 'Não',
+      role: 'cancel',
+    },
+    {
+      text: 'Sim',
+      role: 'confirm',
+      handler: () => {
+        this.cancelCarpoolRequest();
+      },
+    },
+  ];
+
+  constructor(private carpoolService: CarpoolService,
+              private localStorageService: LocalStorageService,
+              private toastController: ToastController,
+              private router: Router) {
   }
 
   ngOnInit() {
-    this.storedData = this.localStorageService.getCarpoolInfo();
+    this.storedData = this.localStorageService.getCarpool();
     this.requestedCarpool$ = this.carpoolService.findCarpoolRequestByStudentAndCampus(this.storedData.studentId, this.storedData.campusId);
   }
 
@@ -32,9 +49,32 @@ export class CarpoolRequestedPage implements OnInit {
     this.carpoolService
       .cancelCarpoolRequest(this.storedData.studentId, this.storedData.campusId)
       .subscribe({
-        next: value => console.log('Solicitaçao cancelada com sucesso'),
-        error: err => console.error(`[${err.status}] ${err.message}`)
+        next: _data => {
+          this.toastController.create({
+            message: 'Carona cancelada com sucesso',
+            duration: 1500,
+            position: 'top',
+            color: 'success',
+            icon: 'checkmark-outline'
+          }).then(toast => toast.present());
+          console.log('Solicitação cancelada com sucesso');
+
+          this.router.navigate(['/aluno']);
+        },
+        error: err => {
+          this.toastController.create({
+            message: 'Erro ao cancelar a carona',
+            duration: 1500,
+            position: 'top',
+            color: 'danger',
+            icon: 'bug-outline'
+          }).then(toast => toast.present());
+          console.error(`[${err.status}] ${err.message}`);
+        }
       });
   }
 
+  setResult(ev: any) {
+    console.log(`Finalizado o popup de confirmação: ${ev.detail.role}`);
+  }
 }

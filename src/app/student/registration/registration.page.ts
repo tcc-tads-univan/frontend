@@ -30,13 +30,13 @@ export class RegistrationPage implements OnInit {
 
   handleSubmit() {
     if (this.registrationForm.valid) {
-      const student = new StudentRegistration();
-
-      student.name = this.name?.value ?? '';
-      student.cpf = this.cpf?.value ?? '';
-      student.phonenumber = this.phonenumber?.value ?? '';
-      student.email = this.email?.value ?? '';
-      student.password = this.password?.value ?? '';
+      const student: StudentRegistration = {
+        name: this.name?.value ?? '',
+        cpf: this.cpf?.value ?? '',
+        phonenumber: this.phonenumber?.value ?? '',
+        email: this.email?.value ?? '',
+        password: this.password?.value ?? '',
+      }
 
       console.log(student);
     }

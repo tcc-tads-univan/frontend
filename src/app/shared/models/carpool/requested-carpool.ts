@@ -1,12 +1,9 @@
-export class RequestedCarpool {
-  constructor(
-    public studentId?: number,
-    public name?: string,
-    public phoneNumber?: string,
-    public lineAddress?: string,
-    public scheduleTime?: string,
-    public photoUrl?: string,
-    public rating?: number
-  ) {
-  }
+export interface RequestedCarpool {
+  studentId?: number,
+  name?: string,
+  scheduleTime?: string,
+  phoneNumber?: string,
+  lineAddress?: string,
+  photoUrl?: string,
+  rating?: number,
 }

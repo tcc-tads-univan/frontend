@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true" class="ion-padding" color="light">
+<ion-content [fullscreen]="true" class="ion-padding">
   <ion-text class="ion-text-center">
     <ion-icon src="assets/undraw_confirmed_re_sef7.svg" class="bigger-icon"></ion-icon>
     <h1>Seu agendamento foi solicitado</h1>
@@ -23,11 +23,17 @@
       <p>{{requestedCarpool.campusLineAddress}}</p>
     </ion-card-content>
     <ion-button
+      id="cancel-carpool-request"
       expand="block"
-      color="danger"
-      (click)="cancelCarpoolRequest()">
+      color="danger">
       Cancelar
     </ion-button>
+    <ion-alert
+      trigger="cancel-carpool-request"
+      header="Deseja mesmo cancelar?"
+      [buttons]="alertButtons"
+      (didDismiss)="setResult($event)"
+    ></ion-alert>
   </ion-card>
 
   <ng-template #loading>

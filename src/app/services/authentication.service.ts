@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import {LoginDTO} from "../shared/models/login-dto.model";
+import {Injectable} from '@angular/core';
+import {LoginDTO} from "../shared/models/user/login-dto.model";
 import {LocalStorageService} from "./local-storage.service";
 
 @Injectable({
@@ -7,7 +7,8 @@ import {LocalStorageService} from "./local-storage.service";
 })
 export class AuthenticationService {
 
-  constructor(private localStorageService: LocalStorageService) { }
+  constructor(private localStorageService: LocalStorageService) {
+  }
 
   authenticateUser(login: LoginDTO) {
     this.localStorageService.saveAuthToken(JSON.stringify(login));
