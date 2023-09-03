@@ -68,17 +68,19 @@ export class CarpoolService {
     return this.http.get<CarpoolDetails>(`${this.CAMPI_API}/${campusId}/Student/${studentId}/Ride`, httpOptions);
   }
 
-  getSchedule() {
-    const studentId = this.localStorageService.getUserInfo().studentId;
+  findScheduleByStudentId(studentId: number) {
     return this.http.get<Schedule>(`${this.STUDENT_API}/${studentId}/schedule`, httpOptions);
   }
 
-  getScheduleInfo() {
-    const scheduleId = this.localStorageService.getSchedule().scheduleId;
+  findScheduleById(scheduleId: number) {
     return this.http.get<Schedule>(`${this.SCHEDULE_API}/${scheduleId}`, httpOptions);
   }
 
-  validateApprovedCarpoolRequest(carpoolId: number) {
+  approveSchedule(carpoolId: number) {
     return this.http.put(`${this.SCHEDULE_API}/${carpoolId}/accept`, httpOptions);
+  }
+
+  declineSchedule(carpoolId: number) {
+    return this.http.put(`${this.SCHEDULE_API}/${carpoolId}/reject`, httpOptions);
   }
 }

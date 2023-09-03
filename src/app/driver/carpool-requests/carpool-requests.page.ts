@@ -40,6 +40,14 @@ export class CarpoolRequestsPage implements OnInit {
       .approveCarpoolRequest(studentId)
       .subscribe({
         next: _data => {
+          this.toastController.create({
+            message: "Carona aceita com sucesso",
+            duration: 1500,
+            position: "top",
+            color: "success",
+            icon: "checkmark-outline"
+          }).then(toast => toast.present());
+
           this.router.navigate(['/motorista']);
         },
         error: err => {
@@ -54,5 +62,15 @@ export class CarpoolRequestsPage implements OnInit {
           console.error(`[${err.status}] ${err.message}`);
         }
       });
+  }
+
+  viewRoute(studentId: number) {
+    this.toastController.create({
+      message: "Ainda não implementado",
+      duration: 1500,
+      position: "top",
+      color: "warning",
+      icon: "alert-circle-outline"
+    }).then(toast => toast.present());
   }
 }

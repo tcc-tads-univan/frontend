@@ -57,7 +57,6 @@ export class CarpoolRequestedPage implements OnInit {
             color: 'success',
             icon: 'checkmark-outline'
           }).then(toast => toast.present());
-          console.log('Solicitação cancelada com sucesso');
 
           this.router.navigate(['/aluno']);
         },

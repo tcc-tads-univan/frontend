@@ -19,12 +19,12 @@ export const routes: Routes = [
     loadComponent: () => import('./register-edit-vehicle/register-edit-vehicle.page').then( m => m.RegisterEditVehiclePage)
   },
   {
+    path: 'historico',
+    loadComponent: () => import('./carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
+  },
+  {
     path: '',
     redirectTo: '/motorista/inicio',
     pathMatch: 'full'
-  },
-  {
-    path: 'historico',
-    loadComponent: () => import('./carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
   }
 ];
