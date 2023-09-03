@@ -1,0 +1,63 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Mensalista</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding" color="light">
+  <ion-card class="card-padding">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-item>
+          <ion-avatar class="avatar-medium" slot="start">
+            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
+          </ion-avatar>
+          <ion-col class="ion-justify-content-between">
+            <ion-label class="title">
+              João Almeida
+            </ion-label>
+            <ion-card-subtitle>
+              <ion-icon name="call"></ion-icon>
+              (41) 99424-3445
+            </ion-card-subtitle>
+            <ion-card-subtitle>
+              <ion-icon name="car"></ion-icon>
+              ABC-1234
+            </ion-card-subtitle>
+          </ion-col>
+        </ion-item>
+      </ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card id="notify-card">
+    <ion-card-header>
+      <ion-card-title>12/04/2023</ion-card-title>
+    </ion-card-header>
+    <ion-card-content id="generic-text">
+      Não vai conseguir ir para a faculdade hoje?
+    </ion-card-content>
+      <ion-button expand="block" shape="round" class="ion-justify-content-center notify-button" fill="outline" color="danger">Notificar Motorista</ion-button>
+  </ion-card>
+
+  <h1 id="generic-title">MENSALIDADES</h1>
+  <ion-card id="monthly-price">
+    <ion-card-content>
+      <ion-grid [fixed]="true">
+
+        <ion-row>
+          <ion-col><h6 id="student-name">Gabriel Pinto</h6></ion-col>
+          <ng-container *ngIf="paymentStatus; then paidOut; else pending">   </ng-container>
+          <ng-template #pending><ion-col><h6  id="pending">PENDENTE</h6></ion-col></ng-template>
+          <ng-template #paidOut><ion-col><h6  id="paidOut">PAGO</h6></ion-col></ng-template>
+        </ion-row>
+      </ion-grid>
+      <ion-grid [fixed]="true">
+        <ion-row>
+          <ion-col><h6 id="month">04/2023</h6></ion-col>
+          <ion-col><h6 id="price">R$345,00</h6></ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+    </ion-card>
+</ion-content>

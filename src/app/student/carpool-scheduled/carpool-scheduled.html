@@ -1,0 +1,44 @@
+<ion-content [fullscreen]="true" class="ion-padding" color="light">
+  <div *ngIf="(schedule$ | async) as schedule">
+  <ion-text class="ion-text-center">
+    <h1>Tudo certo para sua carona</h1>
+    <h3>Encontre seu motorista às <strong>{{schedule.scheduleTime}}</strong></h3>
+  </ion-text>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-item>
+          <ion-avatar slot="start">
+            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
+          </ion-avatar>
+          <ion-label>
+            {{schedule.driver.name}} - Placa: {{schedule.driver.vehiclePlate}}
+            <ion-card-subtitle>
+              Contato: {{schedule.driver.phoneNumber}}
+          </ion-card-subtitle>
+          </ion-label>
+        </ion-item>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text>
+        <p>
+          <ion-icon name="navigate"></ion-icon>
+          Embarque em: {{schedule.originAddress}}
+        </p>
+        <p>
+          <ion-icon name="time-outline"></ion-icon>
+          Horário: {{schedule.scheduleTime}}
+        </p>
+        <p>
+          <ion-icon name="location-outline"></ion-icon>
+          Destino: {{schedule.destinationAddress}}
+        </p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+  </div>
+  <ion-fab vertical="bottom">
+    <ion-icon src="assets/undraw_order_ride_re_372k.svg" class="bigger-icon"></ion-icon>
+  </ion-fab>
+</ion-content>

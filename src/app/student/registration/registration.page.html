@@ -1,0 +1,90 @@
+<ion-header collapse="condense">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Cadastre-se</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form [formGroup]="registrationForm" (ngSubmit)="handleSubmit()">
+    <ion-list>
+      <ion-item>
+        <ion-input
+          formControlName="name"
+          type="text"
+          label="Nome Completo"
+          placeholder="Nome Sobrenome"
+          labelPlacement="floating"
+          errorText="Preencha o seu nome completo"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          formControlName="cpf"
+          label="CPF"
+          placeholder="xxx.xxx.xxx-xx"
+          labelPlacement="floating"
+          errorText="Insira um CPF válido"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          formControlName="phonenumber"
+          label="Telefone Celular"
+          placeholder="(xx) xxxxx-xxxx"
+          labelPlacement="floating"
+          errorText="Insira um telefone válido"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          formControlName="email"
+          type="email"
+          label="Email"
+          placeholder="seuemail@exemplo.com"
+          labelPlacement="floating"
+          errorText="Insira um email válido"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          formControlName="password"
+          label="Sua senha"
+          [type]="passwordVisible ? 'text' : 'password'"
+          placeholder="Insira uma senha segura"
+          labelPlacement="floating"
+          errorText="Insira uma senha válida  (+6 caracteres)"
+        >
+        </ion-input>
+        <ion-button type="button" fill="outline" color="dark" class="ion-float-right"
+                    (click)="togglePasswordVisibility()">
+          <ion-icon [name]="passwordVisible ? 'eye-off' : 'eye'"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">
+      Cadastre-se
+      <ion-icon name="person-add-outline" slot="end"></ion-icon>
+    </ion-button>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <p class="ion-text-center">Já possui uma conta?</p>
+    <ion-button class="ion-margin"
+                type="button" [routerLink]="['/login']"
+                expand="block"
+                color="success">
+      Entrar
+      <ion-icon name="log-out-outline" slot="end"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
