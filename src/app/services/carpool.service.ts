@@ -16,7 +16,6 @@ export class CarpoolService {
   RIDE_API = getApiURL(ApiEndpoints.RIDE);
   CAMPI_API: string = getApiURL(ApiEndpoints.CAMPI);
   SCHEDULE_API: string = getApiURL(ApiEndpoints.SCHEDULE);
-  STUDENT_API: string = getApiURL(ApiEndpoints.STUDENT);
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
   }
@@ -65,11 +64,11 @@ export class CarpoolService {
   }
 
   findCarpoolRequestByStudentAndCampus(studentId: number, campusId: number) {
-    return this.http.get<CarpoolDetails>(`${this.CAMPI_API}/${campusId}/Student/${studentId}/Ride`, httpOptions);
+    return this.http.get<CarpoolDetails>(`${this.RIDE_API}/Campus/${campusId}/Student/${studentId}`, httpOptions);
   }
 
   findScheduleByStudentId(studentId: number) {
-    return this.http.get<Schedule>(`${this.STUDENT_API}/${studentId}/schedule`, httpOptions);
+    return this.http.get<Schedule>(`${this.SCHEDULE_API}/Student/${studentId}`, httpOptions);
   }
 
   findScheduleById(scheduleId: number) {
