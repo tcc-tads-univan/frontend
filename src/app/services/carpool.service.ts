@@ -64,11 +64,11 @@ export class CarpoolService {
   }
 
   findCarpoolRequestByStudentAndCampus(studentId: number, campusId: number) {
-    return this.http.get<CarpoolDetails>(`${this.RIDE_API}/Campus/${campusId}/Student/${studentId}`, httpOptions);
+    return this.http.get<CarpoolDetails>(`${this.RIDE_API}?campusId=${campusId}&studentId=${studentId}`, httpOptions);
   }
 
   findScheduleByStudentId(studentId: number) {
-    return this.http.get<Schedule>(`${this.SCHEDULE_API}/Student/${studentId}`, httpOptions);
+    return this.http.get<Schedule>(`${this.SCHEDULE_API}?studentId=${studentId}`, httpOptions);
   }
 
   findScheduleById(scheduleId: number) {
