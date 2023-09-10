@@ -1,8 +1,5 @@
-export class CarpoolDetails {
-  constructor(
-    public scheduleTime: string,
-    public campusName: string,
-    public campusLineAddress: string,
-  ) {
-  }
+export interface CarpoolDetails {
+  scheduleTime: string,
+  campusName: string,
+  campusLineAddress: string,
 }

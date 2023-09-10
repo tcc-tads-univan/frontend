@@ -9,7 +9,8 @@ import {ApiEndpoints} from "../shared/enums/api-endpoints";
 })
 export class DriverService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   registerDriver(driverRegistration: DriverRegistration) {
     const driverRegistrationRequest = JSON.stringify(driverRegistration);

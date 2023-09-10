@@ -1,5 +1,4 @@
 export interface Schedule {
-
   scheduleId: number,
   scheduleTime: string,
   originAddress: string,
@@ -12,5 +11,4 @@ export interface Schedule {
     phoneNumber: string,
     vehiclePlate: string
   }
-
 }

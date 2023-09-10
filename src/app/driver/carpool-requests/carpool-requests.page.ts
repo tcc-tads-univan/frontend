@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule, ToastController} from '@ionic/angular';
 import {CarpoolService} from "../../services/carpool.service";
-import {SolicitacaoCaronaDTO} from "../../shared/models/solicitacao-carona-dto.model";
 import {Observable} from "rxjs";
 import {LocalStorageService} from "../../services/local-storage.service";
 import {RequestedCarpool} from "../../shared/models/carpool/requested-carpool";
@@ -29,7 +28,7 @@ export class CarpoolRequestsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.requestedCarpools$ = this.carpoolService.findCarpoolRequestsByCampus(this.localStorageService.getCarpoolInfo().campusId);
+    this.requestedCarpools$ = this.carpoolService.findCarpoolRequestsByCampus(this.localStorageService.getCarpool().campusId);
   }
 
   trackByItem(idx: number, item: RequestedCarpool) {
@@ -40,7 +39,15 @@ export class CarpoolRequestsPage implements OnInit {
     this.carpoolService
       .approveCarpoolRequest(studentId)
       .subscribe({
-        next: data => {
+        next: _data => {
+          this.toastController.create({
+            message: "Carona aceita com sucesso",
+            duration: 1500,
+            position: "top",
+            color: "success",
+            icon: "checkmark-outline"
+          }).then(toast => toast.present());
+
           this.router.navigate(['/motorista']);
         },
         error: err => {
@@ -55,5 +62,15 @@ export class CarpoolRequestsPage implements OnInit {
           console.error(`[${err.status}] ${err.message}`);
         }
       });
+  }
+
+  viewRoute(studentId: number) {
+    this.toastController.create({
+      message: "Ainda não implementado",
+      duration: 1500,
+      position: "top",
+      color: "warning",
+      icon: "alert-circle-outline"
+    }).then(toast => toast.present());
   }
 }

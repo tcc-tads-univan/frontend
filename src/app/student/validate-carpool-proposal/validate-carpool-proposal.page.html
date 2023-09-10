@@ -8,12 +8,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
-  <ion-card class="ion-padding" *ngIf="agendamento$ | async as agendamento; else loading">
+  <ion-card class="ion-padding" *ngIf="schedule$ | async as schedule; else loading">
     <ion-card-header>
       <ion-card-title>
         <ion-label class="price ion-justify-content-end">
           <ion-icon class="icon-price" name="card-outline"></ion-icon>
-          {{agendamento.ridePrice}}
+          R$ {{schedule.ridePrice}}
         </ion-label>
         <ion-item>
           <ion-avatar slot="start">
@@ -21,11 +21,11 @@
           </ion-avatar>
           <ion-col class="ion-justify-content-between">
             <ion-label>
-              {{agendamento.driver.name}}Diogo
+              {{schedule.driver.name}}
             </ion-label>
             <ion-card-subtitle>
               <ion-icon name="star"></ion-icon>
-              {{agendamento.driver.rating}}4,5
+              {{schedule.driver.rating}}
        </ion-card-subtitle>
           </ion-col>
         </ion-item>
@@ -35,25 +35,25 @@
       <ion-text>
         <p>
           <ion-icon name="time-outline"></ion-icon>
-          Horário: {{agendamento.scheduleTime}}
+          Horário: {{schedule.scheduleTime}}
         </p>
         <p>
           <ion-icon name="navigate"></ion-icon>
-          Origem: {{agendamento.originAddress}}
+          Origem: {{schedule.originAddress}}
         </p>
         <p>
           <ion-icon name="location-outline"></ion-icon>
-          Destino: {{agendamento.destinationAddress}}
+          Destino: {{schedule.destinationAddress}}
         </p>
       </ion-text>
     </ion-card-content>
     <ion-card-content>
 
       <ion-row class="ion-justify-content-between">
-        <ion-button color="danger" fill="outline" class="ion-margin-end">
+        <ion-button color="danger" (click)="declineSchedulePropostal(schedule.scheduleId)" fill="outline" class="ion-margin-end">
           Recusar
         </ion-button>
-        <ion-button color="success" (click)="approveCarpoolProposal(agendamento.scheduleId)" class="ion-margin-start">
+        <ion-button color="success" (click)="approveScheduleProposal(schedule.scheduleId)" class="ion-margin-start">
           Aceitar
         </ion-button>
       </ion-row>

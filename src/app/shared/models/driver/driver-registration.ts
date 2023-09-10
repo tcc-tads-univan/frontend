@@ -1,11 +1,8 @@
-export class DriverRegistration {
-  constructor(
-    public name?: string,
-    public cpf?: string,
-    public cnh?: string,
-    public phonenumber?: string,
-    public email?: string,
-    public password?: string
-  ) {
-  }
+export interface DriverRegistration {
+  name: string,
+  cpf: string,
+  cnh: string,
+  phonenumber: string,
+  email: string,
+  password: string,
 }

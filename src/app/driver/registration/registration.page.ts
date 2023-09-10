@@ -34,14 +34,14 @@ export class RegistrationPage implements OnInit {
 
   handleSubmit() {
     if (this.registrationForm.valid) {
-      const driver = new DriverRegistration();
-
-      driver.name = this.name?.value ?? '';
-      driver.cpf = this.cpf?.value ?? '';
-      driver.cnh = this.cnh?.value ?? '';
-      driver.phonenumber = this.phonenumber?.value ?? '';
-      driver.email = this.email?.value ?? '';
-      driver.password = this.password?.value ?? '';
+      const driver: DriverRegistration = {
+        name: this.name?.value ?? '',
+        cpf: this.cpf?.value ?? '',
+        cnh: this.cnh?.value ?? '',
+        phonenumber: this.phonenumber?.value ?? '',
+        email: this.email?.value ?? '',
+        password: this.password?.value ?? '',
+      }
 
       this.driverService.registerDriver(driver).subscribe(
         res => console.log(res)
