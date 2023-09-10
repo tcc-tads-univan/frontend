@@ -26,5 +26,13 @@ export const routes: Routes = [
   {
     path: 'historico',
     loadComponent: () => import('./carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
+  },
+  {
+    path: 'manter-aluno',
+    loadComponent: () => import('./register-edit-regular-student/register-edit-regular-student.page').then( m => m.RegisterEditRegularStudentPage)
+  },
+  {
+    path: 'adicionar-aluno',
+    loadComponent: () => import('./add-regular-student/add-regular-student.page').then( m => m.AddRegularStudentPage)
   }
 ];
