@@ -27,7 +27,7 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'register-edit-destination',
+    path: 'endereco',
     loadComponent: () => import('./register-edit-destination/register-edit-destination.page').then( m => m.RegisterEditDestinationPage)
   },
   {
