@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form [formGroup]="registrationForm" (ngSubmit)="handleSubmit()">
+  <form [formGroup]="registrationForm" (ngSubmit)="handleSubmit()" enctype="multipart/form-data">
     <ion-list>
       <ion-list-header>
         <h3>Preencha suas informações</h3>
@@ -54,6 +54,11 @@
         ></ion-input>
       </ion-item>
 
+      <ion-label class="ion-text-center">Data de Nascimento</ion-label>
+      <ion-item>
+        <ion-datetime presentation="date" formControlName="birthdate"></ion-datetime>
+      </ion-item>
+
       <ion-item>
         <ion-input
           formControlName="email"
@@ -75,7 +80,8 @@
           errorText="Insira uma senha válida  (+6 caracteres)"
         >
         </ion-input>
-        <ion-button type="button" fill="outline" color="dark" class="ion-float-right" (click)="togglePasswordVisibility()">
+        <ion-button type="button" fill="outline" color="dark" class="ion-float-right"
+                    (click)="togglePasswordVisibility()">
           <ion-icon [name]="passwordVisible ? 'eye-off' : 'eye'"></ion-icon>
         </ion-button>
       </ion-item>

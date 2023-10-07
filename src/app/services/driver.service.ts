@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {DriverRegistration} from "../shared/models/driver/driver-registration";
-import {getApiURL, httpOptions} from "../shared/utils";
+import {getApiURL} from "../shared/utils";
 import {ApiEndpoints} from "../shared/enums/api-endpoints";
 
 @Injectable({
@@ -13,7 +13,12 @@ export class DriverService {
   }
 
   registerDriver(driverRegistration: DriverRegistration) {
-    const driverRegistrationRequest = JSON.stringify(driverRegistration);
-    return this.http.post<DriverRegistration>(getApiURL(ApiEndpoints.DRIVER), driverRegistrationRequest, httpOptions);
+    const data = new FormData();
+    Object.keys(driverRegistration).forEach(key => {
+      // @ts-ignore
+      data.append(key, driverRegistration[key]);
+    });
+
+    return this.http.post(getApiURL(ApiEndpoints.DRIVER), data);
   }
 }

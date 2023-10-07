@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {IonicModule} from '@ionic/angular';
-import {RouterLink} from "@angular/router";
+import {IonicModule, ToastController} from '@ionic/angular';
+import {Router, RouterLink} from "@angular/router";
 import {DriverService} from "../../services/driver.service";
 import {DriverRegistration} from "../../shared/models/driver/driver-registration";
 
@@ -21,12 +21,16 @@ export class RegistrationPage implements OnInit {
     phonenumber: ['', [Validators.required]],
     cpf: ['', [Validators.required]],
     cnh: ['', [Validators.required]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    birthdate: ['', [Validators.required]]
   });
 
   passwordVisible = false;
 
-  constructor(private fb: FormBuilder, private driverService: DriverService) {
+  constructor(private fb: FormBuilder,
+              private driverService: DriverService,
+              private router: Router,
+              private toastController: ToastController) {
   }
 
   ngOnInit() {
@@ -41,11 +45,33 @@ export class RegistrationPage implements OnInit {
         phonenumber: this.phonenumber?.value ?? '',
         email: this.email?.value ?? '',
         password: this.password?.value ?? '',
+        birthdate: this.birthdate?.value ?? ''
       }
 
-      this.driverService.registerDriver(driver).subscribe(
-        res => console.log(res)
-      );
+      this.driverService.registerDriver(driver).subscribe({
+        next: _ => {
+          this.toastController.create({
+            message: 'Cadastro concluído!',
+            duration: 1000,
+            position: 'top',
+            color: 'success',
+            icon: 'checkmark-outline'
+          }).then(toast => toast.present());
+
+          this.router.navigate(['/']);
+        },
+        error: err => {
+          this.toastController.create({
+            message: 'Erro ao concluir o seu cadastro',
+            duration: 1500,
+            position: 'top',
+            color: 'danger',
+            icon: 'bug-outline'
+          }).then(toast => toast.present());
+
+          console.error(`[${err.status}] ${err.message}`);
+        }
+      });
     }
   }
 
@@ -75,5 +101,9 @@ export class RegistrationPage implements OnInit {
 
   get password() {
     return this.registrationForm.get('password');
+  }
+
+  get birthdate() {
+    return this.registrationForm.get('birthdate');
   }
 }

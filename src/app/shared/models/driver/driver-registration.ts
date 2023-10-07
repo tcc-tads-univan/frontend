@@ -5,4 +5,5 @@ export interface DriverRegistration {
   phonenumber: string,
   email: string,
   password: string,
+  birthdate: string
 }
