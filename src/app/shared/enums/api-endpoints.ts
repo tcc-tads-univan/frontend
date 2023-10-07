@@ -3,5 +3,6 @@ export enum ApiEndpoints {
   RIDE = "/carpool/Ride",
   SCHEDULE = "/carpool/Schedule",
   DRIVER = "/driver",
-  STUDENT = "/student"
+  STUDENT = "/student",
+  LOGIN = "/login"
 }
