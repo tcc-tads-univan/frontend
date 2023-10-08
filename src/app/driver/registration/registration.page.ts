@@ -22,7 +22,7 @@ export class RegistrationPage implements OnInit {
     cpf: ['', [Validators.required]],
     cnh: ['', [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    birthdate: ['', [Validators.required]]
+    birthdate: [new Date().toISOString(), [Validators.required]]
   });
 
   passwordVisible = false;
