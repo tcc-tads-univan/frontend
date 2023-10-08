@@ -3,7 +3,10 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Cadastre-se</ion-title>
+    <ion-title>
+      <span *ngIf="isEdit">Atualizar perfil</span>
+      <span *ngIf="!isEdit">Cadastre-se</span>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -54,10 +57,12 @@
         ></ion-input>
       </ion-item>
 
-      <ion-label class="ion-text-center">Data de Nascimento</ion-label>
-      <ion-item>
-        <ion-datetime presentation="date" formControlName="birthdate"></ion-datetime>
-      </ion-item>
+      <div *ngIf="!isEdit">
+        <ion-label class="ion-text-center">Data de Nascimento</ion-label>
+        <ion-item>
+          <ion-datetime presentation="date" formControlName="birthdate"></ion-datetime>
+        </ion-item>
+      </div>
 
       <ion-item>
         <ion-input
@@ -92,8 +97,16 @@
 
 <ion-footer>
   <ion-toolbar class="ion-padding">
-    <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">Cadastre-se</ion-button>
-    <span>Já possui uma conta?</span>
-    <ion-button type="button" [routerLink]="['/login']" expand="block" color="success">Entrar</ion-button>
+    <div *ngIf="isEdit">
+      <ion-button (click)="handleSubmit()" type="submit" expand="block" color="success">
+        <ion-icon name="save-outline" class="ion-margin-end"></ion-icon>
+        Salvar
+      </ion-button>
+    </div>
+    <div *ngIf="!isEdit">
+      <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">Cadastre-se</ion-button>
+      <span>Já possui uma conta?</span>
+      <ion-button type="button" [routerLink]="['/login']" expand="block" color="success">Entrar</ion-button>
+    </div>
   </ion-toolbar>
 </ion-footer>

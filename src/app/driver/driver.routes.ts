@@ -12,27 +12,31 @@ export const routes: Routes = [
   },
   {
     path: 'cadastro',
-    loadComponent: () => import('./registration/registration.page').then( m => m.RegistrationPage)
+    loadComponent: () => import('./register-edit/register-edit.page').then(m => m.RegisterEditPage)
+  },
+  {
+    path: 'editar',
+    loadComponent: () => import('./register-edit/register-edit.page').then(m => m.RegisterEditPage)
   },
   {
     path: 'van',
     loadComponent: () => import('./register-edit-vehicle/register-edit-vehicle.page').then( m => m.RegisterEditVehiclePage)
   },
   {
-    path: '',
-    redirectTo: '/motorista/inicio',
-    pathMatch: 'full'
-  },
-  {
     path: 'historico',
     loadComponent: () => import('./carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
   },
   {
-    path: 'manter-aluno',
+    path: 'mensalistas/editar',
     loadComponent: () => import('./register-edit-regular-student/register-edit-regular-student.page').then( m => m.RegisterEditRegularStudentPage)
   },
   {
-    path: 'adicionar-aluno',
+    path: 'mensalistas/novo',
     loadComponent: () => import('./add-regular-student/add-regular-student.page').then( m => m.AddRegularStudentPage)
+  },
+  {
+    path: '',
+    redirectTo: '/motorista/inicio',
+    pathMatch: 'full'
   }
 ];
