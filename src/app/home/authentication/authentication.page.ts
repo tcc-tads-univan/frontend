@@ -4,7 +4,7 @@ import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angula
 import {IonicModule, ToastController} from '@ionic/angular';
 import {AuthenticationService} from "../../services/authentication.service";
 import {LoginDTO} from "../../shared/models/user/login-dto.model";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {LocalStorageService} from "../../services/local-storage.service";
 import {UserType} from "../../shared/enums/user-type";
 
@@ -13,7 +13,7 @@ import {UserType} from "../../shared/enums/user-type";
   templateUrl: './authentication.page.html',
   styleUrls: ['./authentication.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
   providers: [AuthenticationService]
 })
 export class AuthenticationPage implements OnInit {
@@ -22,7 +22,14 @@ export class AuthenticationPage implements OnInit {
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
+  registerRoutes = {
+    driver: ['/motorista/cadastro'],
+    student: ['/aluno/cadastro']
+  }
+  registerPath = this.registerRoutes.student;
+
   constructor(private fb: FormBuilder,
+              private activatedRoute: ActivatedRoute,
               private router: Router,
               private toastController: ToastController,
               private localStorageService: LocalStorageService,
@@ -30,6 +37,12 @@ export class AuthenticationPage implements OnInit {
   }
 
   ngOnInit() {
+    const selectedProfile = this.activatedRoute.snapshot.paramMap.get('p');
+    if (selectedProfile === "motorista") {
+      this.registerPath = this.registerRoutes.driver;
+    } else {
+      this.registerPath = this.registerRoutes.student;
+    }
   }
 
   handleSubmit() {
