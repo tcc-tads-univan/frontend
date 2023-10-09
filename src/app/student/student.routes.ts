@@ -22,6 +22,10 @@ export const routes: Routes = [
     loadComponent: () => import('./registration/registration.page').then( m => m.RegistrationPage)
   },
   {
+    path: 'editar',
+    loadComponent: () => import('./registration/registration.page').then( m => m.RegistrationPage)
+  },
+  {
     path: '',
     redirectTo: '/aluno/solicitar-carona',
     pathMatch: 'full'
