@@ -23,7 +23,7 @@ export const routes: Routes = [
     loadComponent: () => import('./register-edit-vehicle/register-edit-vehicle.page').then( m => m.RegisterEditVehiclePage)
   },
   {
-    path: 'historico',
+    path: 'caronas/historico',
     loadComponent: () => import('./carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
   },
   {

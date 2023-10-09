@@ -125,7 +125,7 @@ export class RegisterEditPage implements OnInit {
     this.driverService.updateDriverById(driverId, driver).subscribe({
       next: _ => {
         this.toastController.create({
-          message: 'Cadastro concluído!',
+          message: 'Dados atualizados com sucesso',
           duration: 1000,
           position: 'top',
           color: 'success',
@@ -136,7 +136,7 @@ export class RegisterEditPage implements OnInit {
       },
       error: err => {
         this.toastController.create({
-          message: 'Erro ao concluir o seu cadastro',
+          message: 'Erro ao atualizar seus dados',
           duration: 1500,
           position: 'top',
           color: 'danger',
