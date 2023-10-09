@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Novo Mensalista</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <img
+    class="test"
+    src="./assets/add-student.svg"
+    alt="The Wisconsin State Capitol building in Madison, WI at night"
+  >
+  <p>Dados Mensalista</p>
+  <ion-input label="Mensalidade" label-placement="floating" fill="outline" placeholder="Digite algo"></ion-input>
+  <ion-input label="Vencimento" label-placement="floating" fill="outline" type="date"  placeholder="Digite algo"></ion-input>
+  <ion-input label="Código" label-placement="floating" fill="outline" placeholder="Digite algo"></ion-input>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+    <ion-fab-button id="confirm">
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

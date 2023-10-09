@@ -1,25 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {IonicModule, ToastController} from '@ionic/angular';
-import {StudentRegistration} from "../../shared/models/student/student-registration";
 import {Router, RouterLink} from "@angular/router";
-import {StudentService} from "../../services/student.service";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
-import {convertDateToScheduleTime} from "../../shared/utils";
+import {DriverService} from "../../services/driver.service";
 import {DriverRegistration} from "../../shared/models/driver/driver-registration";
-import {LoginResponse} from "../../shared/models/user/login-response.model";
 import {LocalStorageService} from "../../services/local-storage.service";
+import {LoginResponse} from "../../shared/models/user/login-response.model";
 
 @Component({
-  selector: 'app-student-registration',
-  templateUrl: './registration.page.html',
-  styleUrls: ['./registration.page.scss'],
+  selector: 'app-driver-registration',
+  templateUrl: './register-edit.page.html',
+  styleUrls: ['./register-edit.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, HttpClientModule],
-  providers: [StudentService]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  providers: [DriverService]
 })
-export class RegistrationPage implements OnInit {
+export class RegisterEditPage implements OnInit {
   isEdit = false;
 
   registrationForm = this.fb.group({
@@ -27,6 +24,7 @@ export class RegistrationPage implements OnInit {
     email: ['', [Validators.email, Validators.required]],
     phonenumber: ['', [Validators.required]],
     cpf: ['', [Validators.required]],
+    cnh: ['', [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     birthdate: [new Date().toISOString(), [Validators.required]]
   });
@@ -34,14 +32,20 @@ export class RegistrationPage implements OnInit {
   passwordVisible = false;
   private loggedUser!: LoginResponse | null;
 
-  constructor(private fb: FormBuilder, private studentService: StudentService, private router: Router, private toastController: ToastController, private localStorageService: LocalStorageService,) { }
+  constructor(private fb: FormBuilder,
+              private localStorageService: LocalStorageService,
+              private driverService: DriverService,
+              private router: Router,
+              private toastController: ToastController) {
+  }
 
   ngOnInit() {
-    if (this.router.url === '/aluno/editar') {
+    if (this.router.url === '/motorista/editar') {
       this.isEdit = true;
 
       this.password?.removeValidators(Validators.required);
       this.cpf?.disable({onlySelf: true});
+      this.cnh?.disable({onlySelf: true});
       this.birthdate?.disable({onlySelf: true});
 
       this.loggedUser = this.localStorageService.loggedUser;
@@ -49,19 +53,20 @@ export class RegistrationPage implements OnInit {
         throw new Error("User is not logged in");
       }
 
-      this.studentService.findStudentById(this.loggedUser.userId).subscribe({
+      this.driverService.findDriverById(this.loggedUser.userId).subscribe({
         next: data => {
           this.registrationForm.setValue({
             name: data.name,
             email: data.email,
             cpf: data.cpf,
+            cnh: data.cnh,
             birthdate: data.birthday,
             password: "",
             phonenumber: data.phoneNumber
           });
         },
         error: err => {
-          console.error("Problem trying to retireve Student info");
+          console.error("Problem trying to retireve Driver info");
           this.router.navigate(['/']);
         }
       });
@@ -70,26 +75,26 @@ export class RegistrationPage implements OnInit {
 
   handleSubmit() {
     if (this.registrationForm.valid) {
-      const student: StudentRegistration = {
+      const driver: DriverRegistration = {
         name: this.name?.value ?? '',
         cpf: this.cpf?.value ?? '',
+        cnh: this.cnh?.value ?? '',
         phonenumber: this.phonenumber?.value ?? '',
         email: this.email?.value ?? '',
         password: this.password?.value ?? '',
         birthdate: this.birthdate?.value ?? ''
       }
-      if (this.isEdit) {
-        this.updateStudent(this.loggedUser!.userId, student);
-      } else {
-        this.registerStudent(student);
-      }
 
-      console.log(student);
+      if (this.isEdit) {
+        this.updateDriver(this.loggedUser!.userId, driver);
+      } else {
+        this.registerDriver(driver);
+      }
     }
   }
 
-  registerStudent(student: StudentRegistration) {
-    this.studentService.registerStudent(student).subscribe({
+  registerDriver(driver: DriverRegistration) {
+    this.driverService.registerDriver(driver).subscribe({
       next: _ => {
         this.toastController.create({
           message: 'Cadastro concluído!',
@@ -115,11 +120,11 @@ export class RegistrationPage implements OnInit {
     });
   }
 
-  updateStudent(studentId: number, student: StudentRegistration) {
-    this.studentService.updateStudentById(studentId, student).subscribe({
+  updateDriver(driverId: number, driver: DriverRegistration) {
+    this.driverService.updateDriverById(driverId, driver).subscribe({
       next: _ => {
         this.toastController.create({
-          message: 'Cadastro concluído!',
+          message: 'Dados atualizados com sucesso',
           duration: 1000,
           position: 'top',
           color: 'success',
@@ -130,7 +135,7 @@ export class RegistrationPage implements OnInit {
       },
       error: err => {
         this.toastController.create({
-          message: 'Erro ao concluir o seu cadastro',
+          message: 'Erro ao atualizar seus dados',
           duration: 1500,
           position: 'top',
           color: 'danger',
@@ -152,6 +157,10 @@ export class RegistrationPage implements OnInit {
 
   get cpf() {
     return this.registrationForm.get('cpf');
+  }
+
+  get cnh() {
+    return this.registrationForm.get('cnh');
   }
 
   get phonenumber() {

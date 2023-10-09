@@ -4,4 +4,5 @@ export interface StudentRegistration {
   phonenumber: string,
   email: string,
   password: string,
+  birthdate: string
 }

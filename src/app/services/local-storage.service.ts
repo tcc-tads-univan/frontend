@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {LocalStorageKeys} from "../shared/enums/local-storage-keys";
 import {Schedule} from "../shared/models/carpool/schedule";
+import {LoginResponse} from "../shared/models/user/login-response.model";
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,21 @@ export class LocalStorageService {
   constructor() {
   }
 
-  saveAuthToken(token: string) {
-    localStorage.setItem(LocalStorageKeys.AUTH, 'true[' + token + ']');
+  saveAuthenticationInfo(user: LoginResponse) {
+    localStorage.setItem(LocalStorageKeys.AUTH, JSON.stringify(user));
   }
 
-  clearAuthToken() {
+  get loggedUser() {
+    const user = localStorage.getItem(LocalStorageKeys.AUTH);
+
+    if (!user) {
+      return null;
+    }
+
+    return JSON.parse(user) as LoginResponse;
+  }
+
+  clearAuthentication() {
     localStorage.removeItem(LocalStorageKeys.AUTH);
   }
 

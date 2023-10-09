@@ -8,7 +8,7 @@ export const httpOptions = {
 }
 
 export function getApiURL(apiEndpoint: ApiEndpoints | string) {
-  const API_GATEWAY_URL = "https://localhost:7179";
+  const API_GATEWAY_URL = "http://localhost:8080";
   return API_GATEWAY_URL.concat(apiEndpoint);
 }
 
