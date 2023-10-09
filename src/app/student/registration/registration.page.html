@@ -1,14 +1,17 @@
 <ion-header collapse="condense">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-title>
+        <span *ngIf="isEdit">Atualizar perfil</span>
+        <span *ngIf="!isEdit">Cadastre-se</span>
+      </ion-title>
     </ion-buttons>
     <ion-title class="ion-text-center">Cadastre-se</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <form [formGroup]="registrationForm" (ngSubmit)="handleSubmit()">
+  <form [formGroup]="registrationForm" (ngSubmit)="handleSubmit()" enctype="multipart/form-data">
     <ion-list>
       <ion-item>
         <ion-input
@@ -41,6 +44,13 @@
         ></ion-input>
       </ion-item>
 
+      <div *ngIf="!isEdit">
+      <ion-label class="ion-text-center">Data de Nascimento</ion-label>
+      <ion-item>
+        <ion-datetime presentation="date" formControlName="birthdate"></ion-datetime>
+      </ion-item>
+      </div>
+
       <ion-item>
         <ion-input
           formControlName="email"
@@ -69,22 +79,24 @@
       </ion-item>
     </ion-list>
 
+    <div *ngIf="!isEdit">
     <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">
       Cadastre-se
       <ion-icon name="person-add-outline" slot="end"></ion-icon>
     </ion-button>
+      <span>Já possui uma conta?</span>
+      <ion-button type="button" [routerLink]="['/login']" expand="block" color="success">Entrar</ion-button>
+    </div>
   </form>
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar>
-    <p class="ion-text-center">Já possui uma conta?</p>
-    <ion-button class="ion-margin"
-                type="button" [routerLink]="['/login']"
-                expand="block"
-                color="success">
-      Entrar
-      <ion-icon name="log-out-outline" slot="end"></ion-icon>
-    </ion-button>
+  <ion-toolbar class="ion-padding">
+    <div *ngIf="isEdit">
+      <ion-button (click)="handleSubmit()" type="submit" expand="block" color="success">
+        <ion-icon name="save-outline" class="ion-margin-end"></ion-icon>
+        Salvar
+      </ion-button>
+    </div>
   </ion-toolbar>
 </ion-footer>
