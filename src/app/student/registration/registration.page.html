@@ -1,12 +1,12 @@
-<ion-header collapse="condense">
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-title>
-        <span *ngIf="isEdit">Atualizar perfil</span>
-        <span *ngIf="!isEdit">Cadastre-se</span>
-      </ion-title>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-text-center">Cadastre-se</ion-title>
+    <ion-title>
+      <span *ngIf="isEdit">Atualizar perfil</span>
+      <span *ngIf="!isEdit">Cadastre-se</span>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -45,10 +45,10 @@
       </ion-item>
 
       <div *ngIf="!isEdit">
-      <ion-label class="ion-text-center">Data de Nascimento</ion-label>
-      <ion-item>
-        <ion-datetime presentation="date" formControlName="birthdate"></ion-datetime>
-      </ion-item>
+        <ion-label class="ion-text-center">Data de Nascimento</ion-label>
+        <ion-item>
+          <ion-datetime presentation="date" formControlName="birthdate"></ion-datetime>
+        </ion-item>
       </div>
 
       <ion-item>
@@ -79,24 +79,19 @@
       </ion-item>
     </ion-list>
 
-    <div *ngIf="!isEdit">
-    <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">
-      Cadastre-se
-      <ion-icon name="person-add-outline" slot="end"></ion-icon>
-    </ion-button>
-      <span>Já possui uma conta?</span>
-      <ion-button type="button" [routerLink]="['/login']" expand="block" color="success">Entrar</ion-button>
-    </div>
-  </form>
-</ion-content>
-
-<ion-footer>
-  <ion-toolbar class="ion-padding">
     <div *ngIf="isEdit">
       <ion-button (click)="handleSubmit()" type="submit" expand="block" color="success">
         <ion-icon name="save-outline" class="ion-margin-end"></ion-icon>
         Salvar
       </ion-button>
     </div>
-  </ion-toolbar>
-</ion-footer>
+    <div *ngIf="!isEdit">
+      <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">
+        Cadastre-se
+        <ion-icon name="person-add-outline" slot="end"></ion-icon>
+      </ion-button>
+      <span>Já possui uma conta?</span>
+      <ion-button type="button" [routerLink]="['/login']" expand="block" color="success">Entrar</ion-button>
+    </div>
+  </form>
+</ion-content>

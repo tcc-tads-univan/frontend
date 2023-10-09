@@ -6,7 +6,6 @@ import {Router, RouterLink} from "@angular/router";
 import {DriverService} from "../../services/driver.service";
 import {DriverRegistration} from "../../shared/models/driver/driver-registration";
 import {LocalStorageService} from "../../services/local-storage.service";
-import {Driver} from "../../shared/models/driver/driver";
 import {LoginResponse} from "../../shared/models/user/login-response.model";
 
 @Component({
