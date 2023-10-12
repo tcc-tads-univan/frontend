@@ -19,27 +19,27 @@ export const routes: Routes = [
   },
   {
     path: 'cadastro',
-    loadComponent: () => import('./registration/registration.page').then( m => m.RegistrationPage)
+    loadComponent: () => import('./registration/registration.page').then(m => m.RegistrationPage)
   },
   {
     path: 'editar',
-    loadComponent: () => import('./registration/registration.page').then( m => m.RegistrationPage)
+    loadComponent: () => import('./registration/registration.page').then(m => m.RegistrationPage)
+  },
+  {
+    path: 'endereco',
+    loadComponent: () => import('./register-edit-destination/register-edit-destination.page').then(m => m.RegisterEditDestinationPage)
+  },
+  {
+    path: 'carona/historico',
+    loadComponent: () => import('./carpool-history/carpool-history.page').then(m => m.CarpoolHistoryPage)
+  },
+  {
+    path: 'mensalista',
+    loadComponent: () => import('./regular-student/regular-student.page').then(m => m.RegularStudentPage)
   },
   {
     path: '',
     redirectTo: '/aluno/carona',
     pathMatch: 'full'
-  },
-  {
-    path: 'endereco',
-    loadComponent: () => import('./register-edit-destination/register-edit-destination.page').then( m => m.RegisterEditDestinationPage)
-  },
-  {
-    path: 'carona/historico',
-    loadComponent: () => import('./carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
-  },
-  {
-    path: 'mensalista',
-    loadComponent: () => import('./regular-student/regular-student.page').then( m => m.RegularStudentPage)
   }
 ];

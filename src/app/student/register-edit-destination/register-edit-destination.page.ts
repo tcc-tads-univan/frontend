@@ -1,45 +1,122 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {IonicModule} from '@ionic/angular';
-import {RouterLink} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
+import {IonicModule, ToastController} from '@ionic/angular';
+import {Router, RouterLink} from "@angular/router";
+import {RoutesService} from "../../services/routes.service";
+import {Address} from "../../shared/models/address/address";
+import {HttpStatusCode} from "@angular/common/http";
+import {LocalStorageService} from "../../services/local-storage.service";
 
 @Component({
-    selector: 'app-register-edit-destination',
-    templateUrl: './register-edit-destination.page.html',
-    styleUrls: ['./register-edit-destination.page.scss'],
-    standalone: true,
-    imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink]
+  selector: 'app-register-edit-destination',
+  templateUrl: './register-edit-destination.page.html',
+  styleUrls: ['./register-edit-destination.page.scss'],
+  standalone: true,
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  providers: [RoutesService]
 })
 export class RegisterEditDestinationPage implements OnInit {
-    addressForm = this.fb.group({
-        address: ['', [Validators.required]]
-    });
+  addressForm = this.fb.group({
+    streetname: ['', [Validators.required, Validators.minLength(3)]],
+    number: [0, [Validators.required, Validators.min(0)]],
+    neighborhood: ['', [Validators.required]],
+    city: ['', [Validators.required, Validators.minLength(3)]],
+    state: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]]
+  });
 
-    constructor(private fb: FormBuilder, private http: HttpClient) {
+  showResultList = false;
+  addressList!: Array<Address>;
+  selectedAddress: Address | undefined;
+
+  constructor(private fb: FormBuilder,
+              private toastController: ToastController,
+              private localStorageService: LocalStorageService,
+              private router: Router,
+              private routesService: RoutesService) {
+  }
+
+  ngOnInit() {
+  }
+
+  trackByItem(_idx: number, item: Address) {
+    return item.completeLineAddress;
+  }
+
+  buildAddress(): string {
+    let strBuilder = `${this.streetname?.value}, ${this.number?.value}`;
+    strBuilder += ` - ${this.neighborhood?.value}, ${this.city?.value} - ${this.state?.value}`;
+    return strBuilder;
+  }
+
+  handleSubmit() {
+    this.selectedAddress = undefined;
+
+    if (this.addressForm.valid) {
+      this.routesService
+        .autocompleteAddress(this.buildAddress())
+        .subscribe({
+          next: data => {
+            this.addressList = data;
+            this.showResultList = true;
+          },
+          error: err => {
+            this.toastController.create({
+              message: (err.error.status === HttpStatusCode.NotFound)
+                ? 'Endereço não encontrado'
+                : 'Problema ao buscar o endereço',
+              duration: 1500,
+              position: 'top',
+              color: (err.error.status === HttpStatusCode.NotFound) ? 'warning' : 'danger',
+              icon: (err.error.status === HttpStatusCode.NotFound) ? 'alert-outline' : 'bug-outline'
+            }).then(toast => toast.present());
+
+            console.error(`[${err.error.status}] ${err.error.description}`);
+            this.showResultList = false;
+          }
+        });
     }
+  }
 
-    ngOnInit() {
-        this.addressForm
-            .get('address')!
-            .valueChanges
-            .subscribe(value => console.log('value changed', value));
+  saveAddress() {
+    if (this.selectedAddress && this.localStorageService.loggedUser) {
+      this.routesService
+        .saveStudentAddress(this.localStorageService.loggedUser.userId, this.selectedAddress)
+        .subscribe({
+          next: _data => {
+            this.toastController.create({
+              message: 'Endereço cadastrado com sucesso!',
+              duration: 1000,
+              position: 'top',
+              color: 'success',
+              icon: 'checkmark-outline'
+            }).then(toast => toast.present());
+            console.log(this.localStorageService.loggedUser!.userId);
+
+            this.router.navigate(['/aluno']);
+          },
+          error: err => console.error(err),
+        });
     }
+  }
 
-    handleSubmit() {
-        const baseURL = "https://maps.googleapis.com/maps/api/place/autocomplete/json"
-        const input = encodeURI("?input=rua teste da silva ssauro");
-        const params = {
-            types: "address",
-            language: "pt_BR",
-            key: "minhaCHAVE"
-        }
+  get streetname() {
+    return this.addressForm.get('streetname');
+  }
 
-        let API = baseURL + input;
-        for (const key of Object.keys(params)) {
-            // @ts-ignore
-            API = API + "&" + key + "=" + params[key];
-        }
-    }
+  get number() {
+    return this.addressForm.get('number');
+  }
+
+  get neighborhood() {
+    return this.addressForm.get('neighborhood');
+  }
+
+  get city() {
+    return this.addressForm.get('city');
+  }
+
+  get state() {
+    return this.addressForm.get('state');
+  }
 }

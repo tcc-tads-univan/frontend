@@ -48,7 +48,7 @@
         <ion-item *ngFor="let campus of filteredCampiList; trackBy: trackByItem">
           <ion-radio [value]="campus" justify="space-between">
             <h6>{{campus.campusName}}</h6>
-            <p>{{campus.completeLineAddress}}</p>
+            <p class="ion-text-wrap">{{campus.completeLineAddress}}</p>
           </ion-radio>
         </ion-item>
       </ion-radio-group>
