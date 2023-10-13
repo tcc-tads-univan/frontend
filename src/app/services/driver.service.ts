@@ -4,6 +4,8 @@ import {DriverRegistration} from "../shared/models/driver/driver-registration";
 import {getApiURL, httpOptions} from "../shared/utils";
 import {ApiEndpoints} from "../shared/enums/api-endpoints";
 import {Driver} from "../shared/models/driver/driver";
+import {VehicleRegistration} from "../shared/models/vehicle/vehicle-registration";
+import {Vehicle} from "../shared/models/vehicle/vehicle";
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +40,14 @@ export class DriverService {
   findDriverById(userId: number) {
     const endpoint = getApiURL(ApiEndpoints.DRIVER) + "/" + userId;
     return this.http.get<Driver>(endpoint);
+  }
+
+  createVehicle(vehicle: VehicleRegistration, driverId: number) {
+    return this.http.post(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/vehicle"), vehicle, httpOptions);
+  }
+
+  findVehicleById(driverId: number, vehicleId: number) {
+    const endpoint = getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/vehicle/" + vehicleId )
+    return this.http.get<Vehicle>(endpoint);
   }
 }
