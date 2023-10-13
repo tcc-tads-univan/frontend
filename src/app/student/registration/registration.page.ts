@@ -1,31 +1,71 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import {IonicModule, ToastController} from '@ionic/angular';
 import {StudentRegistration} from "../../shared/models/student/student-registration";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
+import {StudentService} from "../../services/student.service";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {convertDateToScheduleTime} from "../../shared/utils";
+import {DriverRegistration} from "../../shared/models/driver/driver-registration";
+import {LoginResponse} from "../../shared/models/user/login-response.model";
+import {LocalStorageService} from "../../services/local-storage.service";
 
 @Component({
   selector: 'app-student-registration',
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, HttpClientModule],
+  providers: [StudentService]
 })
 export class RegistrationPage implements OnInit {
+  isEdit = false;
+
   registrationForm = this.fb.group({
     name: ['', [Validators.minLength(5), Validators.required]],
     email: ['', [Validators.email, Validators.required]],
     phonenumber: ['', [Validators.required]],
     cpf: ['', [Validators.required]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    birthdate: [new Date().toISOString(), [Validators.required]]
   });
 
   passwordVisible = false;
+  private loggedUser!: LoginResponse | null;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private studentService: StudentService, private router: Router, private toastController: ToastController, private localStorageService: LocalStorageService,) { }
 
   ngOnInit() {
+    if (this.router.url === '/aluno/editar') {
+      this.isEdit = true;
+
+      this.password?.removeValidators(Validators.required);
+      this.cpf?.disable({onlySelf: true});
+      this.birthdate?.disable({onlySelf: true});
+
+      this.loggedUser = this.localStorageService.loggedUser;
+      if (!this.loggedUser) {
+        throw new Error("User is not logged in");
+      }
+
+      this.studentService.findStudentById(this.loggedUser.userId).subscribe({
+        next: data => {
+          this.registrationForm.setValue({
+            name: data.name,
+            email: data.email,
+            cpf: data.cpf,
+            birthdate: data.birthday,
+            password: "",
+            phonenumber: data.phoneNumber
+          });
+        },
+        error: err => {
+          console.error("Problem trying to retireve Student info");
+          this.router.navigate(['/']);
+        }
+      });
+    }
   }
 
   handleSubmit() {
@@ -36,10 +76,70 @@ export class RegistrationPage implements OnInit {
         phonenumber: this.phonenumber?.value ?? '',
         email: this.email?.value ?? '',
         password: this.password?.value ?? '',
+        birthdate: this.birthdate?.value ?? ''
+      }
+      if (this.isEdit) {
+        this.updateStudent(this.loggedUser!.userId, student);
+      } else {
+        this.registerStudent(student);
       }
 
       console.log(student);
     }
+  }
+
+  registerStudent(student: StudentRegistration) {
+    this.studentService.registerStudent(student).subscribe({
+      next: _ => {
+        this.toastController.create({
+          message: 'Cadastro concluído!',
+          duration: 1000,
+          position: 'top',
+          color: 'success',
+          icon: 'checkmark-outline'
+        }).then(toast => toast.present());
+
+        this.router.navigate(['/']);
+      },
+      error: err => {
+        this.toastController.create({
+          message: 'Erro ao concluir o seu cadastro',
+          duration: 1500,
+          position: 'top',
+          color: 'danger',
+          icon: 'bug-outline'
+        }).then(toast => toast.present());
+
+        console.error(`[${err.status}] ${err.message}`);
+      }
+    });
+  }
+
+  updateStudent(studentId: number, student: StudentRegistration) {
+    this.studentService.updateStudentById(studentId, student).subscribe({
+      next: _ => {
+        this.toastController.create({
+          message: 'Cadastro concluído!',
+          duration: 1000,
+          position: 'top',
+          color: 'success',
+          icon: 'checkmark-outline'
+        }).then(toast => toast.present());
+
+        this.router.navigate(['/']);
+      },
+      error: err => {
+        this.toastController.create({
+          message: 'Erro ao concluir o seu cadastro',
+          duration: 1500,
+          position: 'top',
+          color: 'danger',
+          icon: 'bug-outline'
+        }).then(toast => toast.present());
+
+        console.error(`[${err.status}] ${err.message}`);
+      }
+    });
   }
 
   togglePasswordVisibility() {
@@ -64,5 +164,9 @@ export class RegistrationPage implements OnInit {
 
   get password() {
     return this.registrationForm.get('password');
+  }
+
+  get birthdate() {
+    return this.registrationForm.get('birthdate');
   }
 }
