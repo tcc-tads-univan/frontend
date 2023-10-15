@@ -21,7 +21,7 @@ export class RegisterEditVehiclePage implements OnInit {
 
   driver = {name: this.localStorageService.loggedUser?.name}
   isRegistered: boolean = false;
-  vehicleId: number | undefined;
+  vehicleId: number = 0;
 
   currentYear = new Date().getFullYear();
   vehicleForm = this.fb.group({
@@ -32,7 +32,7 @@ export class RegisterEditVehiclePage implements OnInit {
   });
 
   private loggedUser!: LoginResponse | null;
-
+  driverId = 0;
   constructor(private fb: FormBuilder, private driverService: DriverService, private toastController: ToastController, private router: Router, private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
@@ -40,6 +40,7 @@ export class RegisterEditVehiclePage implements OnInit {
     if (!this.loggedUser) {
       throw new Error("User is not logged in");
     }
+    this.driverId = this.loggedUser.userId;
     if (this.router.url === '/motorista/van') {
       this.isRegistered = true;
 
@@ -98,6 +99,32 @@ export class RegisterEditVehiclePage implements OnInit {
         console.error(`[${err.status}] ${err.message}`);
       }
     });
+  }
+
+  deleteVehicle() {
+    this.driverService.deleteDriverVehicle(this.driverId, this.vehicleId).subscribe(
+      () => {
+        this.toastController.create({
+          message: 'Veículo removido!',
+          duration: 1000,
+          position: 'top',
+          color: 'success',
+          icon: 'checkmark-outline'
+        }).then(toast => toast.present());
+
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        this.toastController.create({
+          message: 'Erro ao deletar veículo.',
+          duration: 1500,
+          position: 'top',
+          color: 'danger',
+          icon: 'bug-outline'
+        }).then(toast => toast.present());
+        console.error('Error deleting vehicle:', error);
+      }
+    );
   }
 
   getVehicleInfos(vehicleId: number) {

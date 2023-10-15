@@ -15,14 +15,16 @@ import {PendingSubscriptions} from "../../shared/models/subscriptions/pending-su
   imports: [IonicModule, CommonModule, FormsModule],
   providers: [SubscriptionService, StudentService]
 })
+
 export class RegularStudentPage implements OnInit {
-  studentId = 12;
+  studentId = 1;
   paymentStatus: boolean = true;
   pendingSubscriptions$!:  Observable<PendingSubscriptions>
   constructor(private subscriptionService: SubscriptionService, private studentService: StudentService) { }
 
   ngOnInit() {
-    this.pendingSubscriptions$! = this.studentService.findPendingSubscriptions(this.studentId);
+    this.pendingSubscriptions$ = this.studentService.findPendingSubscriptions(this.studentId);
+
   }
   declineSubscription(subscriptionId: number) {
     this.subscriptionService.declineSubscription(subscriptionId);

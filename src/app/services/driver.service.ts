@@ -67,5 +67,9 @@ export class DriverService {
     return this.http.get<RegularStudent>(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/subscriptions/" + subscriptionId), httpOptions)
   }
 
+  deleteDriverVehicle(driverId: number, vehicleId: number) {
+    return this.http.delete<Vehicle>(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/vehicle/" + vehicleId), httpOptions)
+  }
+
 }
 

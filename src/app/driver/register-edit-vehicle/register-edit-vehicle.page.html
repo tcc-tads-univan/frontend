@@ -56,6 +56,11 @@
   </ion-grid>
 </ion-content>
 
+<ion-fab *ngIf="isRegistered" slot="fixed" vertical="bottom" horizontal="center">
+  <ion-fab-button (click)="deleteVehicle()" id="remove-vehicle" >
+    <ion-icon name="remove"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 <ion-footer>
   <ion-toolbar *ngIf="!isRegistered"  class="ion-padding">
     <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">Salvar</ion-button>
