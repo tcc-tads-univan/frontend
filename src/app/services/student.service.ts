@@ -7,6 +7,8 @@ import {RequestedCarpool} from "../shared/models/carpool/requested-carpool";
 import {DriverRegistration} from "../shared/models/driver/driver-registration";
 import {Driver} from "../shared/models/driver/driver";
 import {Student} from "../shared/models/student/student";
+import {RegularStudent} from "../shared/models/regular-student/regular-student";
+import {PendingSubscriptions} from "../shared/models/subscriptions/pending-subscriptions";
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +46,14 @@ export class StudentService {
       data.append(key, studentRegistration[key]);
     });
     return this.http.put(endpoint, data);
+  }
+
+  findPendingSubscriptions(studentId: number) {
+    return this.http.get<PendingSubscriptions>(getApiURL(ApiEndpoints.STUDENT + "/" + studentId + "/pending-subscriptions"), httpOptions)
+}
+
+  findStudentSubscription(studentId: number) {
+    return this.http.get<PendingSubscriptions>(getApiURL(ApiEndpoints.STUDENT + "/" + studentId + "/subscriptions"), httpOptions)
   }
 
 }

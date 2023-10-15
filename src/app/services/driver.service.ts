@@ -6,6 +6,10 @@ import {ApiEndpoints} from "../shared/enums/api-endpoints";
 import {Driver} from "../shared/models/driver/driver";
 import {VehicleRegistration} from "../shared/models/vehicle/vehicle-registration";
 import {Vehicle} from "../shared/models/vehicle/vehicle";
+import {RegularStudentRegistration} from "../shared/models/regular-student/regular-student-registration";
+import {Subscriptions} from "../shared/models/subscriptions/subscriptions";
+import {Observable} from "rxjs";
+import {RegularStudent} from "../shared/models/regular-student/regular-student";
 
 @Injectable({
   providedIn: 'root'
@@ -50,4 +54,18 @@ export class DriverService {
     const endpoint = getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/vehicle/" + vehicleId )
     return this.http.get<Vehicle>(endpoint);
   }
+
+  inviteStudent(regularStudent: RegularStudentRegistration) {
+    return this.http.post(getApiURL(ApiEndpoints.DRIVER + "/invite-student"), regularStudent, httpOptions)
+  }
+
+  findDriverSubscriptions(driverId: number): Observable<Subscriptions> {
+    return this.http.get<Subscriptions>(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/subscriptions"), httpOptions)
+  }
+
+  findDriverSubscriptionsById(driverId: number, subscriptionId: number) {
+    return this.http.get<RegularStudent>(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/subscriptions/" + subscriptionId), httpOptions)
+  }
+
 }
+
