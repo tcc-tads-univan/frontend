@@ -7,6 +7,7 @@ import {RoutesService} from "../../services/routes.service";
 import {Address} from "../../shared/models/address/address";
 import {HttpStatusCode} from "@angular/common/http";
 import {LocalStorageService} from "../../services/local-storage.service";
+import {StudentService} from "../../services/student.service";
 
 @Component({
   selector: 'app-register-edit-destination',
@@ -33,7 +34,8 @@ export class RegisterEditDestinationPage implements OnInit {
               private toastController: ToastController,
               private localStorageService: LocalStorageService,
               private router: Router,
-              private routesService: RoutesService) {
+              private routesService: RoutesService,
+              private studentService: StudentService) {
   }
 
   ngOnInit() {
@@ -99,6 +101,23 @@ export class RegisterEditDestinationPage implements OnInit {
         });
     }
   }
+
+  registerStudentAddress(studentId: number) {
+    this.studentService.registerStudentAddress(studentId).subscribe({
+      next: _data => {
+        console.log("Cadastrado")
+      },
+      error: err => console.error(err)
+    })
+  } // Estou deixando os métodos aqui pois não entendi o fluxo direito. Depois que conversar com o Gabriel continuo.
+
+  getStudentAddress(studentId: number, addressId: number) {
+    this.studentService.findStudentAddress(studentId, addressId);
+  } // Estou deixando os métodos aqui pois não entendi o fluxo direito. Depois que conversar com o Gabriel continuo.
+
+  deleteStudentAddress(studentId: number, addressId: number) {
+    this.studentService.deleteStudentAddress(studentId, addressId);
+  } // Estou deixando os métodos aqui pois não entendi o fluxo direito. Depois que conversar com o Gabriel continuo.
 
   get streetname() {
     return this.addressForm.get('streetname');
