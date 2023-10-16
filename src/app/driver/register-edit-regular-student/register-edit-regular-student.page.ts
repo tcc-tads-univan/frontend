@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule, Validators} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {DriverService} from "../../services/driver.service";
 import {LoginResponse} from "../../shared/models/user/login-response.model";
-import {Observable, Subscription} from "rxjs";
-import {Subscriptions} from "../../shared/models/subscriptions/subscriptions";
+import {Observable} from "rxjs";
+import {DriverSubscriptions} from "../../shared/models/subscriptions/driver-subscriptions";
 import {LocalStorageService} from "../../services/local-storage.service";
-import {VehicleRegistration} from "../../shared/models/vehicle/vehicle-registration";
 import {RegularStudent} from "../../shared/models/regular-student/regular-student";
 
 @Component({
@@ -19,9 +18,9 @@ import {RegularStudent} from "../../shared/models/regular-student/regular-studen
     providers: [DriverService]
 })
 export class RegisterEditRegularStudentPage implements OnInit {
-    studentAvailable: boolean = true;
+
     private loggedUser!: null | LoginResponse;
-    subscription$!: Observable<Subscriptions>
+    subscription$!: Observable<DriverSubscriptions>
     isModalOpen: boolean = false;
     regularStudent$!: Observable<RegularStudent>
     driverName: string | undefined;

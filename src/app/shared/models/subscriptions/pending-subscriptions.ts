@@ -1,8 +1,9 @@
 export interface PendingSubscriptions {
-    driverName: string,
-    driverPhone: string,
-    driverPhoto: string,
-    monthlyFee: number,
-    expirationDay: number
+  subscriptionId: number,
+  driverName: string,
+  driverPhone: string,
+  driverPhoto: string,
+  monthlyFee: number,
+  expirationDay: number
 }
 

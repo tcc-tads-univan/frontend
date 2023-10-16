@@ -7,7 +7,7 @@ import {Driver} from "../shared/models/driver/driver";
 import {VehicleRegistration} from "../shared/models/vehicle/vehicle-registration";
 import {Vehicle} from "../shared/models/vehicle/vehicle";
 import {RegularStudentRegistration} from "../shared/models/regular-student/regular-student-registration";
-import {Subscriptions} from "../shared/models/subscriptions/subscriptions";
+import {DriverSubscriptions} from "../shared/models/subscriptions/driver-subscriptions";
 import {Observable} from "rxjs";
 import {RegularStudent} from "../shared/models/regular-student/regular-student";
 
@@ -59,8 +59,8 @@ export class DriverService {
     return this.http.post(getApiURL(ApiEndpoints.DRIVER + "/invite-student"), regularStudent, httpOptions)
   }
 
-  findDriverSubscriptions(driverId: number): Observable<Subscriptions> {
-    return this.http.get<Subscriptions>(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/subscriptions"), httpOptions)
+  findDriverSubscriptions(driverId: number): Observable<DriverSubscriptions> {
+    return this.http.get<DriverSubscriptions>(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/subscriptions"), httpOptions)
   }
 
   findDriverSubscriptionsById(driverId: number, subscriptionId: number) {

@@ -1,4 +1,4 @@
-export interface Subscriptions {
+export interface DriverSubscriptions {
   availableSeats: number,
   students: [
     {
