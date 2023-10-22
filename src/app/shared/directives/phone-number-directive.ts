@@ -7,8 +7,8 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 export class PhoneNumberDirective {
   constructor(private el: ElementRef) {}
 
-  @HostListener('input', ['$event.target.value'])
-  onInput(value: string) {
+  @HostListener('keyup', ['$event.target.value'])
+  onKeyUp(value: string) {
     const inputElement = this.el.nativeElement as HTMLInputElement;
     let formattedValue = '';
     let digitCount = 0;

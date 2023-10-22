@@ -18,14 +18,16 @@ import {StudentSubscription} from "../../shared/models/subscriptions/student-sub
   imports: [IonicModule, CommonModule, FormsModule],
   providers: [SubscriptionService, StudentService]
 })
-
 export class RegularStudentPage implements OnInit {
   paymentStatus: boolean = true;
   pendingSubscriptions$!: Observable<PendingSubscriptions[]>
   studentSubscription$!: Observable<StudentSubscription>
   private loggedUser!: null | LoginResponse;
 
-  constructor(private subscriptionService: SubscriptionService, private studentService: StudentService, private localStorageService: LocalStorageService, private toastController: ToastController) {
+  constructor(private subscriptionService: SubscriptionService,
+              private studentService: StudentService,
+              private localStorageService: LocalStorageService,
+              private toastController: ToastController) {
   }
 
   ngOnInit() {
@@ -71,7 +73,6 @@ export class RegularStudentPage implements OnInit {
           color: 'success',
           icon: 'checkmark-outline'
         }).then(toast => toast.present());
-
       },
       error: err => {
         this.toastController.create({

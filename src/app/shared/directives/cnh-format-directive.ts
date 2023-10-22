@@ -7,15 +7,14 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 export class CnhFormatDirective {
   constructor(private el: ElementRef) {}
 
-  @HostListener('input', ['$event'])
-  onInput(event: Event) {
+  @HostListener('keyup', ['$event'])
+  onKeyUp(event: Event) {
     const inputElement = this.el.nativeElement as HTMLInputElement;
     let value = inputElement.value.replace(/\D/g, '');
 
-    if (value.length > 11) {
+    if (value.length >= 11) {
       value = value.slice(0, 11);
     }
-
 
     if (value.length >= 4) {
       value = value.slice(0, 4) + ' ' + value.slice(4);
