@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import { Router, ActivatedRouteSnapshot,RouterStateSnapshot } from '@angular/router';
-import {LocalStorageService} from "../services/local-storage.service";
-import {LoginResponse} from "../shared/models/user/login-response.model";
+import {LocalStorageService} from "../../services/local-storage.service";
+import {LoginResponse} from "../models/user/login-response.model";
 import {ToastController} from "@ionic/angular";
 
 

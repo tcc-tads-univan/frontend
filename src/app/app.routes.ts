@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {driverAuthentication, studentAuthentication} from "./auth/auth.guard";
+import {driverAuthentication, studentAuthentication} from "./shared/auth/auth.guard";
 
 export const routes: Routes = [
   {
