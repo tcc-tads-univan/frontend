@@ -72,8 +72,8 @@ export class RegistrationPage implements OnInit {
     if (this.registrationForm.valid) {
       const student: StudentRegistration = {
         name: this.name?.value ?? '',
-        cpf: this.cpf?.value ?? '',
-        phonenumber: this.phonenumber?.value ?? '',
+        cpf: this.cpf?.value ? this.cpf.value.replace(/\D/g, "").slice(0, 11) : '',
+        phonenumber: this.phonenumber?.value ? this.phonenumber.value.replace(/\D/g, "").slice(0, 11) : '',
         email: this.email?.value ?? '',
         password: this.password?.value ?? '',
         birthdate: this.birthdate?.value ?? ''
