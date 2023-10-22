@@ -18,10 +18,6 @@ export const routes: Routes = [
     loadComponent: () => import('./carpool-requested/carpool-requested.page').then(m => m.CarpoolRequestedPage)
   },
   {
-    path: 'cadastro',
-    loadComponent: () => import('./registration/registration.page').then(m => m.RegistrationPage)
-  },
-  {
     path: 'editar',
     loadComponent: () => import('./registration/registration.page').then(m => m.RegistrationPage)
   },

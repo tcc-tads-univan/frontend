@@ -11,10 +11,6 @@ export const routes: Routes = [
       import('./carpool-requests/carpool-requests.page').then((m) => m.CarpoolRequestsPage),
   },
   {
-    path: 'cadastro',
-    loadComponent: () => import('./register-edit/register-edit.page').then(m => m.RegisterEditPage)
-  },
-  {
     path: 'editar',
     loadComponent: () => import('./register-edit/register-edit.page').then(m => m.RegisterEditPage)
   },
