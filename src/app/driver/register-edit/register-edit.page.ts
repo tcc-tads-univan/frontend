@@ -9,13 +9,14 @@ import {LocalStorageService} from "../../services/local-storage.service";
 import {LoginResponse} from "../../shared/models/user/login-response.model";
 import {CpfFormatDirective} from "../../shared/directives/cpf-format.directive";
 import {CnhFormatDirective} from "../../shared/directives/cnh-format-directive";
+import {PhoneNumberDirective} from "../../shared/directives/phone-number-directive";
 
 @Component({
   selector: 'app-driver-registration',
   templateUrl: './register-edit.page.html',
   styleUrls: ['./register-edit.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, CpfFormatDirective, CnhFormatDirective],
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, CpfFormatDirective, CnhFormatDirective, PhoneNumberDirective],
   providers: [DriverService]
 })
 export class RegisterEditPage implements OnInit {
