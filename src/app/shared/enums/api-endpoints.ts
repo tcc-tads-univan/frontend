@@ -5,5 +5,6 @@ export enum ApiEndpoints {
   DRIVER = "/driver",
   STUDENT = "/student",
   LOGIN = "/login",
-  SUBSCRIPTION = "/subscription"
+  SUBSCRIPTION = "/subscription",
+  HISTORY = "/history"
 }
