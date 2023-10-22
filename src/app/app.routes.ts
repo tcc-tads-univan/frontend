@@ -1,4 +1,5 @@
 import {Routes} from '@angular/router';
+import {driverAuthentication, studentAuthentication} from "./auth/auth.guard";
 
 export const routes: Routes = [
   {
@@ -8,9 +9,11 @@ export const routes: Routes = [
   {
     path: 'motorista',
     loadChildren: () => import('./driver/driver.routes').then((m) => m.routes),
+    canActivate: [driverAuthentication]
   },
   {
     path: 'aluno',
-    loadChildren: () => import('./student/student.routes').then((m) => m.routes)
+    loadChildren: () => import('./student/student.routes').then((m) => m.routes),
+    canActivate: [studentAuthentication]
   },
 ];
