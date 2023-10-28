@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {IonicModule, ToastController} from '@ionic/angular';
 import {Router, RouterLink} from "@angular/router";
-import {DriverRegistration} from "../../shared/models/driver/driver-registration";
 import {VehicleRegistration} from "../../shared/models/vehicle/vehicle-registration";
 import {DriverService} from "../../services/driver.service";
 import {LoginResponse} from "../../shared/models/user/login-response.model";
@@ -20,7 +19,7 @@ import {LocalStorageService} from "../../services/local-storage.service";
 export class RegisterEditVehiclePage implements OnInit {
 
   driver = {name: this.localStorageService.loggedUser?.name}
-  isRegistered: boolean = false;
+  isRegistered: boolean = true;
   vehicleId: number = 0;
 
   currentYear = new Date().getFullYear();
@@ -40,14 +39,6 @@ export class RegisterEditVehiclePage implements OnInit {
     if (!this.loggedUser) {
       throw new Error("User is not logged in");
     }
-    this.driverId = this.loggedUser.userId;
-    if (this.router.url === '/motorista/van') {
-      this.isRegistered = true;
-
-      this.licensePlate?.disable({onlySelf: true});
-      this.model?.disable({onlySelf: true});
-      this.fabricationYear?.disable({onlySelf: true});
-      this.seatsNumber?.disable({onlySelf: true});
 
       this.driverService.findDriverById(this.loggedUser.userId).subscribe(propertyValue => {
         this.vehicleId =  propertyValue.vehicleId;
@@ -55,7 +46,6 @@ export class RegisterEditVehiclePage implements OnInit {
       });
 
     }
-  }
 
 
   handleSubmit() {
@@ -85,7 +75,7 @@ export class RegisterEditVehiclePage implements OnInit {
           icon: 'checkmark-outline'
         }).then(toast => toast.present());
 
-        this.router.navigate(['/']);
+        this.router.navigate(['../inicio']);
       },
       error: err => {
         this.toastController.create({
@@ -137,9 +127,20 @@ export class RegisterEditVehiclePage implements OnInit {
           fabricationYear:  data.fabricationYear.toString(),
           seats: data.seats.toString()
         });
+        if (this.isRegistered) {
+          // @ts-ignore
+          this.driverId = this.loggedUser.userId;
+          this.licensePlate?.disable({onlySelf: true});
+          this.model?.disable({onlySelf: true});
+          this.fabricationYear?.disable({onlySelf: true});
+          this.seatsNumber?.disable({onlySelf: true});
+        }
       },
       error: err => {
         console.error("Problem trying to retireve Vehicle info");
+        if (err.status === 404) {
+          this.isRegistered = false;
+        }
       }
     });
   }

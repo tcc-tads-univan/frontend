@@ -8,13 +8,14 @@ import {Observable} from "rxjs";
 import {DriverSubscriptions} from "../../shared/models/subscriptions/driver-subscriptions";
 import {LocalStorageService} from "../../services/local-storage.service";
 import {RegularStudent} from "../../shared/models/regular-student/regular-student";
+import {RouterLink} from "@angular/router";
 
 @Component({
     selector: 'app-register-edit-regular-student',
     templateUrl: './register-edit-regular-student.page.html',
     styleUrls: ['./register-edit-regular-student.page.scss'],
     standalone: true,
-    imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink],
     providers: [DriverService]
 })
 export class RegisterEditRegularStudentPage implements OnInit {

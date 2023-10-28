@@ -2,7 +2,7 @@ import {Routes} from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'inicio',
+    path: 'iniciar',
     loadComponent: () => import('./home/home.page').then( m => m.HomePage)
   },
   {
@@ -19,10 +19,6 @@ export const routes: Routes = [
     loadComponent: () => import('./register-edit-vehicle/register-edit-vehicle.page').then( m => m.RegisterEditVehiclePage)
   },
   {
-    path: 'cadastrar-van',
-    loadComponent: () => import('./register-edit-vehicle/register-edit-vehicle.page').then( m => m.RegisterEditVehiclePage)
-  },
-  {
 
     path: 'caronas/historico',
     loadComponent: () => import('./carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
@@ -36,8 +32,13 @@ export const routes: Routes = [
     loadComponent: () => import('./add-regular-student/add-regular-student.page').then( m => m.AddRegularStudentPage)
   },
   {
+    path: 'inicio',
+    loadComponent: () => import('./home-screen/home-screen.page').then( m => m.HomeScreenPage)
+  },
+  {
     path: '',
     redirectTo: '/motorista/inicio',
     pathMatch: 'full'
-  }
+  },
+
 ];

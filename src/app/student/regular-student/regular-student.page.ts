@@ -66,6 +66,7 @@ export class RegularStudentPage implements OnInit {
   acceptSubscription(subscriptionId: number) {
     this.subscriptionService.acceptSubscription(subscriptionId).subscribe({
       next: _ => {
+        window.location.reload();
         this.toastController.create({
           message: 'Mensalista aceito',
           duration: 1000,

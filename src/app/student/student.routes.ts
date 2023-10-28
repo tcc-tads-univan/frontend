@@ -34,8 +34,12 @@ export const routes: Routes = [
     loadComponent: () => import('./regular-student/regular-student.page').then(m => m.RegularStudentPage)
   },
   {
+    path: 'inicio',
+    loadComponent: () => import('./home-screen/home-screen.page').then( m => m.HomeScreenPage)
+  },
+  {
     path: '',
-    redirectTo: '/aluno/carona',
+    redirectTo: '/aluno/inicio',
     pathMatch: 'full'
   }
 ];
