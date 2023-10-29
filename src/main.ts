@@ -8,6 +8,7 @@ import {AppComponent} from './app/app.component';
 import {environment} from './environments/environment';
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {AuthInterceptor} from "./app/shared/interceptors/auth-interceptor";
+import {AuthGuardService} from "./app/shared/guards/auth.guard";
 
 if (environment.production) {
   enableProdMode();
@@ -19,5 +20,6 @@ bootstrapApplication(AppComponent, {
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     importProvidersFrom(IonicModule.forRoot({})),
     provideRouter(routes),
+    AuthGuardService
   ],
 });

@@ -1,5 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Novo Mensalista</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -10,12 +13,18 @@
     src="./assets/add-student.svg"
     alt="The Wisconsin State Capitol building in Madison, WI at night"
   >
-  <p>Dados Mensalista</p>
-  <ion-input label="Mensalidade" label-placement="floating" fill="outline" placeholder="Digite algo"></ion-input>
-  <ion-input label="Vencimento" label-placement="floating" fill="outline" type="date"  placeholder="Digite algo"></ion-input>
-  <ion-input label="Código" label-placement="floating" fill="outline" placeholder="Digite algo"></ion-input>
-
-  <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+  <form [formGroup]="regularStudentForm" (ngSubmit)="handleSubmit()" enctype="application/x-www-form-urlencoded">
+    <p>Dados Mensalista</p>
+    <ion-input formControlName="monthlyFee"
+               errorText="Preencha a mensalidade (apenas números)" label="Mensalidade" label-placement="floating"
+               fill="outline" placeholder="Digite algo" type="number"></ion-input>
+    <ion-input formControlName="expirationDay" errorText="Preencha o dia de vencimento (apenas números)"
+               label="Dia de Vencimento" label-placement="floating" fill="outline" min="1" max="31" type="number"
+               placeholder="Digite algo"></ion-input>
+    <ion-input formControlName="studentId" label="Identificação do estudante" label-placement="floating" fill="outline"
+               type="number" placeholder="Digite algo"></ion-input>
+  </form>
+  <ion-fab (click)="handleSubmit()" slot="fixed" vertical="bottom" horizontal="center">
     <ion-fab-button id="confirm">
       <ion-icon name="checkmark"></ion-icon>
     </ion-fab-button>

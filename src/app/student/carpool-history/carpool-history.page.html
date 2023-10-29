@@ -8,73 +8,75 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
-  <ion-card class="ion-padding">
-    <ion-card-header>
-      <ion-card-title>
-        <ion-label class="price ion-justify-content-end">
-          <ion-icon class="icon-price" name="card-outline"></ion-icon>
-          R$ 52,30
-        </ion-label>
-        <ion-item>
-          <ion-avatar slot="start">
-            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
-          </ion-avatar>
-          <ion-col class="ion-justify-content-between">
-            <ion-label>
-              João
-            </ion-label>
-            <ion-card-subtitle>
-              <ion-icon name="star"></ion-icon>
-              4,3
-            </ion-card-subtitle>
-          </ion-col>
-        </ion-item>
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-text>
-        <p>
-          <ion-icon name="time-outline"></ion-icon>
-          Saída às 16:30
-        </p>
-        <p>
-          <ion-icon name="navigate"></ion-icon>
-          SEPT - Rua Pipo <!-- integrar colocando o Campus de saída -->
-        </p>
-        <p>
-          <ion-icon name="location-outline"></ion-icon>
-          Entregue na rua Joao Brabo <!-- integrar colocando o Campus de saída -->
-        </p>
-      </ion-text>
-    </ion-card-content>
-    <div class="stars ion-justify-content-center">
-      <ion-title *ngIf="stars === 1">
-        <ion-icon name="star"></ion-icon>
-      </ion-title>
-      <ion-title *ngIf="stars === 2">
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-      </ion-title>
-      <ion-title *ngIf="stars === 3">
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-      </ion-title>
-      <ion-title *ngIf="stars === 4">
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-      </ion-title>
-      <ion-title *ngIf="stars === 5">
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-      </ion-title>
-    </div>
-  </ion-card>
+  <div *ngIf="(tripsHistory$ | async) as tripsData; else loading">
+    <ion-card class="ion-padding">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-label class="price ion-justify-content-end">
+            <ion-icon class="icon-price" name="card-outline"></ion-icon>
+            {{tripsData.price}}
+          </ion-label>
+          <ion-item>
+            <ion-avatar slot="start">
+              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
+            </ion-avatar>
+            <ion-col class="ion-justify-content-between">
+              <ion-label>
+                {{tripsData.studentName}}
+              </ion-label>
+              <ion-card-subtitle>
+                <ion-icon name="star"></ion-icon>
+                4,3
+              </ion-card-subtitle>
+            </ion-col>
+          </ion-item>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-text>
+          <p>
+            <ion-icon name="time-outline"></ion-icon>
+            {{tripsData.date}}
+          </p>
+          <p>
+            <ion-icon name="navigate"></ion-icon>
+            {{tripsData.initialDestination}}
+          </p>
+          <p>
+            <ion-icon name="location-outline"></ion-icon>
+            {{tripsData.finalDestination}}
+          </p>
+        </ion-text>
+      </ion-card-content>
+      <div class="stars ion-justify-content-center">
+        <ion-title *ngIf="stars === 1">
+          <ion-icon name="star"></ion-icon>
+        </ion-title>
+        <ion-title *ngIf="stars === 2">
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+        </ion-title>
+        <ion-title *ngIf="stars === 3">
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+        </ion-title>
+        <ion-title *ngIf="stars === 4">
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+        </ion-title>
+        <ion-title *ngIf="stars === 5">
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+        </ion-title>
+      </div>
+    </ion-card>
+  </div>
   <ng-template #loading>
     <ion-progress-bar type="indeterminate"></ion-progress-bar>
     <ion-text color="primary">
@@ -83,6 +85,6 @@
   </ng-template>
 
   <ion-fab vertical="bottom">
-    <ion-icon src="assets/undraw_current_location_re_j130.svg" class="bigger-icon ion-align-items-baseline" ></ion-icon>
+    <ion-icon src="assets/undraw_current_location_re_j130.svg" class="bigger-icon ion-align-items-baseline"></ion-icon>
   </ion-fab>
 </ion-content>

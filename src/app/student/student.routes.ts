@@ -18,28 +18,28 @@ export const routes: Routes = [
     loadComponent: () => import('./carpool-requested/carpool-requested.page').then(m => m.CarpoolRequestedPage)
   },
   {
-    path: 'cadastro',
-    loadComponent: () => import('./registration/registration.page').then( m => m.RegistrationPage)
-  },
-  {
     path: 'editar',
-    loadComponent: () => import('./registration/registration.page').then( m => m.RegistrationPage)
-  },
-  {
-    path: '',
-    redirectTo: '/aluno/carona',
-    pathMatch: 'full'
+    loadComponent: () => import('./registration/registration.page').then(m => m.RegistrationPage)
   },
   {
     path: 'endereco',
-    loadComponent: () => import('./register-edit-destination/register-edit-destination.page').then( m => m.RegisterEditDestinationPage)
+    loadComponent: () => import('./register-edit-destination/register-edit-destination.page').then(m => m.RegisterEditDestinationPage)
   },
   {
     path: 'carona/historico',
-    loadComponent: () => import('./carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
+    loadComponent: () => import('./carpool-history/carpool-history.page').then(m => m.CarpoolHistoryPage)
   },
   {
     path: 'mensalista',
-    loadComponent: () => import('./regular-student/regular-student.page').then( m => m.RegularStudentPage)
+    loadComponent: () => import('./regular-student/regular-student.page').then(m => m.RegularStudentPage)
+  },
+  {
+    path: 'inicio',
+    loadComponent: () => import('./home-screen/home-screen.page').then( m => m.HomeScreenPage)
+  },
+  {
+    path: '',
+    redirectTo: '/aluno/inicio',
+    pathMatch: 'full'
   }
 ];

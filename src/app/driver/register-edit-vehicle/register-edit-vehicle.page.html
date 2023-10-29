@@ -3,12 +3,15 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Seu veículo</ion-title>
-    <ion-buttons slot="end">
+    <ion-title>
+      <span *ngIf="isRegistered">Sua van</span>
+      <span *ngIf="!isRegistered">Cadastre sua van</span>
+    </ion-title>
+    <!-- <ion-buttons slot="end">
       <ion-button>
         <ion-icon name="trash-outline" color="danger"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
@@ -22,10 +25,10 @@
     </ion-row>
     <ion-row>
       <ion-col class="ion-padding ion-margin-end">
-        <form [formGroup]="vehicleForm" (ngSubmit)="handleSubmit()">
+        <form [formGroup]="vehicleForm" (ngSubmit)="handleSubmit()"  enctype="application/x-www-form-urlencoded">
           <ion-list>
             <ion-item>
-              <ion-input formControlName="licensePlate" label="Placa do veículo" labelPlacement="floating"
+              <ion-input formControlName="plate" label="Placa do veículo" labelPlacement="floating"
                          placeholder="ABC-1234" errorText="Insira uma placa válida"></ion-input>
             </ion-item>
 
@@ -42,7 +45,7 @@
             </ion-item>
 
             <ion-item>
-              <ion-input formControlName="seatsNumber" label="Quantidade de assentos" type="number"
+              <ion-input formControlName="seats" label="Quantidade de assentos" type="number"
                          labelPlacement="floating" placeholder="12" min="0" errorText="Insira a quantidade válida (Entre 0 e 20)"
                          max="20"></ion-input>
             </ion-item>
@@ -53,8 +56,13 @@
   </ion-grid>
 </ion-content>
 
+<ion-fab *ngIf="isRegistered" slot="fixed" vertical="bottom" horizontal="center">
+  <ion-fab-button (click)="deleteVehicle()" id="remove-vehicle" >
+    <ion-icon name="remove"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 <ion-footer>
-  <ion-toolbar class="ion-padding">
+  <ion-toolbar *ngIf="!isRegistered"  class="ion-padding">
     <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">Salvar</ion-button>
   </ion-toolbar>
 </ion-footer>

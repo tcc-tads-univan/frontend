@@ -31,6 +31,7 @@
           placeholder="xxx.xxx.xxx-xx"
           labelPlacement="floating"
           errorText="Insira um CPF válido"
+          appCpfFormat
         ></ion-input>
       </ion-item>
 
@@ -41,6 +42,7 @@
           placeholder="(xx) xxxxx-xxxx"
           labelPlacement="floating"
           errorText="Insira um telefone válido"
+          appPhoneNumberFormat
         ></ion-input>
       </ion-item>
 
@@ -86,7 +88,7 @@
       </ion-button>
     </div>
     <div *ngIf="!isEdit">
-      <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">
+      <ion-button type="submit" expand="block" color="primary">
         Cadastre-se
         <ion-icon name="person-add-outline" slot="end"></ion-icon>
       </ion-button>

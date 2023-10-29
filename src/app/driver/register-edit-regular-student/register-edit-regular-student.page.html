@@ -1,33 +1,94 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Mensalistas</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div *ngIf="(subscription$ | async) as subscriptionData; else noData">
     <div class="card-header">
-      <h1 style="padding: 18px 0 0 24px; font-weight: 600;">Boa noite, Adevaldo</h1>
+      <h1 style="padding: 18px 0 0 24px; font-weight: 600;">Boa noite, {{driverName}}</h1>
       <p style="padding: 11px 0 0 25px;">Hoje é Sexta-feira, <b>dia 24/04/2023</b></p>
-      <p style="padding: 11px 0 0 25px;">Você tem <b>4 assentos vagos.</b></p>
+      <p *ngIf="subscriptionData.availableSeats > 0" style="padding: 11px 0 0 25px;">Você tem
+        <b>{{subscriptionData.availableSeats}} assentos vagos.</b></p>
+      <p *ngIf="subscriptionData.availableSeats === 0" style="padding: 11px 0 0 25px;">Você não tem assentos vagos.</p>
       <ion-img id="van-svg" src="./assets/airport_shuttle_FILL0_wght400_GRAD0_opsz48 1.svg"></ion-img>
     </div>
-  <h2 id="generic-title">Alunos</h2>
-  <ion-item id="present-alert">
-    <ion-alert
-      trigger="present-alert"
-      header="Você deseja excluir o aluno?"
-      [buttons]="alertButtons"
-    ></ion-alert>
-    <ion-avatar slot="start">
-      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-    </ion-avatar>
-    <ion-label> Johnny Rios </ion-label>
-    <ion-icon color="danger" name="close" *ngIf="!studentAvailable"></ion-icon>
-    <ion-icon color="success" name="checkmark" *ngIf="studentAvailable" ></ion-icon>
-  </ion-item>
-  <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-    <ion-fab-button id="add-student">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+    <h2 id="generic-title">Alunos</h2>
+    <ion-item id="present-alert" *ngFor="let student of subscriptionData.students">
+      <ion-avatar slot="start">
+        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
+      </ion-avatar>
+      <ion-label> {{student.name}}</ion-label>
+      <ion-button color="tertiary" id="open-modal" (click)="handleModal(student.subscriptionId)" expand="block">Ver
+        mais
+      </ion-button>
+    </ion-item>
+    <div *ngIf="regularStudent$ | async as regular">
+      <ion-modal [isOpen]="isModalOpen">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>{{regular.name}}</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="setOpen(false)">
+                  <ion-icon name="close-circle-outline"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <ion-item>
+              <ion-input readonly
+                         label="Telefone"
+                         labelPlacement="stacked"
+                         value="{{regular.phone}}"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input readonly
+                         label="Endereço Final"
+                         labelPlacement="stacked"
+                         value="{{regular.finalAddress}}"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input readonly
+                         label="Status de Mensalista"
+                         labelPlacement="stacked"
+                         value="{{regular.subscriptionStatus}}"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input readonly
+                         label="Status de Pagamento"
+                         labelPlacement="stacked" value="{{regular.payment}}"
+              ></ion-input>
+            </ion-item>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </div>
+    <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+      <ion-fab-button id="add-student" [routerLink]="['../novo']">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+  <ng-template #noData>
+    <ion-card id="notify-card">
+      <ion-card-header>
+        <ion-card-title>Cadastre um aluno</ion-card-title>
+      </ion-card-header>
+      <ion-card-content id="generic-text">
+        Oh não! Você ainda não tem nenhum aluno mensalista cadastrado.
+      </ion-card-content>
+      <ion-button expand="block" shape="round" class="ion-justify-content-center notify-button" fill="outline"
+                  color="success" [routerLink]="['../novo']">Cadastrar agora
+      </ion-button>
+    </ion-card>
+  </ng-template>
 </ion-content>

@@ -7,13 +7,16 @@ import {DriverService} from "../../services/driver.service";
 import {DriverRegistration} from "../../shared/models/driver/driver-registration";
 import {LocalStorageService} from "../../services/local-storage.service";
 import {LoginResponse} from "../../shared/models/user/login-response.model";
+import {CpfFormatDirective} from "../../shared/directives/cpf-format.directive";
+import {CnhFormatDirective} from "../../shared/directives/cnh-format-directive";
+import {PhoneNumberDirective} from "../../shared/directives/phone-number-directive";
 
 @Component({
   selector: 'app-driver-registration',
   templateUrl: './register-edit.page.html',
   styleUrls: ['./register-edit.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, CpfFormatDirective, CnhFormatDirective, PhoneNumberDirective],
   providers: [DriverService]
 })
 export class RegisterEditPage implements OnInit {
@@ -77,9 +80,9 @@ export class RegisterEditPage implements OnInit {
     if (this.registrationForm.valid) {
       const driver: DriverRegistration = {
         name: this.name?.value ?? '',
-        cpf: this.cpf?.value ?? '',
+        cpf: this.cpf?.value ? this.cpf.value.replace(/\D/g, "").slice(0, 11) : '',
         cnh: this.cnh?.value ?? '',
-        phonenumber: this.phonenumber?.value ?? '',
+        phonenumber: this.phonenumber?.value ? this.phonenumber.value.replace(/\D/g, "").slice(0, 11) : '',
         email: this.email?.value ?? '',
         password: this.password?.value ?? '',
         birthdate: this.birthdate?.value ?? ''

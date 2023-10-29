@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" color="danger">Sair</ion-button>
+    </ion-buttons>
+    <ion-title>
+      <span>{{loggedUser?.name}}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-grid [fixed]="true">
+    <ion-row class="ion-justify-content-center ion-align-items-end">
+      <ion-icon src="assets/logo_1.svg" id="univan-logo"></ion-icon>
+    </ion-row>
+    <ion-row id="start-carpool" class="ion-justify-content-center">
+      <ion-col>
+        <ion-button color="light" expand="block" [routerLink]="['../iniciar']">
+          Iniciar viagem
+          <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <div class="grey-border"></div>
+    <ion-row id="user-options" class="ion-justify-content-start">
+      <ion-col>
+        <ion-button class="buttons" color="light" expand="block" [routerLink]="['../editar']">
+          <ion-icon slot="start" name="person-outline"></ion-icon>
+          Editar Perfil
+        </ion-button>
+        <ion-button class="buttons" color="light" expand="block" [routerLink]="['../van']">
+          Van
+          <ion-icon slot="start" name="bus-outline"></ion-icon>
+        </ion-button>
+        <ion-button class="buttons" color="light" expand="block" [routerLink]="['../mensalistas/editar']">
+          Mensalistas
+          <ion-icon slot="start"  name="people-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

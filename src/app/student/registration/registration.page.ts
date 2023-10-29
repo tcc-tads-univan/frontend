@@ -5,18 +5,18 @@ import {IonicModule, ToastController} from '@ionic/angular';
 import {StudentRegistration} from "../../shared/models/student/student-registration";
 import {Router, RouterLink} from "@angular/router";
 import {StudentService} from "../../services/student.service";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
-import {convertDateToScheduleTime} from "../../shared/utils";
-import {DriverRegistration} from "../../shared/models/driver/driver-registration";
+import {HttpClientModule} from "@angular/common/http";
 import {LoginResponse} from "../../shared/models/user/login-response.model";
 import {LocalStorageService} from "../../services/local-storage.service";
+import {CpfFormatDirective} from "../../shared/directives/cpf-format.directive";
+import {PhoneNumberDirective} from "../../shared/directives/phone-number-directive";
 
 @Component({
   selector: 'app-student-registration',
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, HttpClientModule],
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, HttpClientModule, CpfFormatDirective, PhoneNumberDirective],
   providers: [StudentService]
 })
 export class RegistrationPage implements OnInit {
@@ -72,8 +72,8 @@ export class RegistrationPage implements OnInit {
     if (this.registrationForm.valid) {
       const student: StudentRegistration = {
         name: this.name?.value ?? '',
-        cpf: this.cpf?.value ?? '',
-        phonenumber: this.phonenumber?.value ?? '',
+        cpf: this.cpf?.value ? this.cpf.value.replace(/\D/g, "").slice(0, 11) : '',
+        phonenumber: this.phonenumber?.value ? this.phonenumber.value.replace(/\D/g, "").slice(0, 11) : '',
         email: this.email?.value ?? '',
         password: this.password?.value ?? '',
         birthdate: this.birthdate?.value ?? ''
