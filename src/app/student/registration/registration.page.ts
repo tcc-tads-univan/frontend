@@ -126,7 +126,11 @@ export class RegistrationPage implements OnInit {
           icon: 'checkmark-outline'
         }).then(toast => toast.present());
 
-        this.router.navigate(['/']);
+        // Atualiza o nome do usuário no localStorage caso tenha sido alterado
+        this.loggedUser!.name = student.name;
+        this.localStorageService.saveAuthenticationInfo(this.loggedUser!);
+
+        this.router.navigate(['/aluno']);
       },
       error: err => {
         this.toastController.create({

@@ -80,7 +80,11 @@
         </ion-button>
       </ion-item>
     </ion-list>
+  </form>
+</ion-content>
 
+<ion-footer>
+  <ion-toolbar class="ion-padding">
     <div *ngIf="isEdit">
       <ion-button (click)="handleSubmit()" type="submit" expand="block" color="success">
         <ion-icon name="save-outline" class="ion-margin-end"></ion-icon>
@@ -88,12 +92,9 @@
       </ion-button>
     </div>
     <div *ngIf="!isEdit">
-      <ion-button type="submit" expand="block" color="primary">
-        Cadastre-se
-        <ion-icon name="person-add-outline" slot="end"></ion-icon>
-      </ion-button>
+      <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">Cadastre-se</ion-button>
       <span>Já possui uma conta?</span>
       <ion-button type="button" [routerLink]="['/login']" expand="block" color="success">Entrar</ion-button>
     </div>
-  </form>
-</ion-content>
+  </ion-toolbar>
+</ion-footer>
