@@ -8,14 +8,14 @@ import {CollegeService} from "../../services/college.service";
 import {CollegeCampus} from "../../shared/models/college/college-campus";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
+  selector: 'find-carpool',
+  templateUrl: './find-carpool.page.html',
+  styleUrls: ['./find-carpool.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink, ScrollingModule],
   providers: [CollegeService]
 })
-export class HomePage implements OnInit {
+export class FindCarpoolPage implements OnInit {
   _campiList: CollegeCampus[] = [];
   filteredCampiList: CollegeCampus[] = [];
   selectedCampus!: CollegeCampus;

@@ -17,12 +17,20 @@ import {LocalStorageService} from "../../services/local-storage.service";
 })
 export class HomeScreenPage implements OnInit {
   loggedUser!: LoginResponse | null;
+  navigationUrls = {
+    findCarpools: ['../caronas/procurar'],
+    editProfile: ['../editar'],
+    maintainVehicle: ['../van'],
+    regularStudents: ['../mensalistas/editar'],
+  }
 
-  constructor(private authenticationService: AuthenticationService, private router: Router, private localStorageService: LocalStorageService) {
-    this.loggedUser = this.localStorageService.loggedUser;
+  constructor(private authenticationService: AuthenticationService,
+              private router: Router,
+              private localStorageService: LocalStorageService) {
   }
 
   ngOnInit() {
+    this.loggedUser = this.localStorageService.loggedUser;
   }
 
   logout() {

@@ -28,6 +28,11 @@ export class AuthenticationPage implements OnInit {
   }
   registerPath = this.registerRoutes.student;
 
+  profileLandingRoutes = {
+    driver: ['/motorista'],
+    student: ['/aluno']
+  }
+
   constructor(private fb: FormBuilder,
               private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -37,11 +42,26 @@ export class AuthenticationPage implements OnInit {
   }
 
   ngOnInit() {
+    this.redirectLoggedUser();
+
     const selectedProfile = this.activatedRoute.snapshot.paramMap.get('p');
     if (selectedProfile === "motorista") {
       this.registerPath = this.registerRoutes.driver;
     } else {
       this.registerPath = this.registerRoutes.student;
+    }
+  }
+
+  private redirectLoggedUser() {
+    const loggedUser = this.localStorageService.loggedUser;
+
+    if (loggedUser) {
+      if (loggedUser.userType === UserType.DRIVER) {
+        this.router.navigate(this.profileLandingRoutes.driver);
+      }
+      if (loggedUser.userType === UserType.STUDENT) {
+        this.router.navigate(this.profileLandingRoutes.student);
+      }
     }
   }
 
@@ -55,13 +75,7 @@ export class AuthenticationPage implements OnInit {
       this.authService.authenticateUser(request).subscribe({
         next: res => {
           this.localStorageService.saveAuthenticationInfo(res);
-
-          if (res.userType == UserType.DRIVER) {
-            this.router.navigate(['/motorista']);
-          }
-          if (res.userType == UserType.STUDENT) {
-            this.router.navigate(['/aluno']);
-          }
+          this.redirectLoggedUser();
         },
         error: err => {
           if (err.error.title === 'Email or password is invalid.') {
