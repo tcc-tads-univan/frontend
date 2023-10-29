@@ -5,11 +5,11 @@
     </ion-row>
     <ion-row class="ion-justify-content-center">
       <ion-col>
-        <ion-button [routerLink]="loginRoutes.driver" color="light" expand="block">
+        <ion-button [routerLink]="authenticationRoute" [queryParams]="profileQueryParams.driver" color="light" expand="block">
           Sou motorista
           <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
         </ion-button>
-        <ion-button [routerLink]="loginRoutes.student" color="light" expand="block">
+        <ion-button [routerLink]="authenticationRoute" [queryParams]="profileQueryParams.student" color="light" expand="block">
           Sou aluno
           <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
         </ion-button>

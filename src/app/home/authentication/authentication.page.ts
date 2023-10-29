@@ -42,27 +42,27 @@ export class AuthenticationPage implements OnInit {
   }
 
   ngOnInit() {
-    this.redirectLoggedUser();
-
-    const selectedProfile = this.activatedRoute.snapshot.paramMap.get('p');
-    if (selectedProfile === "motorista") {
-      this.registerPath = this.registerRoutes.driver;
+    const loggedUser = this.localStorageService.loggedUser;
+    if (loggedUser) {
+      this.redirectLoggedUser(loggedUser.userType);
     } else {
-      this.registerPath = this.registerRoutes.student;
+      const selectedProfile = this.activatedRoute.snapshot.queryParamMap.get('p');
+
+      if (selectedProfile === "motorista") {
+        this.registerPath = this.registerRoutes.driver;
+      } else {
+        this.registerPath = this.registerRoutes.student;
+      }
     }
   }
 
-  private redirectLoggedUser() {
-    const loggedUser = this.localStorageService.loggedUser;
-
-    if (loggedUser) {
-      if (loggedUser.userType === UserType.DRIVER) {
+  private redirectLoggedUser(userType: UserType) {
+      if (userType === UserType.DRIVER) {
         this.router.navigate(this.profileLandingRoutes.driver);
       }
-      if (loggedUser.userType === UserType.STUDENT) {
+      if (userType === UserType.STUDENT) {
         this.router.navigate(this.profileLandingRoutes.student);
       }
-    }
   }
 
   handleSubmit() {
@@ -73,9 +73,9 @@ export class AuthenticationPage implements OnInit {
       };
 
       this.authService.authenticateUser(request).subscribe({
-        next: res => {
-          this.localStorageService.saveAuthenticationInfo(res);
-          this.redirectLoggedUser();
+        next: response => {
+          this.localStorageService.saveAuthenticationInfo(response);
+          this.redirectLoggedUser(response.userType);
         },
         error: err => {
           if (err.error.title === 'Email or password is invalid.') {

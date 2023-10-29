@@ -12,9 +12,11 @@ import {RouterLink} from "@angular/router";
   imports: [IonicModule, CommonModule, FormsModule, RouterLink]
 })
 export class LandingPagePage implements OnInit {
-  loginRoutes = {
-    driver: ["/entrar", {p: "motorista"}],
-    student: ["/entrar", {p: "aluno"}]
+  authenticationRoute = ['/entrar'];
+
+  profileQueryParams = {
+    driver: {p: 'motorista'},
+    student: {p: 'aluno'}
   };
 
   constructor() {
