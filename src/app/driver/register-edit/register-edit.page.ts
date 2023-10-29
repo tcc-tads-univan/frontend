@@ -134,7 +134,7 @@ export class RegisterEditPage implements OnInit {
           icon: 'checkmark-outline'
         }).then(toast => toast.present());
 
-        this.router.navigate(['/']);
+        this.router.navigate(['/motorista']);
       },
       error: err => {
         this.toastController.create({
