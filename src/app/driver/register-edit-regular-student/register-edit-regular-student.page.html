@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content class="ion-padding">
   <div *ngIf="(subscription$ | async) as subscriptionData; else noData">
     <div class="card-header">
       <h1 style="padding: 18px 0 0 24px; font-weight: 600;">Boa noite, {{driverName}}</h1>
@@ -84,10 +84,11 @@
         <ion-card-title>Cadastre um aluno</ion-card-title>
       </ion-card-header>
       <ion-card-content id="generic-text">
-        Oh não! Você ainda não tem nenhum aluno mensalista cadastrado.
+        Você ainda não tem nenhum aluno mensalista cadastrado.
       </ion-card-content>
       <ion-button expand="block" shape="round" class="ion-justify-content-center notify-button" fill="outline"
-                  color="success" [routerLink]="['../novo']">Cadastrar agora
+                  color="success" [routerLink]="['../novo']">
+        Cadastrar agora
       </ion-button>
     </ion-card>
   </ng-template>

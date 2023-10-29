@@ -28,7 +28,11 @@ export class AddRegularStudentPage implements OnInit {
   private loggedUser!: LoginResponse | null;
   driverId: number = 0;
 
-  constructor(private fb: FormBuilder, private localStorageService: LocalStorageService, private driverService: DriverService, private toastController: ToastController, private router: Router) {
+  constructor(private fb: FormBuilder,
+              private localStorageService: LocalStorageService,
+              private driverService: DriverService,
+              private toastController: ToastController,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -37,7 +41,6 @@ export class AddRegularStudentPage implements OnInit {
         throw new Error("User is not logged in");
       }
       this.driverId = this.loggedUser.userId;
-
   }
 
   handleSubmit() {
@@ -50,12 +53,8 @@ export class AddRegularStudentPage implements OnInit {
       }
 
       this.createRegularStudent(regularStudent);
-      // @ts-ignore
     }
-
   }
-
-
 
   createRegularStudent(regularStudent: RegularStudentRegistration) {
     this.driverService.inviteStudent(regularStudent).subscribe({

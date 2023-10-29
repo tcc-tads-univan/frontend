@@ -1,51 +1,6 @@
-/* HTML */
-ion-header ion-toolbar:first-of-type {
-  padding-top: var(--ion-safe-area-top, 0);
-  justify-content: center;
-  display: grid;
-}
-
-img {
+.round-svg {
   border-radius: 50%;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 39px;
-  border: solid;
-  border-color: black;
 }
-
-p {
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  text-align: center;
-  margin-top: 36px;
-}
-
-ion-input {
-  width: 86%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 15px;
-}
-
-/* ID */
-#person {
-  border-radius: 50%;
-}
-
-#confirm {
-  --background: #3422F2;
-}
-
-/* CLASS */
-.register-button {
-  justify-content: center;
-  display: flex;
-  position: relative;
-  bottom: -140px;
-}
-

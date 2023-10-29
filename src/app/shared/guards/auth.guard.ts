@@ -8,23 +8,22 @@ import {UserType} from "../enums/user-type";
 
 @Injectable()
 export class AuthGuardService {
-  private loggedUser!: null | LoginResponse;
-
   constructor(private router: Router,
               private localStorageService: LocalStorageService,
               private toastController: ToastController) {
-    this.loggedUser = this.localStorageService.loggedUser;
   }
 
   studentIsAuthenticated() {
-    if (this.loggedUser && this.loggedUser.userType === UserType.STUDENT) {
+    const loggedUser = this.localStorageService.loggedUser;
+
+    if (loggedUser && loggedUser.userType === UserType.STUDENT) {
       return true;
     }
 
     let errorMessage: string;
     let route: string[];
 
-    if (!this.loggedUser) {
+    if (!loggedUser) {
       errorMessage = "Você precisa estar autenticado";
       route = ['/'];
     } else {
@@ -45,14 +44,16 @@ export class AuthGuardService {
   }
 
   driverIsAuthenticated() {
-    if (this.loggedUser && this.loggedUser.userType === UserType.DRIVER) {
+    const loggedUser = this.localStorageService.loggedUser;
+
+    if (loggedUser && loggedUser.userType === UserType.DRIVER) {
       return true;
     }
 
     let errorMessage: string;
     let route: string[];
 
-    if (!this.loggedUser) {
+    if (!loggedUser) {
       errorMessage = "Você precisa estar autenticado";
       route = ['/'];
     } else {

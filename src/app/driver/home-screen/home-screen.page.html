@@ -7,11 +7,11 @@
       <ion-button (click)="logout()" color="danger">Sair</ion-button>
     </ion-buttons>
     <ion-title>
-      <span>{{loggedUser?.name}}</span>
+      <span>Olá, {{loggedUser!.name.split(" ")[0]}}</span>
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true">
+<ion-content>
   <ion-grid [fixed]="true">
     <ion-row class="ion-justify-content-center ion-align-items-end">
       <ion-icon src="assets/logo_1.svg" id="univan-logo"></ion-icon>

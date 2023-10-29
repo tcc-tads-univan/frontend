@@ -1,36 +1,30 @@
-/* HTML */
-ion-header ion-toolbar:first-of-type {
-  padding-top: var(--ion-safe-area-top, 0);
-  justify-content: center;
-  display: grid;
-}
-
 /* CLASS */
-.card-header {
-  background: #110D3C;
-  height: 30%;
-}
+//.card-header {
+//  background: #110D3C;
+//  height: 30%;
+//}
 
 /* ID */
-#van-svg {
-  position: relative;
-  right: -253px;
-  display: block;
-  object-fit: inherit;
-  object-position: inherit;
-  width: 94px;
-  height: 86px;
-  flex-shrink: 0;
-  top: -36px;
-}
-#generic-title {
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  padding-left: 24px;
-}
+//#van-svg {
+//  position: relative;
+//  right: -253px;
+//  display: block;
+//  object-fit: inherit;
+//  object-position: inherit;
+//  width: 94px;
+//  height: 86px;
+//  flex-shrink: 0;
+//  top: -36px;
+//}
 
-#add-student {
-  --background: #3422F2;
-}
+//#generic-title {
+//  font-size: 16px;
+//  font-style: normal;
+//  font-weight: 600;
+//  line-height: normal;
+//  padding-left: 24px;
+//}
+
+//#add-student {
+//  --background: #3422F2;
+//}

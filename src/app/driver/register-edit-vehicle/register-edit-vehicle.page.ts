@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {IonicModule, ToastController} from '@ionic/angular';
 import {Router, RouterLink} from "@angular/router";
@@ -17,9 +17,8 @@ import {LocalStorageService} from "../../services/local-storage.service";
   providers: [DriverService]
 })
 export class RegisterEditVehiclePage implements OnInit {
-
   driver = {name: this.localStorageService.loggedUser?.name}
-  isRegistered: boolean = true;
+  isRegistered!: boolean;
   vehicleId: number = 0;
 
   currentYear = new Date().getFullYear();
@@ -32,7 +31,13 @@ export class RegisterEditVehiclePage implements OnInit {
 
   private loggedUser!: LoginResponse | null;
   driverId = 0;
-  constructor(private fb: FormBuilder, private driverService: DriverService, private toastController: ToastController, private router: Router, private localStorageService: LocalStorageService) { }
+
+  constructor(private fb: FormBuilder,
+              private driverService: DriverService,
+              private toastController: ToastController,
+              private router: Router,
+              private localStorageService: LocalStorageService) {
+  }
 
   ngOnInit() {
     this.loggedUser = this.localStorageService.loggedUser;
@@ -40,13 +45,11 @@ export class RegisterEditVehiclePage implements OnInit {
       throw new Error("User is not logged in");
     }
 
-      this.driverService.findDriverById(this.loggedUser.userId).subscribe(propertyValue => {
-        this.vehicleId =  propertyValue.vehicleId;
-        this.getVehicleInfos(this.vehicleId);
-      });
-
-    }
-
+    this.driverService.findDriverById(this.loggedUser.userId).subscribe(propertyValue => {
+      this.vehicleId = propertyValue.vehicleId;
+      this.isVehicleRegistered(this.vehicleId);
+    });
+  }
 
   handleSubmit() {
     if (this.vehicleForm.valid) {
@@ -54,17 +57,17 @@ export class RegisterEditVehiclePage implements OnInit {
         plate: this.licensePlate?.value ?? '',
         model: this.model?.value ?? '',
         fabricationYear: parseInt(this.fabricationYear?.value ?? '', 10),
-        seats: parseInt( this.seatsNumber?.value ?? '', 10),
+        seats: parseInt(this.seatsNumber?.value ?? '', 10),
       }
 
-      // @ts-ignore
-      this.registerVehicle(vehicle, this.loggedUser.userId )
+      this.registerVehicle(vehicle, this.loggedUser!.userId);
       console.log(vehicle);
     }
   }
 
+  private readonly driverHomeUrl = ['/motorista'];
+
   registerVehicle(vehicle: VehicleRegistration, driverId: number) {
-    // @ts-ignore
     this.driverService.createVehicle(vehicle, driverId).subscribe({
       next: _ => {
         this.toastController.create({
@@ -75,7 +78,7 @@ export class RegisterEditVehiclePage implements OnInit {
           icon: 'checkmark-outline'
         }).then(toast => toast.present());
 
-        this.router.navigate(['../inicio']);
+        this.router.navigate(this.driverHomeUrl);
       },
       error: err => {
         this.toastController.create({
@@ -102,48 +105,50 @@ export class RegisterEditVehiclePage implements OnInit {
           icon: 'checkmark-outline'
         }).then(toast => toast.present());
 
-        this.router.navigate(['/']);
+        this.router.navigate(this.driverHomeUrl);
       },
-      (error) => {
+      (err) => {
         this.toastController.create({
-          message: 'Erro ao deletar veículo.',
+          message: 'Problema ao remover o veículo cadastrado.',
           duration: 1500,
           position: 'top',
           color: 'danger',
           icon: 'bug-outline'
         }).then(toast => toast.present());
-        console.error('Error deleting vehicle:', error);
+
+        console.error(`[${err.status}] ${err.message}`);
       }
     );
   }
 
-  getVehicleInfos(vehicleId: number) {
-    // @ts-ignore
-    this.driverService.findVehicleById(this.loggedUser.userId, vehicleId).subscribe({
+  isVehicleRegistered(vehicleId: number) {
+    this.driverService.findVehicleById(this.loggedUser!.userId, vehicleId).subscribe({
       next: data => {
         this.vehicleForm.setValue({
           plate: data.plate,
           model: data.model,
-          fabricationYear:  data.fabricationYear.toString(),
+          fabricationYear: data.fabricationYear.toString(),
           seats: data.seats.toString()
         });
-        if (this.isRegistered) {
-          // @ts-ignore
-          this.driverId = this.loggedUser.userId;
-          this.licensePlate?.disable({onlySelf: true});
-          this.model?.disable({onlySelf: true});
-          this.fabricationYear?.disable({onlySelf: true});
-          this.seatsNumber?.disable({onlySelf: true});
-        }
+
+        this.driverId = this.loggedUser!.userId;
+        this.licensePlate?.disable({onlySelf: true});
+        this.model?.disable({onlySelf: true});
+        this.fabricationYear?.disable({onlySelf: true});
+        this.seatsNumber?.disable({onlySelf: true});
+
+        this.isRegistered = true;
       },
-      error: err => {
-        console.error("Problem trying to retireve Vehicle info");
+      error: (err) => {
         if (err.status === 404) {
           this.isRegistered = false;
+        } else {
+          console.error(`[${err.status}] ${err.message}`);
         }
       }
     });
   }
+
   public get licensePlate() {
     return this.vehicleForm.get('plate');
   }

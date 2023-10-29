@@ -22,7 +22,7 @@ export class CarpoolRequestsPage implements OnInit {
   constructor(
     private carpoolService: CarpoolService,
     private toastController: ToastController,
-    private localStorageService: LocalStorageService, // POC
+    private localStorageService: LocalStorageService,
     private router: Router
   ) {
   }

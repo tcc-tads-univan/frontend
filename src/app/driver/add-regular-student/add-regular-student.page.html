@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
@@ -7,25 +7,52 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <img
-    class="test"
+    class="ion-margin-top round-svg"
     src="./assets/add-student.svg"
     alt="The Wisconsin State Capitol building in Madison, WI at night"
   >
   <form [formGroup]="regularStudentForm" (ngSubmit)="handleSubmit()" enctype="application/x-www-form-urlencoded">
-    <p>Dados Mensalista</p>
-    <ion-input formControlName="monthlyFee"
-               errorText="Preencha a mensalidade (apenas números)" label="Mensalidade" label-placement="floating"
-               fill="outline" placeholder="Digite algo" type="number"></ion-input>
-    <ion-input formControlName="expirationDay" errorText="Preencha o dia de vencimento (apenas números)"
-               label="Dia de Vencimento" label-placement="floating" fill="outline" min="1" max="31" type="number"
-               placeholder="Digite algo"></ion-input>
-    <ion-input formControlName="studentId" label="Identificação do estudante" label-placement="floating" fill="outline"
-               type="number" placeholder="Digite algo"></ion-input>
+    <ion-list>
+      <ion-list-header>
+        <h2 class="ion-text-center">Dados do Mensalista</h2>
+      </ion-list-header>
+      <ion-item>
+        <ion-input formControlName="monthlyFee"
+                   errorText="Preencha a mensalidade (apenas números)"
+                   label="Mensalidade"
+                   label-placement="floating"
+                   fill="outline"
+                   placeholder="Digite algo"
+                   type="number">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input formControlName="expirationDay"
+                   errorText="Preencha o dia de vencimento (apenas números)"
+                   label="Dia de Vencimento"
+                   label-placement="floating"
+                   fill="outline"
+                   min="1"
+                   max="31"
+                   type="number"
+                   placeholder="Digite algo">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input formControlName="studentId"
+                   label="Identificação do estudante"
+                   label-placement="floating"
+                   fill="outline"
+                   type="number"
+                   placeholder="Digite algo">
+        </ion-input>
+      </ion-item>
+    </ion-list>
   </form>
   <ion-fab (click)="handleSubmit()" slot="fixed" vertical="bottom" horizontal="center">
-    <ion-fab-button id="confirm">
+    <ion-fab-button color="primary">
       <ion-icon name="checkmark"></ion-icon>
     </ion-fab-button>
   </ion-fab>

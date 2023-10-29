@@ -7,11 +7,6 @@
       <span *ngIf="isRegistered">Sua van</span>
       <span *ngIf="!isRegistered">Cadastre sua van</span>
     </ion-title>
-    <!-- <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon name="trash-outline" color="danger"></ion-icon>
-      </ion-button>
-    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
@@ -25,7 +20,7 @@
     </ion-row>
     <ion-row>
       <ion-col class="ion-padding ion-margin-end">
-        <form [formGroup]="vehicleForm" (ngSubmit)="handleSubmit()"  enctype="application/x-www-form-urlencoded">
+        <form [formGroup]="vehicleForm" (ngSubmit)="handleSubmit()" enctype="application/x-www-form-urlencoded">
           <ion-list>
             <ion-item>
               <ion-input formControlName="plate" label="Placa do veículo" labelPlacement="floating"
@@ -40,13 +35,15 @@
 
             <ion-item>
               <ion-input formControlName="fabricationYear" label="Ano de fabricação" labelPlacement="floating"
-                         placeholder="2015" type="number" min="1980" errorText="Insira um ano de fabricação válido (Entre 1980 e o ano atual)"
+                         placeholder="2015" type="number" min="1980"
+                         errorText="Insira um ano de fabricação válido (Entre 1980 e o ano atual)"
                          [max]="currentYear"></ion-input>
             </ion-item>
 
             <ion-item>
               <ion-input formControlName="seats" label="Quantidade de assentos" type="number"
-                         labelPlacement="floating" placeholder="12" min="0" errorText="Insira a quantidade válida (Entre 0 e 20)"
+                         labelPlacement="floating" placeholder="12" min="0"
+                         errorText="Insira a quantidade válida (Entre 0 e 20)"
                          max="20"></ion-input>
             </ion-item>
           </ion-list>
@@ -57,12 +54,12 @@
 </ion-content>
 
 <ion-fab *ngIf="isRegistered" slot="fixed" vertical="bottom" horizontal="center">
-  <ion-fab-button (click)="deleteVehicle()" id="remove-vehicle" >
+  <ion-fab-button (click)="deleteVehicle()" id="remove-vehicle">
     <ion-icon name="remove"></ion-icon>
   </ion-fab-button>
 </ion-fab>
 <ion-footer>
-  <ion-toolbar *ngIf="!isRegistered"  class="ion-padding">
+  <ion-toolbar *ngIf="!isRegistered" class="ion-padding">
     <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">Salvar</ion-button>
   </ion-toolbar>
 </ion-footer>
