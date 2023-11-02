@@ -15,7 +15,7 @@ import {StudentService} from "../../services/student.service";
   styleUrls: ['./register-edit-destination.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
-  providers: [RoutesService]
+  providers: [RoutesService, StudentService]
 })
 export class RegisterEditDestinationPage implements OnInit {
   addressForm = this.fb.group({
@@ -82,8 +82,8 @@ export class RegisterEditDestinationPage implements OnInit {
 
   saveAddress() {
     if (this.selectedAddress && this.localStorageService.loggedUser) {
-      this.routesService
-        .saveStudentAddress(this.localStorageService.loggedUser.userId, this.selectedAddress)
+      this.studentService
+        .registerStudentAddress(this.localStorageService.loggedUser.userId, this.selectedAddress)
         .subscribe({
           next: _data => {
             this.toastController.create({
@@ -101,24 +101,6 @@ export class RegisterEditDestinationPage implements OnInit {
         });
     }
   }
-
-  registerStudentAddress(studentId: number) {
-    this.studentService.registerStudentAddress(studentId).subscribe({
-      next: _data => {
-        console.log("Cadastrado")
-      },
-      error: err => console.error(err)
-    })
-  } // Estou deixando os métodos aqui pois não entendi o fluxo direito. Depois que conversar com o Gabriel continuo.
-
-  getStudentAddress(studentId: number, addressId: number) {
-    this.studentService.findStudentAddress(studentId, addressId);
-  } // Estou deixando os métodos aqui pois não entendi o fluxo direito. Depois que conversar com o Gabriel continuo.
-
-  deleteStudentAddress(studentId: number, addressId: number) {
-    this.studentService.deleteStudentAddress(studentId, addressId);
-  } // Estou deixando os métodos aqui pois não entendi o fluxo direito. Depois que conversar com o Gabriel continuo.
-
   get streetname() {
     return this.addressForm.get('streetname');
   }

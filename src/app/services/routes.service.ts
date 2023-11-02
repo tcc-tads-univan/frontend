@@ -14,7 +14,4 @@ export class RoutesService {
     return this.http.get<Address[]>(`http://localhost:8080/routes?address=${input}`);
   }
 
-  saveStudentAddress(studentId: number, address: Address) {
-    return of("MOCK - studentId: " + studentId + ": " + address);
-  }
 }

@@ -31,11 +31,6 @@ export class StudentService {
     return this.http.get<Student>(endpoint);
   }
 
-  findStudentBasicInfosById(userId: number) {
-    const endpoint = getApiURL(ApiEndpoints.STUDENT) + "/" + userId + '/basic-infos';
-    return this.http.get<Student>(endpoint);
-  }
-
   updateStudentById(studentId: number, studentRegistration: StudentRegistration) {
     const endpoint = getApiURL(ApiEndpoints.STUDENT) + "/" + studentId;
     const data = new FormData();
@@ -54,8 +49,16 @@ export class StudentService {
     return this.http.get<StudentSubscription>(getApiURL(ApiEndpoints.STUDENT + "/" + studentId + "/subscription"), httpOptions)
   }
 
-  registerStudentAddress(studentId: number) {
-    return this.http.post<Address>(getApiURL(ApiEndpoints.STUDENT + "/" + studentId + "/address"), httpOptions)
+  registerStudentAddress(studentId: number, address: Address) {
+    console.log(address.completeLineAddress + address.placeId)
+
+    const body = {
+      completeLineAddress: address.completeLineAddress,
+      placeId: address.placeId,
+    };
+    const url = getApiURL(ApiEndpoints.STUDENT + "/" + studentId + "/address")
+
+    return this.http.post(url, body);
   }
 
   findStudentAddress(studentId: number, addressId: number) {
