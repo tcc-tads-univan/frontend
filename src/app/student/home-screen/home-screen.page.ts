@@ -18,7 +18,13 @@ import {Address} from "../../shared/models/address/address";
   providers: [AuthenticationService, StudentService]
 })
 export class HomeScreenPage implements OnInit {
-
+  navigationUrls = {
+    findCarpools: ['../caronas'],
+    editProfile: ['../editar'],
+    regularStudents: ['../mensalistas'],
+    history: ['../carona/historico'],
+    address: ['../endereco']
+  }
 
   loggedUser!: LoginResponse | null;
   addressRegistered = false;

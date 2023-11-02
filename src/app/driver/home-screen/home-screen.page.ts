@@ -22,6 +22,7 @@ export class HomeScreenPage implements OnInit {
     editProfile: ['../editar'],
     maintainVehicle: ['../van'],
     regularStudents: ['../mensalistas/editar'],
+    history: ['../caronas/historico']
   }
 
   constructor(private authenticationService: AuthenticationService,

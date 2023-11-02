@@ -20,7 +20,7 @@ export class CarpoolHistoryPage implements OnInit {
   stars: number | undefined;
   userType = 1;
   private loggedUser!: LoginResponse | null;
-  tripsHistory$!: Observable<History>
+  tripsHistory$!: Observable<History[]>
   constructor(private historyService: HistoryService, private localStorageService: LocalStorageService) { }
 
   ngOnInit() {

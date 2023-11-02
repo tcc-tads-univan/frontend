@@ -8,6 +8,6 @@ export interface History {
   finalDestination: string,
   price: number,
   date: string,
-  
+
 }
 

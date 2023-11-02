@@ -9,12 +9,12 @@
 
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
   <div *ngIf="(tripsHistory$ | async) as tripsData; else loading">
-    <ion-card class="ion-padding">
+    <ion-card class="ion-padding" *ngFor="let trip of tripsData">
       <ion-card-header>
         <ion-card-title>
           <ion-label class="price ion-justify-content-end">
             <ion-icon class="icon-price" name="card-outline"></ion-icon>
-            {{tripsData.price}}
+            {{trip.price}}
           </ion-label>
           <ion-item>
             <ion-avatar slot="start">
@@ -22,7 +22,7 @@
             </ion-avatar>
             <ion-col class="ion-justify-content-between">
               <ion-label>
-                {{tripsData.studentName}}
+                {{trip.studentName}}
               </ion-label>
               <ion-card-subtitle>
                 <ion-icon name="star"></ion-icon>
@@ -36,42 +36,20 @@
         <ion-text>
           <p>
             <ion-icon name="time-outline"></ion-icon>
-            {{tripsData.date}}
+            {{trip.date}}
           </p>
           <p>
             <ion-icon name="navigate"></ion-icon>
-            {{tripsData.initialDestination}}
+            {{trip.initialDestination}}
           </p>
           <p>
             <ion-icon name="location-outline"></ion-icon>
-            {{tripsData.finalDestination}}
+            {{trip.finalDestination}}
           </p>
         </ion-text>
       </ion-card-content>
       <div class="stars ion-justify-content-center">
         <ion-title *ngIf="stars === 1">
-          <ion-icon name="star"></ion-icon>
-        </ion-title>
-        <ion-title *ngIf="stars === 2">
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-        </ion-title>
-        <ion-title *ngIf="stars === 3">
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-        </ion-title>
-        <ion-title *ngIf="stars === 4">
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-        </ion-title>
-        <ion-title *ngIf="stars === 5">
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
           <ion-icon name="star"></ion-icon>
         </ion-title>
       </div>

@@ -20,7 +20,7 @@ export class HistoryService {
 
     const url = getApiURL(ApiEndpoints.HISTORY + "/trips")
 
-    return this.http.get<History>(url, { params });
+    return this.http.get<History[]>(url, { params });
   }
 
 }
