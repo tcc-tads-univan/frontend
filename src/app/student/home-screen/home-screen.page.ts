@@ -19,9 +19,9 @@ import {Address} from "../../shared/models/address/address";
 })
 export class HomeScreenPage implements OnInit {
   navigationUrls = {
-    findCarpools: ['../caronas'],
+    findCarpools: ['../carona'],
     editProfile: ['../editar'],
-    regularStudents: ['../mensalistas'],
+    regularStudents: ['../mensalista'],
     history: ['../carona/historico'],
     address: ['../endereco']
   }

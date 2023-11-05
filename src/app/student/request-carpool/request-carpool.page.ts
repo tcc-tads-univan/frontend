@@ -63,7 +63,7 @@ export class RequestCarpoolPage implements OnInit {
       this.carpoolService
         .requestCarpool(this.selectedCampus, convertDateToScheduleTime(new Date(this.selectedTimePeriod)))
         .subscribe({
-          next: data => this.router.navigate(['/aluno/carona-solicitada']),
+          next: data => this.router.navigate(['/aluno/carona/atual']),
           error: err => {
             this.toastController.create({
               message: 'Erro ao solicitar a carona!',

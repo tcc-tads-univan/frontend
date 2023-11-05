@@ -19,7 +19,7 @@
     </ion-row>
     <ion-row id="start-carpool" class="ion-justify-content-center">
       <ion-col>
-        <ion-button color="light" expand="block" [routerLink]="[navigationUrls.findCarpools]">
+        <ion-button color="light" expand="block" [routerLink]="navigationUrls.findCarpools">
           Pegar Carona
           <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
         </ion-button>
@@ -28,11 +28,11 @@
     <div class="grey-border"></div>
     <ion-row id="user-options" class="ion-justify-content-start">
       <ion-col>
-        <ion-button class="buttons" color="light" expand="block" [routerLink]="[navigationUrls.editProfile]">
+        <ion-button class="buttons" color="light" expand="block" [routerLink]="navigationUrls.editProfile">
           <ion-icon slot="start" name="person-outline"></ion-icon>
           Editar Perfil
         </ion-button>
-        <ion-button class="buttons" color="light" expand="block" [routerLink]="[navigationUrls.regularStudents]">
+        <ion-button class="buttons" color="light" expand="block" [routerLink]="navigationUrls.regularStudents">
           Mensalista
           <ion-icon slot="start" name="wallet-outline"></ion-icon>
         </ion-button>
@@ -44,7 +44,7 @@
     </ion-row>
     <ion-row class="ion-align-items-center">
       <h1>Endereço</h1>
-      <ion-icon id="add-icon" size="large" name="add-outline" [routerLink]="navigationUrls.history"
+      <ion-icon id="add-icon" size="large" name="add-outline" [routerLink]="navigationUrls.address"
                 *ngIf="!addressRegistered"></ion-icon>
     </ion-row>
     <ion-card *ngIf="addressRegistered">
