@@ -3,50 +3,47 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {DriverService} from "../../services/driver.service";
-import {LoginResponse} from "../../shared/models/user/login-response.model";
 import {Observable} from "rxjs";
 import {DriverSubscriptions} from "../../shared/models/subscriptions/driver-subscriptions";
-import {LocalStorageService} from "../../services/local-storage.service";
 import {RegularStudent} from "../../shared/models/regular-student/regular-student";
 import {RouterLink} from "@angular/router";
+import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Component({
-    selector: 'app-register-edit-regular-student',
-    templateUrl: './register-edit-regular-student.page.html',
-    styleUrls: ['./register-edit-regular-student.page.scss'],
-    standalone: true,
+  selector: 'app-register-edit-regular-student',
+  templateUrl: './register-edit-regular-student.page.html',
+  styleUrls: ['./register-edit-regular-student.page.scss'],
+  standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink],
-    providers: [DriverService]
+  providers: [DriverService, AuthenticationService]
 })
 export class RegisterEditRegularStudentPage implements OnInit {
+  private driverId!: number;
+  username: string | undefined;
+  isModalOpen: boolean = false;
 
-    private loggedUser!: null | LoginResponse;
-    subscription$!: Observable<DriverSubscriptions>
-    isModalOpen: boolean = false;
-    regularStudent$!: Observable<RegularStudent>
-    driverName: string | undefined;
-    driverId: number = 0;
-    constructor(private driverService: DriverService, private localStorageService: LocalStorageService) {
-    }
+  subscriptions$!: Observable<DriverSubscriptions>;
+  regularStudent$!: Observable<RegularStudent>;
 
-    ngOnInit() {
-        this.loggedUser = this.localStorageService.loggedUser;
-        if (!this.loggedUser) {
-            throw new Error("User is not logged in");
-        }
-        this.driverName = this.loggedUser.name;
-        this.driverId = this.loggedUser.userId;
-        this.subscription$! = this.driverService.findDriverSubscriptions(this.loggedUser?.userId);
-    }
+  constructor(private driverService: DriverService, private authService: AuthenticationService) {
+  }
 
-    setOpen(isOpen: boolean) {
-        this.isModalOpen = isOpen;
-    }
-    handleModal(subscriptionId: number) {
-        this.regularStudent$! = this.driverService.findDriverSubscriptionsById(this.driverId, subscriptionId)
-        this.setOpen(true);
-        console.log(this.regularStudent$);
-    }
+  ngOnInit() {
+    this.driverId = this.authService.loggedUser!.userId;
+    this.username = this.authService.loggedUser!.name;
+
+    this.subscriptions$! = this.driverService.findDriverSubscriptions(this.driverId);
+  }
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
+
+  handleModal(subscriptionId: number) {
+    this.regularStudent$! = this.driverService.findDriverSubscriptionsById(this.driverId, subscriptionId)
+    this.setOpen(true);
+    console.log(this.regularStudent$);
+  }
 
 
 }

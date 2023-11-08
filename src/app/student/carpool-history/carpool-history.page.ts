@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {IonicModule} from '@ionic/angular';
 import {HistoryService} from "../../services/history.service";
-import {LocalStorageService} from "../../services/local-storage.service";
-import {LoginResponse} from "../../shared/models/user/login-response.model";
 import {Observable} from "rxjs";
 import {History} from "../../shared/models/history/history";
+import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-carpool-history',
@@ -14,21 +13,19 @@ import {History} from "../../shared/models/history/history";
   styleUrls: ['./carpool-history.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  providers: [HistoryService]
+  providers: [HistoryService, AuthenticationService]
 })
 export class CarpoolHistoryPage implements OnInit {
   stars: number | undefined;
-  userType = 1;
-  private loggedUser!: LoginResponse | null;
   tripsHistory$!: Observable<History[]>
-  constructor(private historyService: HistoryService, private localStorageService: LocalStorageService) { }
+
+  constructor(private historyService: HistoryService, private authService: AuthenticationService) {
+  }
 
   ngOnInit() {
+    const {userId, userType} = this.authService.loggedUser!;
+    this.tripsHistory$ = this.historyService.getCarpoolHistory(userId, userType);
     this.stars = 3;
-    this.loggedUser = this.localStorageService.loggedUser;
-    // @ts-ignore
-    this.tripsHistory$ = this.historyService.getCarpoolHistory(this.loggedUser?.userId, this.userType)
-
   }
 
 }

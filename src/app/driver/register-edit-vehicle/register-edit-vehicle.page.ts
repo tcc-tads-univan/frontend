@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {IonicModule, ToastController} from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 import {Router, RouterLink} from "@angular/router";
 import {VehicleRegistration} from "../../shared/models/vehicle/vehicle-registration";
 import {DriverService} from "../../services/driver.service";
-import {LoginResponse} from "../../shared/models/user/login-response.model";
-import {LocalStorageService} from "../../services/local-storage.service";
+import {ToastService} from 'src/app/services/toast.service';
+import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-register-edit-vehicle',
@@ -14,14 +14,15 @@ import {LocalStorageService} from "../../services/local-storage.service";
   styleUrls: ['./register-edit-vehicle.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink, ReactiveFormsModule],
-  providers: [DriverService]
+  providers: [DriverService, ToastService, AuthenticationService]
 })
 export class RegisterEditVehiclePage implements OnInit {
-  driver = {name: this.localStorageService.loggedUser?.name}
+  private userId!: number;
+  private vehicleId!: number;
   isRegistered!: boolean;
-  vehicleId: number = 0;
-
+  username!: string;
   currentYear = new Date().getFullYear();
+
   vehicleForm = this.fb.group({
     plate: ['', [Validators.required]],
     model: ['', [Validators.minLength(3), Validators.required]],
@@ -29,25 +30,20 @@ export class RegisterEditVehiclePage implements OnInit {
     seats: ['', [Validators.required, Validators.min(0), Validators.max(20)]],
   });
 
-  private loggedUser!: LoginResponse | null;
-  driverId = 0;
-
   constructor(private fb: FormBuilder,
               private driverService: DriverService,
-              private toastController: ToastController,
+              private toastService: ToastService,
               private router: Router,
-              private localStorageService: LocalStorageService) {
+              private authService: AuthenticationService) {
   }
 
   ngOnInit() {
-    this.loggedUser = this.localStorageService.loggedUser;
-    if (!this.loggedUser) {
-      throw new Error("User is not logged in");
-    }
+    this.userId = this.authService.loggedUser!.userId;
+    this.username = this.authService.loggedUser!.name;
 
-    this.driverService.findDriverById(this.loggedUser.userId).subscribe(propertyValue => {
-      this.vehicleId = propertyValue.vehicleId;
-      this.isVehicleRegistered(this.vehicleId);
+    this.driverService.findDriverById(this.userId).subscribe(propertyValue => {
+      const {vehicleId} = propertyValue;
+      this.isVehicleRegistered(vehicleId);
     });
   }
 
@@ -60,69 +56,40 @@ export class RegisterEditVehiclePage implements OnInit {
         seats: parseInt(this.seatsNumber?.value ?? '', 10),
       }
 
-      this.registerVehicle(vehicle, this.loggedUser!.userId);
-      console.log(vehicle);
+      this.registerVehicle(vehicle, this.userId);
     }
   }
 
   private readonly driverHomeUrl = ['/motorista'];
 
   registerVehicle(vehicle: VehicleRegistration, driverId: number) {
-    this.driverService.createVehicle(vehicle, driverId).subscribe({
+    this.driverService.registerVehicle(vehicle, driverId).subscribe({
       next: _ => {
-        this.toastController.create({
-          message: 'Cadastro concluído!',
-          duration: 1000,
-          position: 'top',
-          color: 'success',
-          icon: 'checkmark-outline'
-        }).then(toast => toast.present());
-
+        this.toastService.showSuccessToast('Cadastro concluído');
         this.router.navigate(this.driverHomeUrl);
       },
       error: err => {
-        this.toastController.create({
-          message: 'Erro ao concluir o cadastro da Van',
-          duration: 1500,
-          position: 'top',
-          color: 'danger',
-          icon: 'bug-outline'
-        }).then(toast => toast.present());
-
-        console.error(`[${err.status}] ${err.message}`);
+        this.toastService.showErrorToastAndLog('Erro ao concluir o cadastro da Van', err);
       }
     });
   }
 
   deleteVehicle() {
-    this.driverService.deleteDriverVehicle(this.driverId, this.vehicleId).subscribe(
-      () => {
-        this.toastController.create({
-          message: 'Veículo removido!',
-          duration: 1000,
-          position: 'top',
-          color: 'success',
-          icon: 'checkmark-outline'
-        }).then(toast => toast.present());
-
+    this.driverService.deleteDriverVehicle(this.userId, this.vehicleId).subscribe({
+      next: (_data) => {
+        this.toastService.showSuccessToast('Veículo removido com sucesso');
         this.router.navigate(this.driverHomeUrl);
       },
-      (err) => {
-        this.toastController.create({
-          message: 'Problema ao remover o veículo cadastrado.',
-          duration: 1500,
-          position: 'top',
-          color: 'danger',
-          icon: 'bug-outline'
-        }).then(toast => toast.present());
-
-        console.error(`[${err.status}] ${err.message}`);
+      error: (err) => {
+        this.toastService.showErrorToastAndLog('Problema ao remover o veículo cadastrado', err);
       }
-    );
+    });
   }
 
   isVehicleRegistered(vehicleId: number) {
-    this.driverService.findVehicleById(this.loggedUser!.userId, vehicleId).subscribe({
+    this.vehicleId = vehicleId;
+
+    this.driverService.findVehicleById(this.userId, vehicleId).subscribe({
       next: data => {
         this.vehicleForm.setValue({
           plate: data.plate,
@@ -131,7 +98,6 @@ export class RegisterEditVehiclePage implements OnInit {
           seats: data.seats.toString()
         });
 
-        this.driverId = this.loggedUser!.userId;
         this.licensePlate?.disable({onlySelf: true});
         this.model?.disable({onlySelf: true});
         this.fabricationYear?.disable({onlySelf: true});
@@ -143,7 +109,7 @@ export class RegisterEditVehiclePage implements OnInit {
         if (err.status === 404) {
           this.isRegistered = false;
         } else {
-          console.error(`[${err.status}] ${err.message}`);
+          this.toastService.showErrorToastAndLog('Problema ao recuperar os dados do veículo', err);
         }
       }
     });

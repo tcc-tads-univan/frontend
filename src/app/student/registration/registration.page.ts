@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {IonicModule, ToastController} from '@ionic/angular';
 import {StudentRegistration} from "../../shared/models/student/student-registration";
@@ -7,9 +7,9 @@ import {Router, RouterLink} from "@angular/router";
 import {StudentService} from "../../services/student.service";
 import {HttpClientModule} from "@angular/common/http";
 import {LoginResponse} from "../../shared/models/user/login-response.model";
-import {LocalStorageService} from "../../services/local-storage.service";
 import {CpfFormatDirective} from "../../shared/directives/cpf-format.directive";
 import {PhoneNumberDirective} from "../../shared/directives/phone-number-directive";
+import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-student-registration',
@@ -17,7 +17,7 @@ import {PhoneNumberDirective} from "../../shared/directives/phone-number-directi
   styleUrls: ['./registration.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, HttpClientModule, CpfFormatDirective, PhoneNumberDirective],
-  providers: [StudentService]
+  providers: [StudentService, AuthenticationService]
 })
 export class RegistrationPage implements OnInit {
   isEdit = false;
@@ -34,7 +34,13 @@ export class RegistrationPage implements OnInit {
   passwordVisible = false;
   private loggedUser!: LoginResponse | null;
 
-  constructor(private fb: FormBuilder, private studentService: StudentService, private router: Router, private toastController: ToastController, private localStorageService: LocalStorageService,) { }
+  constructor(
+    private fb: FormBuilder,
+    private studentService: StudentService,
+    private router: Router,
+    private toastController: ToastController,
+    private authService: AuthenticationService,) {
+  }
 
   ngOnInit() {
     if (this.router.url === '/aluno/editar') {
@@ -44,7 +50,7 @@ export class RegistrationPage implements OnInit {
       this.cpf?.disable({onlySelf: true});
       this.birthdate?.disable({onlySelf: true});
 
-      this.loggedUser = this.localStorageService.loggedUser;
+      this.loggedUser = this.authService.loggedUser;
       if (!this.loggedUser) {
         throw new Error("User is not logged in");
       }
@@ -128,7 +134,7 @@ export class RegistrationPage implements OnInit {
 
         // Atualiza o nome do usuário no localStorage caso tenha sido alterado
         this.loggedUser!.name = student.name;
-        this.localStorageService.saveAuthenticationInfo(this.loggedUser!);
+        this.authService.saveAuthenticationInfo(this.loggedUser!);
 
         this.router.navigate(['/aluno']);
       },

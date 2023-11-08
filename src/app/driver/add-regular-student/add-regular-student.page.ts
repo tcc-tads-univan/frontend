@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {IonicModule, ToastController} from '@ionic/angular';
-import {LoginResponse} from "../../shared/models/user/login-response.model";
-import {LocalStorageService} from "../../services/local-storage.service";
+import {IonicModule} from '@ionic/angular';
 import {DriverService} from "../../services/driver.service";
 import {RegularStudentRegistration} from "../../shared/models/regular-student/regular-student-registration";
 import {Router} from "@angular/router";
-import {convertDateToScheduleTime} from "../../shared/utils";
+import {ToastService} from 'src/app/services/toast.service';
+import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-add-regular-student',
@@ -15,9 +14,10 @@ import {convertDateToScheduleTime} from "../../shared/utils";
   styleUrls: ['./add-regular-student.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule],
-  providers: [DriverService]
+  providers: [DriverService, ToastService, AuthenticationService]
 })
 export class AddRegularStudentPage implements OnInit {
+  private userId!: number;
 
   regularStudentForm = this.fb.group({
     studentId: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
@@ -25,28 +25,21 @@ export class AddRegularStudentPage implements OnInit {
     expirationDay: ['', [Validators.required, Validators.min(1), Validators.max(31), Validators.pattern(/^\d+$/)]],
   });
 
-  private loggedUser!: LoginResponse | null;
-  driverId: number = 0;
-
   constructor(private fb: FormBuilder,
-              private localStorageService: LocalStorageService,
+              private authService: AuthenticationService,
               private driverService: DriverService,
-              private toastController: ToastController,
+              private toastService: ToastService,
               private router: Router) {
   }
 
   ngOnInit() {
-     this.loggedUser = this.localStorageService.loggedUser;
-      if (!this.loggedUser) {
-        throw new Error("User is not logged in");
-      }
-      this.driverId = this.loggedUser.userId;
+    this.userId = this.authService.loggedUser!.userId;
   }
 
   handleSubmit() {
     if (this.regularStudentForm.valid) {
       const regularStudent: RegularStudentRegistration = {
-        driverId: this.driverId,
+        driverId: this.userId,
         studentId: parseInt(this.student?.value ?? ''),
         monthlyFee: parseFloat(this.monthlyFee?.value ?? ''),
         expirationDay: parseInt(this.expirationDay?.value ?? ''),
@@ -58,29 +51,14 @@ export class AddRegularStudentPage implements OnInit {
 
   createRegularStudent(regularStudent: RegularStudentRegistration) {
     this.driverService.inviteStudent(regularStudent).subscribe({
-      next: data => {
-        this.toastController.create({
-          message: 'Cadastro concluído!',
-          duration: 1000,
-          position: 'top',
-          color: 'success',
-          icon: 'checkmark-outline'
-        }).then(toast => toast.present());
-
+      next: _data => {
+        this.toastService.showSuccessToast('Cadastro concluído');
         this.router.navigate(['/motorista']);
       },
       error: err => {
-        this.toastController.create({
-          message: 'Erro ao concluir o cadastro do Aluno',
-          duration: 1500,
-          position: 'top',
-          color: 'danger',
-          icon: 'bug-outline'
-        }).then(toast => toast.present());
-
-        console.error(`[${err.status}] ${err.message}`);
+        this.toastService.showErrorToastAndLog('Erro ao concluir o cadastro do Aluno', err);
       }
-    })
+    });
   }
 
   public get monthlyFee() {

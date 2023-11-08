@@ -4,7 +4,6 @@ import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router, RouterLink} from "@angular/router";
-import {LocalStorageService} from "../../services/local-storage.service";
 
 interface Navigation {
   description: string;
@@ -23,7 +22,11 @@ interface Navigation {
 export class HomeScreenPage implements OnInit {
   username!: string;
 
-  findCarpoolNav: Navigation = {description: "Procurar alunos", icon: "chevron-forward-outline", url: ['../caronas/procurar']};
+  findCarpoolNav: Navigation = {
+    description: "Procurar alunos",
+    icon: "chevron-forward-outline",
+    url: ['../caronas/procurar']
+  };
 
   navigations: Navigation[] = [
     {description: "Editar Perfil", icon: "person-outline", url: ['../editar']},
@@ -32,18 +35,16 @@ export class HomeScreenPage implements OnInit {
     {description: "Histórico", icon: "calendar-outline", url: ['../caronas/historico']}
   ];
 
-  constructor(private authenticationService: AuthenticationService,
-              private router: Router,
-              private localStorageService: LocalStorageService) {
+  constructor(private router: Router, private authService: AuthenticationService) {
   }
 
   ngOnInit() {
-    const loggedUser = this.localStorageService.loggedUser;
+    const loggedUser = this.authService.loggedUser;
     this.username = loggedUser ? loggedUser.name.split(" ")[0] : 'pessoa';
   }
 
   logout() {
-    this.authenticationService.logout();
+    this.authService.logout();
     this.router.navigate(['/']);
   }
 

@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {IonicModule, ToastController} from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 import {AuthenticationService} from "../../services/authentication.service";
 import {LoginRequest} from "../../shared/models/user/login-request.model";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {LocalStorageService} from "../../services/local-storage.service";
 import {UserType} from "../../shared/enums/user-type";
+import {ToastService} from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-authentication',
@@ -14,7 +14,7 @@ import {UserType} from "../../shared/enums/user-type";
   styleUrls: ['./authentication.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
-  providers: [AuthenticationService]
+  providers: [AuthenticationService, ToastService]
 })
 export class AuthenticationPage implements OnInit {
   loginForm = this.fb.group({
@@ -36,13 +36,12 @@ export class AuthenticationPage implements OnInit {
   constructor(private fb: FormBuilder,
               private activatedRoute: ActivatedRoute,
               private router: Router,
-              private toastController: ToastController,
-              private localStorageService: LocalStorageService,
+              private toastService: ToastService,
               private authService: AuthenticationService) {
   }
 
   ngOnInit() {
-    const loggedUser = this.localStorageService.loggedUser;
+    const loggedUser = this.authService.loggedUser;
     if (loggedUser) {
       this.redirectLoggedUser(loggedUser.userType);
     } else {
@@ -57,12 +56,12 @@ export class AuthenticationPage implements OnInit {
   }
 
   private redirectLoggedUser(userType: UserType) {
-      if (userType === UserType.DRIVER) {
-        this.router.navigate(this.profileLandingRoutes.driver);
-      }
-      if (userType === UserType.STUDENT) {
-        this.router.navigate(this.profileLandingRoutes.student);
-      }
+    if (userType === UserType.DRIVER) {
+      this.router.navigate(this.profileLandingRoutes.driver);
+    }
+    if (userType === UserType.STUDENT) {
+      this.router.navigate(this.profileLandingRoutes.student);
+    }
   }
 
   handleSubmit() {
@@ -74,29 +73,15 @@ export class AuthenticationPage implements OnInit {
 
       this.authService.authenticateUser(request).subscribe({
         next: response => {
-          this.localStorageService.saveAuthenticationInfo(response);
+          this.authService.saveAuthenticationInfo(response);
           this.redirectLoggedUser(response.userType);
         },
         error: err => {
           if (err.error.title === 'Email or password is invalid.') {
-            this.toastController.create({
-              message: 'Email ou senha é inválido',
-              duration: 1500,
-              position: 'top',
-              color: 'danger',
-              icon: 'key-outline'
-            }).then(toast => toast.present());
+            this.toastService.showDangerToast('Email ou senha é inválido', 'key-outline');
           } else {
-            this.toastController.create({
-              message: err.error.title,
-              duration: 1500,
-              position: 'top',
-              color: 'danger',
-              icon: 'bug-outline'
-            }).then(toast => toast.present());
+            this.toastService.showErrorToastAndLog('err.error.title', err);
           }
-
-          console.error(`[${err.status}] ${err.message}`);
         }
       });
     }

@@ -1,14 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {getApiURL, httpOptions} from "../shared/utils";
-import {LocalStorageService} from "./local-storage.service";
-import {CollegeCampus} from "../shared/models/college/college-campus";
 import {ApiEndpoints} from "../shared/enums/api-endpoints";
 import {CarpoolRequest} from "../shared/models/carpool/carpool-request";
 import {CarpoolDetails} from "../shared/models/carpool/carpool-details";
 import {Schedule} from "../shared/models/carpool/schedule";
 import {RequestedCarpool} from "../shared/models/carpool/requested-carpool";
-import DirectionsResult = google.maps.DirectionsResult;
 import {RouteDirections} from "../shared/models/address/route-directions";
 
 @Injectable({
@@ -20,36 +17,23 @@ export class CarpoolService {
   SCHEDULE_API: string = getApiURL(ApiEndpoints.SCHEDULE);
   ROUTES_API: string = getApiURL(ApiEndpoints.ROUTES);
 
-  constructor(private http: HttpClient,
-              private localStorageService: LocalStorageService) {
+  constructor(private http: HttpClient) {
   }
 
-  requestCarpool(campus: CollegeCampus, scheduleTime: string) {
-    // POC
-    const studentId = Math.floor((Math.random() * 100) + 1);
-    const studentName = `Aluno ${studentId}`;
-
-    this.localStorageService.saveUserInfo(studentId, studentName);
-    this.localStorageService.saveCarpool(studentId, campus.campusId!);
-
+  requestCarpool(campusId: number, studentId: number, scheduleTime: string) {
     const request: CarpoolRequest = {
       studentId,
-      campusId: campus.campusId!,
+      campusId,
       scheduleTime
     };
-
     return this.http.post(this.RIDE_API, request, httpOptions);
   }
 
-  approveCarpoolRequest(studentId: number) {
-    // POC
-    const driverId = Math.floor((Math.random() * 100) + 1);
-
-    const caronaStorage = this.localStorageService.getCarpool();
+  approveCarpoolRequest(studentId: number, driverId: number, campusId: number) {
     const carona = {
       driverId,
       studentId,
-      campusId: caronaStorage.campusId,
+      campusId,
     };
     return this.http.post(this.SCHEDULE_API, carona, httpOptions);
   }
@@ -63,7 +47,6 @@ export class CarpoolService {
       ...httpOptions,
       body: {studentId, campusId}
     }
-
     return this.http.delete(`${this.RIDE_API}`, cancelCarpoolHttpHeaders);
   }
 
@@ -79,12 +62,12 @@ export class CarpoolService {
     return this.http.get<Schedule>(`${this.SCHEDULE_API}/${scheduleId}`, httpOptions);
   }
 
-  approveSchedule(carpoolId: number) {
-    return this.http.put(`${this.SCHEDULE_API}/${carpoolId}/accept`, httpOptions);
+  approveSchedule(scheduleId: number) {
+    return this.http.put(`${this.SCHEDULE_API}/${scheduleId}/accept`, httpOptions);
   }
 
-  declineSchedule(carpoolId: number) {
-    return this.http.put(`${this.SCHEDULE_API}/${carpoolId}/reject`, httpOptions);
+  declineSchedule(scheduleId: number) {
+    return this.http.put(`${this.SCHEDULE_API}/${scheduleId}/reject`, httpOptions);
   }
 
   findRouteDirections(driverId: number, studentId: number) {

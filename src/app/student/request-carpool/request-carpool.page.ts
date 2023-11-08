@@ -1,12 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {IonicModule, ToastController} from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 import {CarpoolService} from "../../services/carpool.service";
 import {Router} from "@angular/router";
 import {CollegeService} from "../../services/college.service";
 import {CollegeCampus} from "../../shared/models/college/college-campus";
 import {convertDateToScheduleTime} from "../../shared/utils";
+import {ToastService} from "../../services/toast.service";
+import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-request-carpool',
@@ -14,23 +16,24 @@ import {convertDateToScheduleTime} from "../../shared/utils";
   styleUrls: ['./request-carpool.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  providers: [CarpoolService, CollegeService]
+  providers: [CarpoolService, CollegeService, ToastService, AuthenticationService]
 })
 export class RequestCarpoolPage implements OnInit {
   private campiList: CollegeCampus[] = [];
   private currentHour = new Date().getHours();
 
-  public filteredCampiList: CollegeCampus[] = [];
-  public avaliableHours: number[] = [];
+  filteredCampiList: CollegeCampus[] = [];
+  avaliableHours: number[] = [];
 
-  public selectedTimePeriod!: string;
-  public selectedCampus!: CollegeCampus;
+  selectedCampus!: CollegeCampus;
+  selectedTimePeriod!: string;
 
   constructor(
     private carpoolService: CarpoolService,
     private collegeService: CollegeService,
+    private authService: AuthenticationService,
     private router: Router,
-    private toastController: ToastController
+    private toastService: ToastService
   ) {
   }
 
@@ -38,6 +41,8 @@ export class RequestCarpoolPage implements OnInit {
     for (let i = this.currentHour; i < 24; i++) {
       this.avaliableHours.push(i);
     }
+
+    this.selectedTimePeriod = new Date().toTimeString();
 
     this.collegeService.findAllCampi().subscribe(
       campi => {
@@ -60,21 +65,14 @@ export class RequestCarpoolPage implements OnInit {
 
   handleSubmit() {
     if (this.selectedTimePeriod && this.selectedCampus) {
+      const {campusId} = this.selectedCampus;
+      const {userId} = this.authService.loggedUser!;
+
       this.carpoolService
-        .requestCarpool(this.selectedCampus, convertDateToScheduleTime(new Date(this.selectedTimePeriod)))
+        .requestCarpool(campusId, userId, convertDateToScheduleTime(new Date(this.selectedTimePeriod)))
         .subscribe({
           next: data => this.router.navigate(['/aluno/carona/atual']),
-          error: err => {
-            this.toastController.create({
-              message: 'Erro ao solicitar a carona!',
-              duration: 1500,
-              position: 'top',
-              color: 'danger',
-              icon: 'bug-outline'
-            }).then(toast => toast.present());
-
-            console.error(`[${err.status}] ${err.message}`);
-          }
+          error: err => this.toastService.showErrorToastAndLog("Problema ao solicitar a carona", err)
         });
     }
   }

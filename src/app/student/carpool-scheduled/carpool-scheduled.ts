@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {IonicModule} from '@ionic/angular';
 import {CarpoolService} from "../../services/carpool.service";
 import {Schedule} from "../../shared/models/carpool/schedule";
 import {Observable} from "rxjs";
-import {LocalStorageService} from "../../services/local-storage.service";
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-carpool-scheduled',
@@ -13,17 +13,16 @@ import {LocalStorageService} from "../../services/local-storage.service";
   styleUrls: ['./carpool-scheduled.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  providers: [CarpoolService, LocalStorageService]
+  providers: [CarpoolService]
 })
 export class CarpoolScheduled implements OnInit {
   schedule$!: Observable<Schedule>;
 
-  constructor(private carpoolService: CarpoolService,
-              private localStorageService: LocalStorageService) { }
-
-  ngOnInit() {
-    const scheduleId = this.localStorageService.getSchedule().scheduleId;
-    this.schedule$ = this.carpoolService.findScheduleById(scheduleId);
+  constructor(private carpoolService: CarpoolService, private activatedRoute: ActivatedRoute) {
   }
 
+  ngOnInit() {
+    const scheduleId = +this.activatedRoute.snapshot.queryParamMap.get('carona')!;
+    this.schedule$ = this.carpoolService.findScheduleById(scheduleId);
+  }
 }

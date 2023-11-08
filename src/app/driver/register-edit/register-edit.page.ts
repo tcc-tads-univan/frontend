@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {IonicModule, ToastController} from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 import {Router, RouterLink} from "@angular/router";
 import {DriverService} from "../../services/driver.service";
 import {DriverRegistration} from "../../shared/models/driver/driver-registration";
-import {LocalStorageService} from "../../services/local-storage.service";
-import {LoginResponse} from "../../shared/models/user/login-response.model";
 import {CpfFormatDirective} from "../../shared/directives/cpf-format.directive";
 import {CnhFormatDirective} from "../../shared/directives/cnh-format-directive";
 import {PhoneNumberDirective} from "../../shared/directives/phone-number-directive";
+import {ToastService} from 'src/app/services/toast.service';
+import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-driver-registration',
@@ -17,7 +17,7 @@ import {PhoneNumberDirective} from "../../shared/directives/phone-number-directi
   styleUrls: ['./register-edit.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, CpfFormatDirective, CnhFormatDirective, PhoneNumberDirective],
-  providers: [DriverService]
+  providers: [DriverService, ToastService, AuthenticationService]
 })
 export class RegisterEditPage implements OnInit {
   isEdit = false;
@@ -33,47 +33,48 @@ export class RegisterEditPage implements OnInit {
   });
 
   passwordVisible = false;
-  private loggedUser!: LoginResponse | null;
+  private userId!: number;
 
   constructor(private fb: FormBuilder,
-              private localStorageService: LocalStorageService,
+              private authService: AuthenticationService,
               private driverService: DriverService,
               private router: Router,
-              private toastController: ToastController) {
+              private toastService: ToastService) {
   }
 
   ngOnInit() {
     if (this.router.url === '/motorista/editar') {
-      this.isEdit = true;
-
-      this.password?.removeValidators(Validators.required);
-      this.cpf?.disable({onlySelf: true});
-      this.cnh?.disable({onlySelf: true});
-      this.birthdate?.disable({onlySelf: true});
-
-      this.loggedUser = this.localStorageService.loggedUser;
-      if (!this.loggedUser) {
-        throw new Error("User is not logged in");
-      }
-
-      this.driverService.findDriverById(this.loggedUser.userId).subscribe({
-        next: data => {
-          this.registrationForm.setValue({
-            name: data.name,
-            email: data.email,
-            cpf: data.cpf,
-            cnh: data.cnh,
-            birthdate: data.birthday,
-            password: "",
-            phonenumber: data.phoneNumber
-          });
-        },
-        error: err => {
-          console.error("Problem trying to retireve Driver info");
-          this.router.navigate(['/']);
-        }
-      });
+      this.setEditPage();
     }
+  }
+
+  private setEditPage() {
+    this.isEdit = true;
+
+    this.password?.removeValidators(Validators.required);
+    this.cpf?.disable({onlySelf: true});
+    this.cnh?.disable({onlySelf: true});
+    this.birthdate?.disable({onlySelf: true});
+
+    this.userId = this.authService.loggedUser!.userId;
+
+    this.driverService.findDriverById(this.userId).subscribe({
+      next: data => {
+        this.registrationForm.setValue({
+          name: data.name,
+          email: data.email,
+          cpf: data.cpf,
+          cnh: data.cnh,
+          birthdate: data.birthday,
+          password: '',
+          phonenumber: data.phoneNumber
+        });
+      },
+      error: err => {
+        this.toastService.showErrorToastAndLog('Problema ao recuperar seus dados', err);
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   handleSubmit() {
@@ -85,11 +86,11 @@ export class RegisterEditPage implements OnInit {
         phonenumber: this.phonenumber?.value ? this.phonenumber.value.replace(/\D/g, "").slice(0, 11) : '',
         email: this.email?.value ?? '',
         password: this.password?.value ?? '',
-        birthdate: this.birthdate?.value ?? ''
+        birthdate: this.birthdate!.value ?? ''
       }
 
       if (this.isEdit) {
-        this.updateDriver(this.loggedUser!.userId, driver);
+        this.updateDriver(this.userId, driver);
       } else {
         this.registerDriver(driver);
       }
@@ -99,54 +100,20 @@ export class RegisterEditPage implements OnInit {
   registerDriver(driver: DriverRegistration) {
     this.driverService.registerDriver(driver).subscribe({
       next: _ => {
-        this.toastController.create({
-          message: 'Cadastro concluído!',
-          duration: 1000,
-          position: 'top',
-          color: 'success',
-          icon: 'checkmark-outline'
-        }).then(toast => toast.present());
-
+        this.toastService.showSuccessToast('Cadastro feito com sucesso');
         this.router.navigate(['/']);
       },
-      error: err => {
-        this.toastController.create({
-          message: 'Erro ao concluir o seu cadastro',
-          duration: 1500,
-          position: 'top',
-          color: 'danger',
-          icon: 'bug-outline'
-        }).then(toast => toast.present());
-
-        console.error(`[${err.status}] ${err.message}`);
-      }
+      error: err => this.toastService.showErrorToastAndLog('Erro ao concluir o seu cadastro', err)
     });
   }
 
   updateDriver(driverId: number, driver: DriverRegistration) {
     this.driverService.updateDriverById(driverId, driver).subscribe({
       next: _ => {
-        this.toastController.create({
-          message: 'Dados atualizados com sucesso',
-          duration: 1000,
-          position: 'top',
-          color: 'success',
-          icon: 'checkmark-outline'
-        }).then(toast => toast.present());
-
+        this.toastService.showSuccessToast('Dados atualizados com sucesso');
         this.router.navigate(['/motorista']);
       },
-      error: err => {
-        this.toastController.create({
-          message: 'Erro ao atualizar seus dados',
-          duration: 1500,
-          position: 'top',
-          color: 'danger',
-          icon: 'bug-outline'
-        }).then(toast => toast.present());
-
-        console.error(`[${err.status}] ${err.message}`);
-      }
+      error: err => this.toastService.showErrorToastAndLog('Erro ao atualizar seus dados', err)
     });
   }
 

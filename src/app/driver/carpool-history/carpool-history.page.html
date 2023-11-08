@@ -8,13 +8,13 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
-  <div *ngIf="(tripsHistory$ | async) as tripsData; else loading">
-    <ion-card class="ion-padding" *ngFor="let trip of tripsData">
+  <div *ngIf="(tripsHistory$ | async) as history; else loading">
+    <ion-card class="ion-padding" *ngFor="let tripInfo of history">
       <ion-card-header>
         <ion-card-title>
           <ion-label class="price ion-justify-content-end">
             <ion-icon class="icon-price" name="card-outline"></ion-icon>
-            {{trip.price}}
+            {{tripInfo.price}}
           </ion-label>
           <ion-item>
             <ion-avatar slot="start">
@@ -22,11 +22,11 @@
             </ion-avatar>
             <ion-col class="ion-justify-content-between">
               <ion-label>
-                {{trip.studentName}}
+                {{tripInfo.studentName}}
               </ion-label>
               <ion-card-subtitle>
                 <ion-icon name="star"></ion-icon>
-                4,3
+                {{tripInfo.stars}}
               </ion-card-subtitle>
             </ion-col>
           </ion-item>
@@ -36,23 +36,18 @@
         <ion-text>
           <p>
             <ion-icon name="time-outline"></ion-icon>
-            {{trip.date}}
+            {{tripInfo.date}}
           </p>
           <p>
             <ion-icon name="navigate"></ion-icon>
-            {{trip.initialDestination}}
+            {{tripInfo.initialDestination}}
           </p>
           <p>
             <ion-icon name="location-outline"></ion-icon>
-            {{trip.finalDestination}}
+            {{tripInfo.finalDestination}}
           </p>
         </ion-text>
       </ion-card-content>
-      <div class="stars ion-justify-content-center">
-        <ion-title *ngIf="stars === 1">
-          <ion-icon name="star"></ion-icon>
-        </ion-title>
-      </div>
     </ion-card>
   </div>
   <ng-template #loading>

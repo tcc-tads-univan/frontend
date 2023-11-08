@@ -8,17 +8,17 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div *ngIf="(subscription$ | async) as subscriptionData; else noData">
+  <div *ngIf="(subscriptions$ | async) as subscription; else noData">
     <div class="card-header">
-      <h1 style="padding: 18px 0 0 24px; font-weight: 600;">Boa noite, {{driverName}}</h1>
+      <h1 style="padding: 18px 0 0 24px; font-weight: 600;">Olá, {{username}}</h1>
       <p style="padding: 11px 0 0 25px;">Hoje é Sexta-feira, <b>dia 24/04/2023</b></p>
-      <p *ngIf="subscriptionData.availableSeats > 0" style="padding: 11px 0 0 25px;">Você tem
-        <b>{{subscriptionData.availableSeats}} assentos vagos.</b></p>
-      <p *ngIf="subscriptionData.availableSeats === 0" style="padding: 11px 0 0 25px;">Você não tem assentos vagos.</p>
+      <p *ngIf="subscription.availableSeats > 0" style="padding: 11px 0 0 25px;">Você tem
+        <b>{{subscription.availableSeats}} assentos vagos.</b></p>
+      <p *ngIf="subscription.availableSeats === 0" style="padding: 11px 0 0 25px;">Você não tem assentos vagos.</p>
       <ion-img id="van-svg" src="./assets/airport_shuttle_FILL0_wght400_GRAD0_opsz48 1.svg"></ion-img>
     </div>
     <h2 id="generic-title">Alunos</h2>
-    <ion-item id="present-alert" *ngFor="let student of subscriptionData.students">
+    <ion-item id="present-alert" *ngFor="let student of subscription.students">
       <ion-avatar slot="start">
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
       </ion-avatar>

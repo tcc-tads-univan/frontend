@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {IonicModule, ToastController} from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 import {CarpoolService} from "../../services/carpool.service";
 import {Observable} from "rxjs";
-import {LocalStorageService} from "../../services/local-storage.service";
 import {CarpoolDetails} from "../../shared/models/carpool/carpool-details";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ToastService} from 'src/app/services/toast.service';
+import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-carpool-requested',
@@ -14,11 +15,12 @@ import {Router} from "@angular/router";
   styleUrls: ['./carpool-requested.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  providers: [CarpoolService, LocalStorageService]
+  providers: [CarpoolService, ToastService, AuthenticationService]
 })
 export class CarpoolRequestedPage implements OnInit {
   requestedCarpool$!: Observable<CarpoolDetails>;
-  storedData!: { studentId: number, campusId: number };
+  studentId!: number;
+  campusId!: number;
 
   public alertButtons = [
     {
@@ -35,41 +37,28 @@ export class CarpoolRequestedPage implements OnInit {
   ];
 
   constructor(private carpoolService: CarpoolService,
-              private localStorageService: LocalStorageService,
-              private toastController: ToastController,
-              private router: Router) {
+              private authService: AuthenticationService,
+              private toastService: ToastService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.storedData = this.localStorageService.getCarpool();
-    this.requestedCarpool$ = this.carpoolService.findCarpoolRequestByStudentAndCampus(this.storedData.studentId, this.storedData.campusId);
+    this.campusId = +this.activatedRoute.snapshot.queryParamMap.get('campus')!;
+    this.studentId = this.authService.loggedUser!.userId;
+
+    this.requestedCarpool$ = this.carpoolService.findCarpoolRequestByStudentAndCampus(this.studentId, this.campusId);
   }
 
   cancelCarpoolRequest() {
     this.carpoolService
-      .cancelCarpoolRequest(this.storedData.studentId, this.storedData.campusId)
+      .cancelCarpoolRequest(this.studentId, this.campusId)
       .subscribe({
         next: _data => {
-          this.toastController.create({
-            message: 'Carona cancelada com sucesso',
-            duration: 1500,
-            position: 'top',
-            color: 'success',
-            icon: 'checkmark-outline'
-          }).then(toast => toast.present());
-
+          this.toastService.showSuccessToast('Carona cancelada com sucesso');
           this.router.navigate(['/aluno']);
         },
-        error: err => {
-          this.toastController.create({
-            message: 'Erro ao cancelar a carona',
-            duration: 1500,
-            position: 'top',
-            color: 'danger',
-            icon: 'bug-outline'
-          }).then(toast => toast.present());
-          console.error(`[${err.status}] ${err.message}`);
-        }
+        error: err => this.toastService.showErrorToastAndLog('Erro ao cancelar a carona', err)
       });
   }
 

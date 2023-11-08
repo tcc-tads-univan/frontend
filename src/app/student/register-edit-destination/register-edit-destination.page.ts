@@ -6,8 +6,8 @@ import {Router, RouterLink} from "@angular/router";
 import {RoutesService} from "../../services/routes.service";
 import {Address} from "../../shared/models/address/address";
 import {HttpStatusCode} from "@angular/common/http";
-import {LocalStorageService} from "../../services/local-storage.service";
 import {StudentService} from "../../services/student.service";
+import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-register-edit-destination',
@@ -15,7 +15,7 @@ import {StudentService} from "../../services/student.service";
   styleUrls: ['./register-edit-destination.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
-  providers: [RoutesService, StudentService]
+  providers: [RoutesService, StudentService, AuthenticationService]
 })
 export class RegisterEditDestinationPage implements OnInit {
   addressForm = this.fb.group({
@@ -32,7 +32,7 @@ export class RegisterEditDestinationPage implements OnInit {
 
   constructor(private fb: FormBuilder,
               private toastController: ToastController,
-              private localStorageService: LocalStorageService,
+              private authService: AuthenticationService,
               private router: Router,
               private routesService: RoutesService,
               private studentService: StudentService) {
@@ -81,9 +81,9 @@ export class RegisterEditDestinationPage implements OnInit {
   }
 
   saveAddress() {
-    if (this.selectedAddress && this.localStorageService.loggedUser) {
+    if (this.selectedAddress && this.authService.loggedUser) {
       this.studentService
-        .registerStudentAddress(this.localStorageService.loggedUser.userId, this.selectedAddress)
+        .registerStudentAddress(this.authService.loggedUser.userId, this.selectedAddress)
         .subscribe({
           next: _data => {
             this.toastController.create({
@@ -93,7 +93,7 @@ export class RegisterEditDestinationPage implements OnInit {
               color: 'success',
               icon: 'checkmark-outline'
             }).then(toast => toast.present());
-            console.log(this.localStorageService.loggedUser!.userId);
+            console.log(this.authService.loggedUser!.userId);
 
             this.router.navigate(['/aluno']);
           },
@@ -101,6 +101,7 @@ export class RegisterEditDestinationPage implements OnInit {
         });
     }
   }
+
   get streetname() {
     return this.addressForm.get('streetname');
   }

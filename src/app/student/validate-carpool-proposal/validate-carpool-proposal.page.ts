@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {IonicModule, ToastController} from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 import {CarpoolService} from "../../services/carpool.service";
 import {Observable} from "rxjs";
-import {LocalStorageService} from "../../services/local-storage.service";
 import {Router} from "@angular/router";
 import {Schedule} from "../../shared/models/carpool/schedule";
+import {ToastService} from 'src/app/services/toast.service';
+import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-validate-carpool-proposal',
@@ -14,71 +15,41 @@ import {Schedule} from "../../shared/models/carpool/schedule";
   styleUrls: ['./validate-carpool-proposal.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  providers: [CarpoolService, LocalStorageService]
+  providers: [CarpoolService, AuthenticationService, ToastService]
 })
 export class ValidateCarpoolProposalPage implements OnInit {
   schedule$!: Observable<Schedule>;
 
   constructor(private carpoolService: CarpoolService,
-              private localStorageService: LocalStorageService,
+              private authService: AuthenticationService,
               private router: Router,
-              private toastController: ToastController) {
+              private toastService: ToastService) {
   }
 
   ngOnInit() {
-    const studentId = this.localStorageService.getUserInfo().studentId; // poc
-    this.schedule$ = this.carpoolService.findScheduleByStudentId(studentId);
+    const {userId} = this.authService.loggedUser!;
+    this.schedule$ = this.carpoolService.findScheduleByStudentId(userId);
   }
 
-  approveScheduleProposal(carpoolId: number) {
-    this.carpoolService.approveSchedule(carpoolId)
+  approveScheduleProposal(scheduleId: number) {
+    this.carpoolService.approveSchedule(scheduleId)
       .subscribe({
         next: _data => {
-          this.toastController.create({
-            message: 'Carona confirmada!',
-            duration: 1000,
-            position: 'top',
-            color: 'success',
-            icon: 'checkmark-outline'
-          }).then(toast => toast.present());
-
-          this.router.navigate(['/aluno/carona-confirmada']);
+          this.toastService.showSuccessToast('Carona confirmada');
+          this.router.navigate(['/aluno/carona/confirmada'], {queryParams: {carona: scheduleId}});
         },
-        error: err => {
-          this.toastController.create({
-            message: 'Erro ao aceitar a carona!',
-            duration: 1500,
-            position: 'top',
-            color: 'danger',
-            icon: 'bug-outline'
-          }).then(toast => toast.present());
-        }
+        error: err => this.toastService.showErrorToastAndLog('Erro ao aceitar a carona', err)
       });
   }
 
-  declineSchedulePropostal(carpoolId: number) {
-    this.carpoolService.declineSchedule(carpoolId)
+  declineSchedulePropostal(scheduleId: number) {
+    this.carpoolService.declineSchedule(scheduleId)
       .subscribe({
         next: _data => {
-          this.toastController.create({
-            message: 'Proposta recusada com sucesso!',
-            duration: 1000,
-            position: 'top',
-            color: 'warning',
-            icon: 'alert-circle-outline'
-          }).then(toast => toast.present());
-
+          this.toastService.showSuccessToast('Proposta recusada com sucesso');
           this.router.navigate(['/aluno']);
         },
-        error: err => {
-          this.toastController.create({
-            message: 'Erro ao recusar a carona!',
-            duration: 1500,
-            position: 'top',
-            color: 'danger',
-            icon: 'bug-outline'
-          }).then(toast => toast.present());
-        }
+        error: err => this.toastService.showErrorToastAndLog('Erro ao recusar a carona', err)
       });
   }
 }

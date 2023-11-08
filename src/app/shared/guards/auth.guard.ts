@@ -1,8 +1,8 @@
 import {inject, Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {LocalStorageService} from "../../services/local-storage.service";
-import {ToastController} from "@ionic/angular";
 import {UserType} from "../enums/user-type";
+import {AuthenticationService} from 'src/app/services/authentication.service';
+import {ToastService} from 'src/app/services/toast.service';
 
 @Injectable()
 export class AuthGuardService {
@@ -10,14 +10,12 @@ export class AuthGuardService {
   private redirectRoute: string[] = ['/'];
 
   constructor(private router: Router,
-              private localStorageService: LocalStorageService,
-              private toastController: ToastController) {
+              private authService: AuthenticationService,
+              private toastService: ToastService) {
   }
 
   isUserLoggedInAndAuthorized(authorizedProfile: UserType, redirectTo: string[]): boolean {
-    return true;
-
-    const loggedUser = this.localStorageService.loggedUser;
+    const loggedUser = this.authService.loggedUser;
 
     if (loggedUser) {
       if (authorizedProfile === loggedUser!.userType) {
@@ -28,13 +26,7 @@ export class AuthGuardService {
       }
     }
 
-    this.toastController.create({
-      message: this.errorMessage,
-      duration: 1000,
-      position: 'top',
-      color: 'danger',
-      icon: 'close-circle-outline'
-    }).then(toast => toast.present());
+    this.toastService.showDangerToast(this.errorMessage, 'close-circle-outline');
     this.router.navigate(this.redirectRoute);
 
     return false;

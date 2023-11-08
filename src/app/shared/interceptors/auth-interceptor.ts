@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {LocalStorageService} from "../../services/local-storage.service";
+import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private localStorageService: LocalStorageService) {
+  constructor(private authService: AuthenticationService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const loggedUser = this.localStorageService.loggedUser;
+    const loggedUser = this.authService.loggedUser;
 
     if (!loggedUser) {
       return next.handle(req);

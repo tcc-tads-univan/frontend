@@ -10,7 +10,7 @@ export const routes: Routes = [
     loadComponent: () => import('./validate-carpool-proposal/validate-carpool-proposal.page').then((m) => m.ValidateCarpoolProposalPage),
   },
   {
-    path: 'carona/confirmacao',
+    path: 'carona/confirmada',
     loadComponent: () => import('./carpool-scheduled/carpool-scheduled').then(m => m.CarpoolScheduled)
   },
   {
@@ -35,7 +35,7 @@ export const routes: Routes = [
   },
   {
     path: 'inicio',
-    loadComponent: () => import('./home-screen/home-screen.page').then( m => m.HomeScreenPage)
+    loadComponent: () => import('./home-screen/home-screen.page').then(m => m.HomeScreenPage)
   },
   {
     path: '',

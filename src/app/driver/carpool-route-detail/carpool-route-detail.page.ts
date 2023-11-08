@@ -9,9 +9,9 @@ import TravelMode = google.maps.TravelMode;
 import DirectionsRequest = google.maps.DirectionsRequest;
 import UnitSystem = google.maps.UnitSystem;
 import DirectionsWaypoint = google.maps.DirectionsWaypoint;
-import {LocalStorageService} from "../../services/local-storage.service";
 import {ActivatedRoute} from "@angular/router";
 import {ToastService} from "../../services/toast.service";
+import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-carpool-route-detail',
@@ -19,20 +19,20 @@ import {ToastService} from "../../services/toast.service";
   styleUrls: ['./carpool-route-detail.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule],
-  providers: [CarpoolService, MapDirectionsService]
+  providers: [CarpoolService, MapDirectionsService, AuthenticationService]
 })
 export class CarpoolRouteDetailPage implements OnInit {
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
 
   constructor(private carpoolService: CarpoolService,
               private mapDirectionsService: MapDirectionsService,
-              private localStorageService: LocalStorageService,
+              private authService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
               private toastService: ToastService) {
   }
 
   ngOnInit(): void {
-    const driverId: number = this.localStorageService.loggedUser!.userId;
+    const driverId: number = this.authService.loggedUser!.userId;
     const studentId: number = +this.activatedRoute.snapshot.queryParamMap.get('aluno')!;
     const campusPlaceId: string = this.activatedRoute.snapshot.queryParamMap.get('campus')!;
 

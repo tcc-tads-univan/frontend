@@ -7,8 +7,9 @@ import {StudentService} from "../../services/student.service";
 import {Observable} from "rxjs";
 import {PendingSubscriptions} from "../../shared/models/subscriptions/pending-subscriptions";
 import {LoginResponse} from "../../shared/models/user/login-response.model";
-import {LocalStorageService} from "../../services/local-storage.service";
 import {StudentSubscription} from "../../shared/models/subscriptions/student-subscription";
+import {AuthenticationService} from 'src/app/services/authentication.service';
+import {ToastService} from "../../services/toast.service";
 
 @Component({
   selector: 'app-regular-student',
@@ -16,7 +17,7 @@ import {StudentSubscription} from "../../shared/models/subscriptions/student-sub
   styleUrls: ['./regular-student.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  providers: [SubscriptionService, StudentService]
+  providers: [SubscriptionService, StudentService, AuthenticationService]
 })
 export class RegularStudentPage implements OnInit {
   paymentStatus: boolean = true;
@@ -26,12 +27,12 @@ export class RegularStudentPage implements OnInit {
 
   constructor(private subscriptionService: SubscriptionService,
               private studentService: StudentService,
-              private localStorageService: LocalStorageService,
-              private toastController: ToastController) {
+              private authService: AuthenticationService,
+              private toastService: ToastService) {
   }
 
   ngOnInit() {
-    this.loggedUser = this.localStorageService.loggedUser;
+    this.loggedUser = this.authService.loggedUser;
     if (!this.loggedUser) {
       throw new Error("User is not logged in");
     }
@@ -42,23 +43,10 @@ export class RegularStudentPage implements OnInit {
   declineSubscription(subscriptionId: number) {
     this.subscriptionService.declineSubscription(subscriptionId).subscribe({
       next: _ => {
-        this.toastController.create({
-          message: 'Mensalista recusado',
-          duration: 1000,
-          position: 'top',
-          color: 'success',
-          icon: 'checkmark-outline'
-        }).then(toast => toast.present());
-
+        this.toastService.showSuccessToast('Mensalista recusado');
       },
       error: err => {
-        this.toastController.create({
-          message: 'Erro ao concluir mensalista',
-          duration: 1500,
-          position: 'top',
-          color: 'danger',
-          icon: 'bug-outline'
-        }).then(toast => toast.present());
+        this.toastService.showErrorToastAndLog('Problema ao recusar o mensalista', err);
       }
     })
   }
@@ -67,22 +55,10 @@ export class RegularStudentPage implements OnInit {
     this.subscriptionService.acceptSubscription(subscriptionId).subscribe({
       next: _ => {
         window.location.reload();
-        this.toastController.create({
-          message: 'Mensalista aceito',
-          duration: 1000,
-          position: 'top',
-          color: 'success',
-          icon: 'checkmark-outline'
-        }).then(toast => toast.present());
+        this.toastService.showSuccessToast('Mensalista aceito');
       },
       error: err => {
-        this.toastController.create({
-          message: 'Erro ao concluir mensalista',
-          duration: 1500,
-          position: 'top',
-          color: 'danger',
-          icon: 'bug-outline'
-        }).then(toast => toast.present());
+        this.toastService.showErrorToastAndLog('Problema ao aceitar o mensalista', err);
       }
     })
   }
