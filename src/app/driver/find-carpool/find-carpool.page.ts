@@ -16,7 +16,7 @@ import {CollegeCampus} from "../../shared/models/college/college-campus";
   providers: [CollegeService]
 })
 export class FindCarpoolPage implements OnInit {
-  _campiList: CollegeCampus[] = [];
+  private campiList: CollegeCampus[] = [];
   filteredCampiList: CollegeCampus[] = [];
   selectedCampus!: CollegeCampus;
 
@@ -26,8 +26,8 @@ export class FindCarpoolPage implements OnInit {
   ngOnInit() {
     this.collegeService.findAllCampi().subscribe(
       campi => {
-        this._campiList = campi;
-        this.filteredCampiList = [...this._campiList];
+        this.campiList = campi;
+        this.filteredCampiList = [...this.campiList];
       }
     )
   }
@@ -39,7 +39,7 @@ export class FindCarpoolPage implements OnInit {
   handleInput(event: any) {
     if (this.filteredCampiList) {
       const query = event.target.value.toLowerCase();
-      this.filteredCampiList = this._campiList.filter((c) => c.campusName!.toLowerCase().indexOf(query) > -1);
+      this.filteredCampiList = this.campiList.filter((c) => c.campusName!.toLowerCase().indexOf(query) > -1);
     }
   }
 }

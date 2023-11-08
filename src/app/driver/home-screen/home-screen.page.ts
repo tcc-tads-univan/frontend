@@ -1,11 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import {LoginResponse} from "../../shared/models/user/login-response.model";
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {IonicModule} from '@ionic/angular';
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router, RouterLink} from "@angular/router";
 import {LocalStorageService} from "../../services/local-storage.service";
+
+interface Navigation {
+  description: string;
+  url: string[];
+  icon: string;
+}
 
 @Component({
   selector: 'app-home-screen',
@@ -16,14 +21,16 @@ import {LocalStorageService} from "../../services/local-storage.service";
   providers: [AuthenticationService]
 })
 export class HomeScreenPage implements OnInit {
-  loggedUser!: LoginResponse | null;
-  navigationUrls = {
-    findCarpools: ['../caronas/procurar'],
-    editProfile: ['../editar'],
-    maintainVehicle: ['../van'],
-    regularStudents: ['../mensalistas/editar'],
-    history: ['../caronas/historico']
-  }
+  username!: string;
+
+  findCarpoolNav: Navigation = {description: "Procurar alunos", icon: "chevron-forward-outline", url: ['../caronas/procurar']};
+
+  navigations: Navigation[] = [
+    {description: "Editar Perfil", icon: "person-outline", url: ['../editar']},
+    {description: "Minha Van", icon: "bus-outline", url: ['../van']},
+    {description: "Mensalistas", icon: "people-outline", url: ['../mensalistas/editar']},
+    {description: "Histórico", icon: "calendar-outline", url: ['../caronas/historico']}
+  ];
 
   constructor(private authenticationService: AuthenticationService,
               private router: Router,
@@ -31,7 +38,8 @@ export class HomeScreenPage implements OnInit {
   }
 
   ngOnInit() {
-    this.loggedUser = this.localStorageService.loggedUser;
+    const loggedUser = this.localStorageService.loggedUser;
+    this.username = loggedUser ? loggedUser.name.split(" ")[0] : 'pessoa';
   }
 
   logout() {

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {LoginDTO} from "../shared/models/user/login-dto.model";
+import {LoginRequest} from "../shared/models/user/login-request.model";
 import {LocalStorageService} from "./local-storage.service";
 import {HttpClient} from "@angular/common/http";
 import {getApiURL, httpOptions} from "../shared/utils";
@@ -15,7 +15,7 @@ export class AuthenticationService {
               private localStorageService: LocalStorageService) {
   }
 
-  authenticateUser(login: LoginDTO) {
+  authenticateUser(login: LoginRequest) {
     return this.http.post<LoginResponse>(getApiURL(ApiEndpoints.LOGIN), login, httpOptions);
   }
 

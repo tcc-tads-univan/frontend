@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
@@ -11,6 +11,7 @@ import UnitSystem = google.maps.UnitSystem;
 import DirectionsWaypoint = google.maps.DirectionsWaypoint;
 import {LocalStorageService} from "../../services/local-storage.service";
 import {ActivatedRoute} from "@angular/router";
+import {ToastService} from "../../services/toast.service";
 
 @Component({
   selector: 'app-carpool-route-detail',
@@ -26,11 +27,12 @@ export class CarpoolRouteDetailPage implements OnInit {
   constructor(private carpoolService: CarpoolService,
               private mapDirectionsService: MapDirectionsService,
               private localStorageService: LocalStorageService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private toastService: ToastService) {
   }
 
   ngOnInit(): void {
-    const driverId: number = /*this.localStorageService.loggedUser!.userId*/ 1;
+    const driverId: number = this.localStorageService.loggedUser!.userId;
     const studentId: number = +this.activatedRoute.snapshot.queryParamMap.get('aluno')!;
     const campusPlaceId: string = this.activatedRoute.snapshot.queryParamMap.get('campus')!;
 
@@ -52,9 +54,7 @@ export class CarpoolRouteDetailPage implements OnInit {
 
         this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => response.result));
       },
-      error: err => {
-        console.error("deu pau", err);
-      }
+      error: err => this.toastService.showErrorToastAndLog("Problema ao pesquisar a rota", err)
     });
   }
 }

@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {IonicModule, ToastController} from '@ionic/angular';
 import {AuthenticationService} from "../../services/authentication.service";
-import {LoginDTO} from "../../shared/models/user/login-dto.model";
+import {LoginRequest} from "../../shared/models/user/login-request.model";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {LocalStorageService} from "../../services/local-storage.service";
 import {UserType} from "../../shared/enums/user-type";
@@ -67,7 +67,7 @@ export class AuthenticationPage implements OnInit {
 
   handleSubmit() {
     if (this.loginForm.valid) {
-      const request: LoginDTO = {
+      const request: LoginRequest = {
         email: this.email!.value ?? '',
         password: this.password!.value ?? ''
       };
