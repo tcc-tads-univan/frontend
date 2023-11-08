@@ -2,8 +2,8 @@ import {Routes} from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'caronas/procurar',
-    loadComponent: () => import('./find-carpool/find-carpool.page').then(m => m.FindCarpoolPage)
+    path: 'inicio',
+    loadComponent: () => import('./home-screen/home-screen.page').then( m => m.HomeScreenPage)
   },
   {
     path: 'caronas',
@@ -11,17 +11,25 @@ export const routes: Routes = [
       import('./carpool-requests/carpool-requests.page').then((m) => m.CarpoolRequestsPage),
   },
   {
-    path: 'editar',
-    loadComponent: () => import('./register-edit/register-edit.page').then(m => m.RegisterEditPage)
+    path: 'caronas/procurar',
+    loadComponent: () => import('./find-carpool/find-carpool.page').then(m => m.FindCarpoolPage)
   },
   {
-    path: 'van',
-    loadComponent: () => import('./register-edit-vehicle/register-edit-vehicle.page').then( m => m.RegisterEditVehiclePage)
+    path: 'caronas/detalhe',
+    loadComponent: () => import('./carpool-route-detail/carpool-route-detail.page').then( m => m.CarpoolRouteDetailPage)
   },
   {
 
     path: 'caronas/historico',
     loadComponent: () => import('./carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
+  },
+  {
+    path: 'perfil',
+    loadComponent: () => import('./register-edit/register-edit.page').then(m => m.RegisterEditPage)
+  },
+  {
+    path: 'van',
+    loadComponent: () => import('./register-edit-vehicle/register-edit-vehicle.page').then( m => m.RegisterEditVehiclePage)
   },
   {
     path: 'mensalistas/editar',
@@ -32,13 +40,8 @@ export const routes: Routes = [
     loadComponent: () => import('./add-regular-student/add-regular-student.page').then( m => m.AddRegularStudentPage)
   },
   {
-    path: 'inicio',
-    loadComponent: () => import('./home-screen/home-screen.page').then( m => m.HomeScreenPage)
-  },
-  {
     path: '',
     redirectTo: '/motorista/inicio',
     pathMatch: 'full'
   },
-
 ];

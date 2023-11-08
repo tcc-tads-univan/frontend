@@ -6,14 +6,14 @@ import {CarpoolService} from "../../services/carpool.service";
 import {Observable} from "rxjs";
 import {LocalStorageService} from "../../services/local-storage.service";
 import {RequestedCarpool} from "../../shared/models/carpool/requested-carpool";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-carpool-requests',
   templateUrl: './carpool-requests.page.html',
   styleUrls: ['./carpool-requests.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink],
   providers: [CarpoolService]
 })
 export class CarpoolRequestsPage implements OnInit {
