@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {IonicModule, ToastController} from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 import {CarpoolService} from "../../services/carpool.service";
 import {Observable} from "rxjs";
-import {LocalStorageService} from "../../services/local-storage.service";
 import {RequestedCarpool} from "../../shared/models/carpool/requested-carpool";
-import {Router, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {ToastService} from "../../services/toast.service";
 
 @Component({
   selector: 'app-carpool-requests',
@@ -14,21 +14,25 @@ import {Router, RouterLink} from "@angular/router";
   styleUrls: ['./carpool-requests.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink],
-  providers: [CarpoolService]
+  providers: [CarpoolService, ToastService]
 })
 export class CarpoolRequestsPage implements OnInit {
   requestedCarpools$!: Observable<RequestedCarpool[]>;
+  campusPlaceId!: string | null;
 
   constructor(
     private carpoolService: CarpoolService,
-    private toastController: ToastController,
-    private localStorageService: LocalStorageService,
-    private router: Router
+    private toastService: ToastService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
   }
 
   ngOnInit() {
-    this.requestedCarpools$ = this.carpoolService.findCarpoolRequestsByCampus(this.localStorageService.getCarpool().campusId);
+    this.campusPlaceId = this.activatedRoute.snapshot.queryParamMap.get('origem');
+
+    const campusId = +this.activatedRoute.snapshot.queryParamMap.get('campus')!;
+    this.requestedCarpools$ = this.carpoolService.findCarpoolRequestsByCampus(campusId);
   }
 
   trackByItem(idx: number, item: RequestedCarpool) {
@@ -40,37 +44,10 @@ export class CarpoolRequestsPage implements OnInit {
       .approveCarpoolRequest(studentId)
       .subscribe({
         next: _data => {
-          this.toastController.create({
-            message: "Carona aceita com sucesso",
-            duration: 1500,
-            position: "top",
-            color: "success",
-            icon: "checkmark-outline"
-          }).then(toast => toast.present());
-
+          this.toastService.showSuccessToast("Carona aceita com sucesso");
           this.router.navigate(['/motorista']);
         },
-        error: err => {
-          this.toastController.create({
-            message: "Problema ao aceitar a carona",
-            duration: 1500,
-            position: "bottom",
-            color: "danger",
-            icon: "bug-outline"
-          }).then(toast => toast.present());
-
-          console.error(`[${err.status}] ${err.message}`);
-        }
+        error: err => this.toastService.showErrorToastAndLog("Problema ao aceitar a carona", err)
       });
-  }
-
-  viewRoute(studentId: number) {
-    this.toastController.create({
-      message: "Ainda não implementado",
-      duration: 1500,
-      position: "top",
-      color: "warning",
-      icon: "alert-circle-outline"
-    }).then(toast => toast.present());
   }
 }

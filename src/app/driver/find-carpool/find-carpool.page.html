@@ -31,6 +31,7 @@
     </ion-card-content>
 
     <ion-button [routerLink]="['/motorista/caronas']"
+                [queryParams]="{campus: selectedCampus.campusId, origem: selectedCampus.placeId}"
                 color="primary"
                 expand="block"
                 class="ion-margin"

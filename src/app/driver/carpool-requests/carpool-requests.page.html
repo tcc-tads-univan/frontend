@@ -44,7 +44,11 @@
           Destino: {{request.lineAddress}}
         </p>
         <ion-item-group class="ion-margin-top">
-          <ion-button color="secondary" fill="outline" expand="block" [routerLink]="['/motorista/caronas/detalhe']">
+          <ion-button color="secondary"
+                      fill="outline"
+                      expand="block"
+                      [routerLink]="['/motorista/caronas/detalhe']"
+                      [queryParams]="{aluno: request.studentId, campus: campusPlaceId}">
             <ion-icon name="map-outline"></ion-icon>
             Visualizar Rota
           </ion-button>
