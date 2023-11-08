@@ -8,7 +8,7 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 export class ToastService {
   private debug: boolean = true;
 
-  constructor(private toastController: ToastController, private httpClient: HttpClient) {
+  constructor(private toastController: ToastController) {
   }
 
   showSuccessToast(message: string, position?: "top" | "bottom") {

@@ -10,6 +10,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const loggedUserAsString = localStorage.getItem(LocalStorageKeys.AUTH);
+
     if (loggedUserAsString) {
       const loggedUser = JSON.parse(loggedUserAsString);
 

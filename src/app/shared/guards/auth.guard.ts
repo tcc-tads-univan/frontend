@@ -1,8 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {UserType} from "../enums/user-type";
-import {AuthenticationService} from 'src/app/services/authentication.service';
 import {ToastService} from 'src/app/services/toast.service';
+import {LocalStorageKeys} from "../enums/local-storage-keys";
+import {LoginResponse} from "../models/user/login-response.model";
 
 @Injectable()
 export class AuthGuardService {
@@ -10,28 +11,31 @@ export class AuthGuardService {
   private redirectRoute: string[] = ['/'];
 
   constructor(private router: Router,
-              private authService: AuthenticationService,
               private toastService: ToastService) {
   }
 
   isUserLoggedInAndAuthorized(authorizedProfile: UserType, redirectTo: string[]): boolean {
     return true;
 
-    // const loggedUser = this.authService.loggedUser;
-    //
-    // if (loggedUser) {
-    //   if (authorizedProfile === loggedUser.userType) {
-    //     return true;
-    //   } else {
-    //     this.errorMessage = "Você não tem autorização para essa ação";
-    //     this.redirectRoute = redirectTo;
-    //   }
-    // }
-    //
-    // this.toastService.showDangerToast(this.errorMessage, 'close-circle-outline');
-    // this.router.navigate(this.redirectRoute);
-    //
-    // return false;
+    const value = localStorage.getItem(LocalStorageKeys.AUTH);
+
+    if (value) {
+      const loggedUser = JSON.parse(value!) as LoginResponse;
+
+      if (loggedUser) {
+        if (authorizedProfile === loggedUser.userType) {
+          return true;
+        } else {
+          this.errorMessage = "Você não tem autorização para essa ação";
+          this.redirectRoute = redirectTo;
+        }
+      }
+
+      this.toastService.showDangerToast(this.errorMessage, 'close-circle-outline');
+      this.router.navigate(this.redirectRoute);
+    }
+
+    return false;
   }
 }
 

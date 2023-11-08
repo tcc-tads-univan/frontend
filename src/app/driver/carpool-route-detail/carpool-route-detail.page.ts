@@ -12,14 +12,14 @@ import DirectionsWaypoint = google.maps.DirectionsWaypoint;
 import {ActivatedRoute} from "@angular/router";
 import {ToastService} from "../../services/toast.service";
 import {AuthenticationService} from 'src/app/services/authentication.service';
-import {HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 
 @Component({
   selector: 'app-carpool-route-detail',
   templateUrl: './carpool-route-detail.page.html',
   styleUrls: ['./carpool-route-detail.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule, HttpClientJsonpModule, HttpClientModule],
+  imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule, HttpClientModule],
   providers: [CarpoolService, MapDirectionsService, AuthenticationService, ToastService]
 })
 export class CarpoolRouteDetailPage implements OnInit {
