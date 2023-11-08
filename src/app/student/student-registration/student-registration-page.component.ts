@@ -51,10 +51,7 @@ export class StudentRegistrationPage implements OnInit {
       this.cpf?.disable({onlySelf: true});
       this.birthdate?.disable({onlySelf: true});
 
-      this.loggedUser = this.authService.loggedUser;
-      if (!this.loggedUser) {
-        throw new Error("User is not logged in");
-      }
+      this.loggedUser = this.authService.loggedUser!;
 
       this.studentService.findStudentById(this.loggedUser.userId).subscribe({
         next: data => {
@@ -68,7 +65,8 @@ export class StudentRegistrationPage implements OnInit {
           });
         },
         error: err => {
-          console.error("Problem trying to retireve Student info");
+          console.warn("Problem trying to retireve Student info");
+          console.warn(err);
           this.router.navigate(['/']);
         }
       });
@@ -90,8 +88,6 @@ export class StudentRegistrationPage implements OnInit {
       } else {
         this.registerStudent(student);
       }
-
-      console.log(student);
     }
   }
 
@@ -109,12 +105,12 @@ export class StudentRegistrationPage implements OnInit {
 
   updateStudent(studentId: number, student: StudentRegistration) {
     this.studentService.updateStudentById(studentId, student).subscribe({
-      next: _ => {
-        this.toastService.showSuccessToast('Cadastro finalizado com sucesso');
-
+      next: _data => {
         // Atualiza o nome do usuário no localStorage caso tenha sido alterado
         this.loggedUser!.name = student.name;
         this.authService.saveAuthenticationInfo(this.loggedUser!);
+
+        this.toastService.showSuccessToast('Cadastro finalizado com sucesso');
 
         this.router.navigate(['/aluno']);
       },

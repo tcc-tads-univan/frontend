@@ -1,12 +1,14 @@
 import {Injectable} from '@angular/core';
 import {ToastController} from "@ionic/angular";
-import {HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToastService {
-  constructor(private toastController: ToastController) {
+  private debug: boolean = true;
+
+  constructor(private toastController: ToastController, private httpClient: HttpClient) {
   }
 
   showSuccessToast(message: string, position?: "top" | "bottom") {
@@ -19,7 +21,7 @@ export class ToastService {
     }).then(toast => toast.present());
   }
 
-  showErrorToastAndLog(message: string, error: HttpErrorResponse, position?: "top" | "bottom") {
+  showErrorToastAndLog(message: string, error: Error, position?: "top" | "bottom") {
     this.toastController.create({
       message: message,
       duration: 1500,
@@ -28,7 +30,10 @@ export class ToastService {
       icon: "bug-outline"
     }).then(toast => toast.present());
 
-    console.error(`HttpErrorResponse: ${error}`);
+    console.error(error.message);
+    if (this.debug) {
+      console.warn(error);
+    }
   }
 
   showDangerToast(message: string, icon: string, position?: "top" | "bottom") {

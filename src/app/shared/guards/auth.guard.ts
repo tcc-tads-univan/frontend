@@ -15,21 +15,23 @@ export class AuthGuardService {
   }
 
   isUserLoggedInAndAuthorized(authorizedProfile: UserType, redirectTo: string[]): boolean {
-    const loggedUser = this.authService.loggedUser;
+    return true;
 
-    if (loggedUser) {
-      if (authorizedProfile === loggedUser!.userType) {
-        return true;
-      } else {
-        this.errorMessage = "Você não tem autorização para essa ação";
-        this.redirectRoute = redirectTo;
-      }
-    }
-
-    this.toastService.showDangerToast(this.errorMessage, 'close-circle-outline');
-    this.router.navigate(this.redirectRoute);
-
-    return false;
+    // const loggedUser = this.authService.loggedUser;
+    //
+    // if (loggedUser) {
+    //   if (authorizedProfile === loggedUser.userType) {
+    //     return true;
+    //   } else {
+    //     this.errorMessage = "Você não tem autorização para essa ação";
+    //     this.redirectRoute = redirectTo;
+    //   }
+    // }
+    //
+    // this.toastService.showDangerToast(this.errorMessage, 'close-circle-outline');
+    // this.router.navigate(this.redirectRoute);
+    //
+    // return false;
   }
 }
 

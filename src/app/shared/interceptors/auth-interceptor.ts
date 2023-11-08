@@ -1,24 +1,27 @@
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {AuthenticationService} from 'src/app/services/authentication.service';
+import {LocalStorageKeys} from "../enums/local-storage-keys";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthenticationService) {
+  constructor() {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const loggedUser = this.authService.loggedUser;
+    const loggedUserAsString = localStorage.getItem(LocalStorageKeys.AUTH);
+    if (loggedUserAsString) {
+      const loggedUser = JSON.parse(loggedUserAsString);
 
-    if (!loggedUser) {
-      return next.handle(req);
+      if (loggedUser && loggedUser.hasOwnProperty('token')) {
+        const cloneReq = req.clone({
+          headers: req.headers.set("Authorization", "Bearer " + loggedUser.token)
+        });
+
+        return next.handle(cloneReq);
+      }
     }
 
-    const cloneReq = req.clone({
-      headers: req.headers.set("Authorization", "Bearer " + loggedUser.token)
-    });
-
-    return next.handle(cloneReq);
+    return next.handle(req);
   }
 }

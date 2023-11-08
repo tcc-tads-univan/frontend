@@ -77,10 +77,10 @@ export class AuthenticationPage implements OnInit {
           this.redirectLoggedUser(response.userType);
         },
         error: err => {
-          if (err.error.title === 'Email or password is invalid.') {
+          if (err.hasOwnProperty('error') && err.error.title === 'Email or password is invalid.') {
             this.toastService.showDangerToast('Email ou senha é inválido', 'key-outline');
           } else {
-            this.toastService.showErrorToastAndLog('err.error.title', err);
+            this.toastService.showErrorToastAndLog("Houve um problema na autenticação", err);
           }
         }
       });

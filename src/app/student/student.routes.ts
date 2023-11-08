@@ -35,7 +35,7 @@ export const routes: Routes = [
   },
   {
     path: 'inicio',
-    loadComponent: () => import('./home-screen/home-screen.page').then(m => m.HomeScreenPage)
+    loadComponent: () => import('./student-landing-page/student-landing-page.component').then(m => m.StudentLandingPage)
   },
   {
     path: '',

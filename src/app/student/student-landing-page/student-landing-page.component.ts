@@ -9,14 +9,14 @@ import {Address} from "../../shared/models/address/address";
 import {ToastService} from 'src/app/services/toast.service';
 
 @Component({
-  selector: 'app-home-screen',
-  templateUrl: './home-screen.page.html',
-  styleUrls: ['./home-screen.page.scss'],
+  selector: 'app-student-landing-page',
+  templateUrl: './student-landing-page.component.html',
+  styleUrls: ['./student-landing-page.component.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink],
   providers: [AuthenticationService, StudentService]
 })
-export class HomeScreenPage implements OnInit {
+export class StudentLandingPage implements OnInit {
   navigationUrls = {
     findCarpools: ['../carona'],
     editProfile: ['../editar'],
@@ -26,6 +26,7 @@ export class HomeScreenPage implements OnInit {
   }
 
   userId!: number;
+  username!: string;
   addressRegistered = false;
   address: Address | undefined;
 
@@ -35,11 +36,12 @@ export class HomeScreenPage implements OnInit {
     private studentService: StudentService,
     private toastService: ToastService
   ) {
-    this.userId = this.authService.loggedUser!.userId;
   }
 
 
   ngOnInit() {
+    this.userId = this.authService.loggedUser!.userId;
+    this.username = this.authService.loggedUser!.name;
     this.isStudentAddressRegistered();
   }
 
