@@ -12,7 +12,7 @@ import {RouteDirections} from "../shared/models/address/route-directions";
   providedIn: 'root'
 })
 export class CarpoolService {
-  RIDE_API = getApiURL(ApiEndpoints.RIDE);
+  RIDE_API: string = getApiURL(ApiEndpoints.RIDE);
   CAMPI_API: string = getApiURL(ApiEndpoints.CAMPI);
   SCHEDULE_API: string = getApiURL(ApiEndpoints.SCHEDULE);
   ROUTES_API: string = getApiURL(ApiEndpoints.ROUTES);
@@ -21,25 +21,21 @@ export class CarpoolService {
   }
 
   requestCarpool(campusId: number, studentId: number, scheduleTime: string) {
-    const request: CarpoolRequest = {
-      studentId,
-      campusId,
-      scheduleTime
-    };
-    return this.http.post(this.RIDE_API, request, httpOptions);
+    const body: CarpoolRequest = {studentId, campusId, scheduleTime};
+    return this.http.post(this.RIDE_API, body, httpOptions);
   }
 
-  approveCarpoolRequest(studentId: number, driverId: number, campusId: number) {
-    const carona = {
-      driverId,
-      studentId,
-      campusId,
-    };
-    return this.http.post(this.SCHEDULE_API, carona, httpOptions);
+  approveCarpoolRequest(studentId: number, driverId: number, campusId: number, price: number) {
+    const body = {driverId, studentId, campusId, price};
+    return this.http.post(this.SCHEDULE_API, body, httpOptions);
   }
 
   findCarpoolRequestsByCampus(campusId: number) {
     return this.http.get<RequestedCarpool[]>(`${this.CAMPI_API}/${campusId}/rides`, httpOptions);
+  }
+
+  findCarpoolRequestByCampusAndStudentId(campusId: number, studentId: number) {
+    return this.http.get<RequestedCarpool>(`${this.CAMPI_API}/${campusId}/rides/${studentId}`, httpOptions);
   }
 
   cancelCarpoolRequest(studentId: number, campusId: number) {
@@ -71,6 +67,6 @@ export class CarpoolService {
   }
 
   findRouteDirections(driverId: number, studentId: number) {
-    return this.http.get<RouteDirections>( `${this.ROUTES_API}/directions?driverId=${driverId}&studentId=${studentId}`, httpOptions);
+    return this.http.get<RouteDirections>(`${this.ROUTES_API}/directions?driverId=${driverId}&studentId=${studentId}`, httpOptions);
   }
 }

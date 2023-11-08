@@ -8,10 +8,14 @@ import {CollegeCampus} from "../shared/models/college/college-campus";
   providedIn: 'root'
 })
 export class CollegeService {
-  URL = getApiURL(ApiEndpoints.CAMPI);
+  apiURL = getApiURL(ApiEndpoints.CAMPI);
   constructor(private http: HttpClient) { }
 
   findAllCampi() {
-    return this.http.get<CollegeCampus[]>(this.URL, httpOptions);
+    return this.http.get<CollegeCampus[]>(this.apiURL, httpOptions);
+  }
+
+  findCampusById(campusId: number) {
+    return this.http.get<CollegeCampus>(this.apiURL + "/" + campusId, httpOptions);
   }
 }

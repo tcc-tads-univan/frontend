@@ -5,34 +5,29 @@ import {IonicModule} from '@ionic/angular';
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router, RouterLink} from "@angular/router";
 
-interface Navigation {
-  description: string;
-  url: string[];
-  icon: string;
-}
-
 @Component({
-  selector: 'app-home-screen',
-  templateUrl: './home-screen.page.html',
-  styleUrls: ['./home-screen.page.scss'],
+  selector: 'app-driver-landing-page',
+  templateUrl: './driver-landing-page.component.html',
+  styleUrls: ['./driver-landing-page.component.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink],
   providers: [AuthenticationService]
 })
-export class HomeScreenPage implements OnInit {
+export class DriverLandingPage implements OnInit {
   username!: string;
 
-  findCarpoolNav: Navigation = {
+  findCarpoolNav = {
     description: "Procurar alunos",
     icon: "chevron-forward-outline",
     url: ['../caronas/procurar']
   };
 
-  navigations: Navigation[] = [
+  navigations = [
     {description: "Editar Perfil", icon: "person-outline", url: ['../editar']},
     {description: "Minha Van", icon: "bus-outline", url: ['../van']},
     {description: "Mensalistas", icon: "people-outline", url: ['../mensalistas/editar']},
-    {description: "Histórico", icon: "calendar-outline", url: ['../caronas/historico']}
+    {description: "Histórico", icon: "calendar-outline", url: ['../caronas/historico']},
+    {description: "mock", icon: "", url: ['../caronas/detalhe']}
   ];
 
   constructor(private router: Router, private authService: AuthenticationService) {

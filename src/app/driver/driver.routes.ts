@@ -3,7 +3,7 @@ import {Routes} from '@angular/router';
 export const routes: Routes = [
   {
     path: 'inicio',
-    loadComponent: () => import('./home-screen/home-screen.page').then( m => m.HomeScreenPage)
+    loadComponent: () => import('./driver-landing/driver-landing-page.component').then(m => m.DriverLandingPage)
   },
   {
     path: 'caronas',

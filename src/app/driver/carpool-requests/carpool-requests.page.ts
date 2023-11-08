@@ -5,7 +5,7 @@ import {IonicModule} from '@ionic/angular';
 import {CarpoolService} from "../../services/carpool.service";
 import {Observable} from "rxjs";
 import {RequestedCarpool} from "../../shared/models/carpool/requested-carpool";
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import {ToastService} from "../../services/toast.service";
 import {AuthenticationService} from 'src/app/services/authentication.service';
 
@@ -24,9 +24,6 @@ export class CarpoolRequestsPage implements OnInit {
 
   constructor(
     private carpoolService: CarpoolService,
-    private authService: AuthenticationService,
-    private toastService: ToastService,
-    private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
   }
@@ -40,19 +37,5 @@ export class CarpoolRequestsPage implements OnInit {
 
   trackByItem(idx: number, item: RequestedCarpool) {
     return item.studentId;
-  }
-
-  approveCarpoolRequest(studentId: number) {
-    const {userId} = this.authService.loggedUser!;
-
-    this.carpoolService
-      .approveCarpoolRequest(studentId, userId, this.campusId)
-      .subscribe({
-        next: _data => {
-          this.toastService.showSuccessToast("Carona aceita com sucesso");
-          this.router.navigate(['/motorista']);
-        },
-        error: err => this.toastService.showErrorToastAndLog("Problema ao aceitar a carona", err)
-      });
   }
 }

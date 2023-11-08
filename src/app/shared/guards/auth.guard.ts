@@ -15,8 +15,6 @@ export class AuthGuardService {
   }
 
   isUserLoggedInAndAuthorized(authorizedProfile: UserType, redirectTo: string[]): boolean {
-    return true;
-
     const value = localStorage.getItem(LocalStorageKeys.AUTH);
 
     if (value) {
