@@ -8,6 +8,8 @@ import {CarpoolRequest} from "../shared/models/carpool/carpool-request";
 import {CarpoolDetails} from "../shared/models/carpool/carpool-details";
 import {Schedule} from "../shared/models/carpool/schedule";
 import {RequestedCarpool} from "../shared/models/carpool/requested-carpool";
+import DirectionsResult = google.maps.DirectionsResult;
+import {RouteDirections} from "../shared/models/address/route-directions";
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +18,10 @@ export class CarpoolService {
   RIDE_API = getApiURL(ApiEndpoints.RIDE);
   CAMPI_API: string = getApiURL(ApiEndpoints.CAMPI);
   SCHEDULE_API: string = getApiURL(ApiEndpoints.SCHEDULE);
+  ROUTES_API: string = getApiURL(ApiEndpoints.ROUTES);
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+  constructor(private http: HttpClient,
+              private localStorageService: LocalStorageService) {
   }
 
   requestCarpool(campus: CollegeCampus, scheduleTime: string) {
@@ -81,5 +85,9 @@ export class CarpoolService {
 
   declineSchedule(carpoolId: number) {
     return this.http.put(`${this.SCHEDULE_API}/${carpoolId}/reject`, httpOptions);
+  }
+
+  findRouteDirections(driverId: number, studentId: number) {
+    return this.http.get<RouteDirections>( `${this.ROUTES_API}/directions?driverId=${driverId}&studentId=${studentId}`, httpOptions);
   }
 }

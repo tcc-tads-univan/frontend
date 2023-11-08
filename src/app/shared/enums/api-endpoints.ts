@@ -6,5 +6,6 @@ export enum ApiEndpoints {
   STUDENT = "/student",
   LOGIN = "/login",
   SUBSCRIPTION = "/subscription",
-  HISTORY = "/history"
+  HISTORY = "/history",
+  ROUTES = "/routes",
 }

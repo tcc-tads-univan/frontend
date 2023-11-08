@@ -1,35 +1,60 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
-import {GoogleMapsModule} from '@angular/google-maps';
-import {HttpClient, HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
-import {catchError, map, Observable, of} from "rxjs";
+import {GoogleMapsModule, MapDirectionsService} from '@angular/google-maps';
+import {map, Observable} from "rxjs";
+import {CarpoolService} from "../../services/carpool.service";
+import TravelMode = google.maps.TravelMode;
+import DirectionsRequest = google.maps.DirectionsRequest;
+import UnitSystem = google.maps.UnitSystem;
+import DirectionsWaypoint = google.maps.DirectionsWaypoint;
+import {LocalStorageService} from "../../services/local-storage.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-carpool-route-detail',
   templateUrl: './carpool-route-detail.page.html',
   styleUrls: ['./carpool-route-detail.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule, HttpClientModule, HttpClientJsonpModule]
+  imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule],
+  providers: [CarpoolService, MapDirectionsService]
 })
 export class CarpoolRouteDetailPage implements OnInit {
-  apiLoaded: Observable<boolean>;
+  directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
 
-  constructor(httpClient: HttpClient) {
-    this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=AIzaSyBxE3WWoAjcEUk4ttI1La96XO_JeWzXdM4', 'callback')
-      .pipe(
-        map(() => {
-          console.log('oi')
-          return true;
-        }),
-        catchError(() => {
-          console.log('tchau')
-          return of(false)
-        }),
-      );
+  constructor(private carpoolService: CarpoolService,
+              private mapDirectionsService: MapDirectionsService,
+              private localStorageService: LocalStorageService,
+              private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    const driverId: number = /*this.localStorageService.loggedUser!.userId*/ 1;
+    const studentId: number = +this.activatedRoute.snapshot.queryParamMap.get('aluno')!;
+    const campusPlaceId: string = this.activatedRoute.snapshot.queryParamMap.get('campus')!;
+
+    this.findRouteDirections(driverId, studentId, campusPlaceId);
+  }
+
+  private findRouteDirections(driverId: number, studentId: number, campusPlaceId: string) {
+    this.carpoolService.findRouteDirections(driverId, studentId).subscribe({
+      next: response => {
+        const request: DirectionsRequest = {
+          destination: {placeId: response.destination},
+          origin: {placeId: campusPlaceId},
+          travelMode: TravelMode.DRIVING,
+          language: 'pt-BR',
+          unitSystem: UnitSystem.METRIC,
+          optimizeWaypoints: true,
+          waypoints: response.waypoints.map(waypoint => ({location: {placeId: waypoint}} as DirectionsWaypoint))
+        };
+
+        this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => response.result));
+      },
+      error: err => {
+        console.error("deu pau", err);
+      }
+    });
   }
 }

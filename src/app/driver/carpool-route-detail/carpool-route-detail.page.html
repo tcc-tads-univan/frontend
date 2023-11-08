@@ -8,7 +8,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
-  <div *ngIf="apiLoaded | async">
-    <google-map></google-map>
-  </div>
+  <google-map height="400px"
+              width="90vw"
+              [zoom]="3">
+    <map-directions-renderer *ngIf="directionsResults$ | async as directionsResults"
+                             [directions]="directionsResults">
+    </map-directions-renderer>
+  </google-map>
 </ion-content>
