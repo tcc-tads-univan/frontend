@@ -8,11 +8,11 @@ export const routes: Routes = [
   },
   {
     path: 'aluno/cadastro',
-    loadComponent: () => import('./student/registration/registration.page').then(m => m.RegistrationPage)
+    loadComponent: () => import('./student/student-registration/student-registration-page.component').then(m => m.StudentRegistrationPage)
   },
   {
     path: 'motorista/cadastro',
-    loadComponent: () => import('./driver/register-edit/register-edit.page').then(m => m.RegisterEditPage)
+    loadComponent: () => import('./driver/register-edit/driver-registration-page.component').then(m => m.DriverRegistrationPage)
   },
   {
     path: 'aluno',

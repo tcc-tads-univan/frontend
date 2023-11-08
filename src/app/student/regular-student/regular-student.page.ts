@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {IonicModule, ToastController} from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 import {SubscriptionService} from "../../services/subscription.service";
 import {StudentService} from "../../services/student.service";
 import {Observable} from "rxjs";

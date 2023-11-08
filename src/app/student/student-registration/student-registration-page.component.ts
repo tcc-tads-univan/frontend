@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {IonicModule, ToastController} from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 import {StudentRegistration} from "../../shared/models/student/student-registration";
 import {Router, RouterLink} from "@angular/router";
 import {StudentService} from "../../services/student.service";
@@ -10,16 +10,17 @@ import {LoginResponse} from "../../shared/models/user/login-response.model";
 import {CpfFormatDirective} from "../../shared/directives/cpf-format.directive";
 import {PhoneNumberDirective} from "../../shared/directives/phone-number-directive";
 import {AuthenticationService} from 'src/app/services/authentication.service';
+import {ToastService} from "../../services/toast.service";
 
 @Component({
   selector: 'app-student-registration',
-  templateUrl: './registration.page.html',
-  styleUrls: ['./registration.page.scss'],
+  templateUrl: './student-registration-page.component.html',
+  styleUrls: ['./student-registration-page.component.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, HttpClientModule, CpfFormatDirective, PhoneNumberDirective],
   providers: [StudentService, AuthenticationService]
 })
-export class RegistrationPage implements OnInit {
+export class StudentRegistrationPage implements OnInit {
   isEdit = false;
 
   registrationForm = this.fb.group({
@@ -38,7 +39,7 @@ export class RegistrationPage implements OnInit {
     private fb: FormBuilder,
     private studentService: StudentService,
     private router: Router,
-    private toastController: ToastController,
+    private toastService: ToastService,
     private authService: AuthenticationService,) {
   }
 
@@ -97,26 +98,11 @@ export class RegistrationPage implements OnInit {
   registerStudent(student: StudentRegistration) {
     this.studentService.registerStudent(student).subscribe({
       next: _ => {
-        this.toastController.create({
-          message: 'Cadastro concluído!',
-          duration: 1000,
-          position: 'top',
-          color: 'success',
-          icon: 'checkmark-outline'
-        }).then(toast => toast.present());
-
+        this.toastService.showSuccessToast('Cadastro finalizado com sucesso');
         this.router.navigate(['/']);
       },
       error: err => {
-        this.toastController.create({
-          message: 'Erro ao concluir o seu cadastro',
-          duration: 1500,
-          position: 'top',
-          color: 'danger',
-          icon: 'bug-outline'
-        }).then(toast => toast.present());
-
-        console.error(`[${err.status}] ${err.message}`);
+        this.toastService.showErrorToastAndLog('Houve um problema ao finalizar o seu cadastro', err);
       }
     });
   }
@@ -124,13 +110,7 @@ export class RegistrationPage implements OnInit {
   updateStudent(studentId: number, student: StudentRegistration) {
     this.studentService.updateStudentById(studentId, student).subscribe({
       next: _ => {
-        this.toastController.create({
-          message: 'Cadastro concluído!',
-          duration: 1000,
-          position: 'top',
-          color: 'success',
-          icon: 'checkmark-outline'
-        }).then(toast => toast.present());
+        this.toastService.showSuccessToast('Cadastro finalizado com sucesso');
 
         // Atualiza o nome do usuário no localStorage caso tenha sido alterado
         this.loggedUser!.name = student.name;
@@ -139,15 +119,7 @@ export class RegistrationPage implements OnInit {
         this.router.navigate(['/aluno']);
       },
       error: err => {
-        this.toastController.create({
-          message: 'Erro ao concluir o seu cadastro',
-          duration: 1500,
-          position: 'top',
-          color: 'danger',
-          icon: 'bug-outline'
-        }).then(toast => toast.present());
-
-        console.error(`[${err.status}] ${err.message}`);
+        this.toastService.showErrorToastAndLog('Houve um problema ao finalizar o seu cadastro', err);
       }
     });
   }

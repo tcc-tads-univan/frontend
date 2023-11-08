@@ -40,4 +40,14 @@ export class ToastService {
       icon: icon
     }).then(toast => toast.present());
   }
+
+  showWarningToast(message: string, icon: string, position?: "top" | "bottom") {
+    this.toastController.create({
+      message: message,
+      duration: 1500,
+      position: position ?? "bottom",
+      color: "warning",
+      icon: icon
+    }).then(toast => toast.present());
+  }
 }

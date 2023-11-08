@@ -25,7 +25,7 @@ export const routes: Routes = [
   },
   {
     path: 'perfil',
-    loadComponent: () => import('./register-edit/register-edit.page').then(m => m.RegisterEditPage)
+    loadComponent: () => import('./register-edit/driver-registration-page.component').then(m => m.DriverRegistrationPage)
   },
   {
     path: 'van',

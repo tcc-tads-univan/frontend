@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {IonicModule, ToastController} from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 import {Router, RouterLink} from "@angular/router";
 import {RoutesService} from "../../services/routes.service";
 import {Address} from "../../shared/models/address/address";
 import {HttpStatusCode} from "@angular/common/http";
 import {StudentService} from "../../services/student.service";
 import {AuthenticationService} from 'src/app/services/authentication.service';
+import {ToastService} from "../../services/toast.service";
 
 @Component({
   selector: 'app-register-edit-destination',
@@ -31,7 +32,7 @@ export class RegisterEditDestinationPage implements OnInit {
   selectedAddress: Address | undefined;
 
   constructor(private fb: FormBuilder,
-              private toastController: ToastController,
+              private toastService: ToastService,
               private authService: AuthenticationService,
               private router: Router,
               private routesService: RoutesService,
@@ -63,18 +64,13 @@ export class RegisterEditDestinationPage implements OnInit {
             this.showResultList = true;
           },
           error: err => {
-            this.toastController.create({
-              message: (err.error.status === HttpStatusCode.NotFound)
-                ? 'Endereço não encontrado'
-                : 'Problema ao buscar o endereço',
-              duration: 1500,
-              position: 'top',
-              color: (err.error.status === HttpStatusCode.NotFound) ? 'warning' : 'danger',
-              icon: (err.error.status === HttpStatusCode.NotFound) ? 'alert-outline' : 'bug-outline'
-            }).then(toast => toast.present());
-
-            console.error(`[${err.error.status}] ${err.error.description}`);
             this.showResultList = false;
+
+            if (err.error.status === HttpStatusCode.NotFound) {
+              this.toastService.showWarningToast('Endereço não encontrado', 'alert-outline');
+            } else {
+              this.toastService.showErrorToastAndLog('Problema ao buscar o endereço', err);
+            }
           }
         });
     }
@@ -86,18 +82,10 @@ export class RegisterEditDestinationPage implements OnInit {
         .registerStudentAddress(this.authService.loggedUser.userId, this.selectedAddress)
         .subscribe({
           next: _data => {
-            this.toastController.create({
-              message: 'Endereço cadastrado com sucesso!',
-              duration: 1000,
-              position: 'top',
-              color: 'success',
-              icon: 'checkmark-outline'
-            }).then(toast => toast.present());
-            console.log(this.authService.loggedUser!.userId);
-
+            this.toastService.showSuccessToast('Endereço cadastrado com sucesso');
             this.router.navigate(['/aluno']);
           },
-          error: err => console.error(err),
+          error: err => this.toastService.showErrorToastAndLog('Problema ao salvar o endereço', err),
         });
     }
   }

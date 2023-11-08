@@ -13,13 +13,13 @@ import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-driver-registration',
-  templateUrl: './register-edit.page.html',
-  styleUrls: ['./register-edit.page.scss'],
+  templateUrl: './driver-registration-page.component.html',
+  styleUrls: ['./driver-registration-page.component.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, CpfFormatDirective, CnhFormatDirective, PhoneNumberDirective],
   providers: [DriverService, ToastService, AuthenticationService]
 })
-export class RegisterEditPage implements OnInit {
+export class DriverRegistrationPage implements OnInit {
   isEdit = false;
 
   registrationForm = this.fb.group({
