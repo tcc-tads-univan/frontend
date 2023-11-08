@@ -12,17 +12,11 @@ import {UserType} from "../shared/enums/user-type";
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private mockAuth = true;
-
   constructor(private http: HttpClient) {
   }
 
   authenticateUser(login: LoginRequest) {
-    if (this.mockAuth) {
-      return of({userId: 1, userType: UserType.DRIVER, name: 'mock', token: 'mock'} as LoginResponse);
-    } else {
-      return this.http.post<LoginResponse>(getApiURL(ApiEndpoints.LOGIN), login, httpOptions);
-    }
+    return this.http.post<LoginResponse>(getApiURL(ApiEndpoints.LOGIN), login, httpOptions);
   }
 
   logout() {
