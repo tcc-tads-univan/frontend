@@ -71,7 +71,7 @@ export class RequestCarpoolPage implements OnInit {
       this.carpoolService
         .requestCarpool(campusId, userId, convertDateToScheduleTime(new Date(this.selectedTimePeriod)))
         .subscribe({
-          next: data => this.router.navigate(['/aluno/carona/atual']),
+          next: data => this.router.navigate(['/aluno/carona/atual'], {queryParams: {campus: campusId}}),
           error: err => this.toastService.showErrorToastAndLog("Problema ao solicitar a carona", err)
         });
     }

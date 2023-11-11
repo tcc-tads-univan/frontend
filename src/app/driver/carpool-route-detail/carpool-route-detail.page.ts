@@ -16,6 +16,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {CollegeService} from "../../services/college.service";
 import {CollegeCampus} from "../../shared/models/college/college-campus";
 import {Student} from "../../shared/models/student/student";
+import {StudentService} from "../../services/student.service";
 
 @Component({
   selector: 'app-carpool-route-detail',
@@ -23,7 +24,7 @@ import {Student} from "../../shared/models/student/student";
   styleUrls: ['./carpool-route-detail.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule, HttpClientModule, ReactiveFormsModule],
-  providers: [CarpoolService, MapDirectionsService, AuthenticationService, ToastService, CollegeService]
+  providers: [CarpoolService, MapDirectionsService, AuthenticationService, ToastService, CollegeService, StudentService]
 })
 export class CarpoolRouteDetailPage implements OnInit {
   price = new FormControl('', [Validators.required, Validators.min(5.0)]);
@@ -39,6 +40,7 @@ export class CarpoolRouteDetailPage implements OnInit {
 
   constructor(private carpoolService: CarpoolService,
               private collegeService: CollegeService,
+              private studentService: StudentService,
               private mapDirectionsService: MapDirectionsService,
               private authService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
@@ -53,7 +55,12 @@ export class CarpoolRouteDetailPage implements OnInit {
 
     this.collegeService.findCampusById(this.campusId).subscribe({
       next: data => this.campus = data,
-      error: err => this.toastService.showErrorToastAndLog("Problema ao recuperar informaçoes do campus", err)
+      error: err => this.toastService.showErrorToastAndLog("Problema ao recuperar informações do campus", err)
+    });
+
+    this.studentService.findStudentById(this.studentId).subscribe({
+      next: data => this.student = data,
+      error: err => this.toastService.showErrorToastAndLog("Problema ao recuperar informações do aluno", err)
     });
 
     this.findRouteDirections(this.driverId, this.studentId, this.campus.placeId);
