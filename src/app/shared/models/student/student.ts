@@ -6,6 +6,7 @@ export interface Student {
   email: string,
   phoneNumber: string,
   rating: number,
-  photoUrl: string
+  photoUrl: string,
+  addressId: number
 }
 
