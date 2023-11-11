@@ -23,11 +23,10 @@ export class DriverLandingPage implements OnInit {
   };
 
   navigations = [
-    {description: "Editar Perfil", icon: "person-outline", url: ['../editar']},
-    {description: "Minha Van", icon: "bus-outline", url: ['../van']},
-    {description: "Mensalistas", icon: "people-outline", url: ['../mensalistas/editar']},
-    {description: "Histórico", icon: "calendar-outline", url: ['../caronas/historico']},
-    {description: "mock", icon: "", url: ['../caronas/detalhe']}
+    {description: "Editar Perfil", icon: "person-outline", url: ['/motorista/perfil']},
+    {description: "Minha Van", icon: "bus-outline", url: ['/motorista/van']},
+    {description: "Mensalistas", icon: "people-outline", url: ['/motorista/mensalistas/editar']},
+    {description: "Histórico", icon: "calendar-outline", url: ['/motorista/caronas/historico']},
   ];
 
   constructor(private router: Router, private authService: AuthenticationService) {

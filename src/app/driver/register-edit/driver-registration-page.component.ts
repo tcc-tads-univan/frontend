@@ -43,7 +43,7 @@ export class DriverRegistrationPage implements OnInit {
   }
 
   ngOnInit() {
-    if (this.router.url === '/motorista/editar') {
+    if (this.router.url === '/motorista/perfil') {
       this.setEditPage();
     }
   }
