@@ -39,8 +39,13 @@ export const routes: Routes = [
     loadComponent: () => import('./add-regular-student/add-regular-student.page').then( m => m.AddRegularStudentPage)
   },
   {
+    path: 'caronas/iniciar',
+    loadComponent: () => import('./manage-carpool/manage-carpool.page').then( m => m.ManageCarpoolPage)
+  },
+  {
     path: '',
     redirectTo: '/motorista/inicio',
     pathMatch: 'full'
   },
+
 ];

@@ -23,6 +23,11 @@ export class DriverLandingPage implements OnInit {
     icon: "chevron-forward-outline",
     url: ['../caronas/procurar']
   };
+  manageCarpool = {
+    description: "Gerenciar Viagem",
+    icon: "chevron-forward-outline",
+    url: ['../caronas/iniciar']
+  };
 
   navigations = [
     {description: "Editar Perfil", icon: "person-outline", url: ['/motorista/perfil']},
