@@ -72,52 +72,10 @@
   </div>
 
   <ng-template #noRegularSubscription>
-    <app-regular-student-info *ngIf="student" [student]="student"></app-regular-student-info>
+    <app-not-regular-student-card *ngIf="student" [student]="student"></app-not-regular-student-card>
   </ng-template>
 
-  <div *ngIf="pendingSubscriptions$ | async as subscriptions">
-    <div *ngIf="subscriptions.length > 0">
-      <ion-card class="card-padding" *ngFor="let subscriptionStudent of subscriptions">
-        <ion-card-header>
-          <h1 id="subscription">
-            Convite Mensalista
-          </h1>
-          <ion-card-title>
-            <ion-item>
-              <ion-avatar class="avatar-medium" slot="start">
-                <img alt="Silhouette of a person's head" src="{{subscriptionStudent.driverPhoto}}"/>
-              </ion-avatar>
-              <ion-col class="ion-justify-content-between">
-                <ion-label class="title">
-                  {{subscriptionStudent.driverName}}
-                </ion-label>
-                <ion-card-subtitle>
-                  <ion-icon name="call"></ion-icon>
-                  {{subscriptionStudent.driverPhone}}
-                </ion-card-subtitle>
-                <ion-card-subtitle>
-                  <ion-icon name="car"></ion-icon>
-                  {{subscriptionStudent.expirationDay}}
-                </ion-card-subtitle>
-                <ion-card-subtitle>
-                  <ion-icon name="cash"></ion-icon>
-                  {{subscriptionStudent.monthlyFee}}
-                </ion-card-subtitle>
-              </ion-col>
-            </ion-item>
-          </ion-card-title>
-        </ion-card-header>
-        <ion-toolbar>
-          <ion-buttons slot="start">
-            <ion-button fill="clear" (click)="declineSubscription(subscriptionStudent.subscriptionId)">Recusar
-            </ion-button>
-          </ion-buttons>
-          <ion-buttons slot="end">
-            <ion-button fill="clear" (click)="acceptSubscription(subscriptionStudent.subscriptionId)">Aceitar
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-card>
-    </div>
+  <div *ngIf="pendingSubscriptions$ | async as pendingRequests">
+    <app-pending-requests *ngIf="pendingRequests.length > 0" [pendingRequests]="pendingRequests"></app-pending-requests>
   </div>
 </ion-content>

@@ -1,0 +1,41 @@
+<ion-card class="card-padding" *ngFor="let request of pendingRequests">
+  <ion-card-header>
+    <h1 id="subscription">
+      Convite Mensalista
+    </h1>
+
+    <ion-card-title>
+      <ion-item>
+        <ion-avatar class="avatar-medium" slot="start">
+          <img alt="Silhouette of a person's head" src="{{request.driverPhoto}}"/>
+        </ion-avatar>
+        <ion-col class="ion-justify-content-between">
+          <ion-label class="title">
+            {{request.driverName}}
+          </ion-label>
+          <ion-card-subtitle>
+            <ion-icon name="call"></ion-icon>
+            {{request.driverPhone}}
+          </ion-card-subtitle>
+          <ion-card-subtitle>
+            <ion-icon name="car"></ion-icon>
+            {{request.expirationDay}}
+          </ion-card-subtitle>
+          <ion-card-subtitle>
+            <ion-icon name="cash"></ion-icon>
+            {{request.monthlyFee}}
+          </ion-card-subtitle>
+        </ion-col>
+      </ion-item>
+    </ion-card-title>
+  </ion-card-header>
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="declineSubscription(request.subscriptionId)">Recusar</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="acceptSubscription(request.subscriptionId)">Aceitar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-card>
