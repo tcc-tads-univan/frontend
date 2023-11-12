@@ -39,7 +39,7 @@ export class ToastService {
   showDangerToast(message: string, icon: string, position?: "top" | "bottom") {
     this.toastController.create({
       message: message,
-      duration: 1500,
+      duration: 1800,
       position: position ?? "bottom",
       color: "danger",
       icon: icon

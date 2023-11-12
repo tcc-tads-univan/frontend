@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
-import {AuthenticationService} from "../../services/authentication.service";
+import {AuthenticationService} from "../../services/authentication/authentication.service";
 import {Router, RouterLink} from "@angular/router";
 import {StudentService} from "../../services/student.service";
 import {Address} from "../../shared/models/address/address";

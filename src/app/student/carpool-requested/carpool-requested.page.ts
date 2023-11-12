@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
 import {CarpoolDetails} from "../../shared/models/carpool/carpool-details";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastService} from 'src/app/services/toast.service';
-import {AuthenticationService} from 'src/app/services/authentication.service';
+import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-carpool-requested',

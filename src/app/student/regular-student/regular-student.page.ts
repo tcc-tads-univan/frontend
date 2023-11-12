@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 import {PendingSubscriptions} from "../../shared/models/subscriptions/pending-subscriptions";
 import {LoginResponse} from "../../shared/models/user/login-response.model";
 import {StudentSubscription} from "../../shared/models/subscriptions/student-subscription";
-import {AuthenticationService} from 'src/app/services/authentication.service';
+import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 import {ToastService} from "../../services/toast.service";
 
 @Component({

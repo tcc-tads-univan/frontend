@@ -11,7 +11,7 @@ import UnitSystem = google.maps.UnitSystem;
 import DirectionsWaypoint = google.maps.DirectionsWaypoint;
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastService} from "../../services/toast.service";
-import {AuthenticationService} from 'src/app/services/authentication.service';
+import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 import {HttpClientModule} from "@angular/common/http";
 import {CollegeService} from "../../services/college.service";
 import {CollegeCampus} from "../../shared/models/college/college-campus";

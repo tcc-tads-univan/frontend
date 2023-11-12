@@ -19,13 +19,12 @@ export const routes: Routes = [
     loadComponent: () => import('./carpool-route-detail/carpool-route-detail.page').then( m => m.CarpoolRouteDetailPage)
   },
   {
-
     path: 'caronas/historico',
     loadComponent: () => import('../shared/pages/carpool-history/carpool-history.page').then(m => m.CarpoolHistoryPage)
   },
   {
     path: 'perfil',
-    loadComponent: () => import('./register-edit/driver-registration-page.component').then(m => m.DriverRegistrationPage)
+    loadComponent: () => import('./driver-register-update/driver-register-update.page').then(m => m.DriverRegisterUpdatePage)
   },
   {
     path: 'van',
@@ -33,7 +32,7 @@ export const routes: Routes = [
   },
   {
     path: 'mensalistas/editar',
-    loadComponent: () => import('./register-edit-regular-student/register-edit-regular-student.page').then( m => m.RegisterEditRegularStudentPage)
+    loadComponent: () => import('./regular-students-list/regular-students-list.page').then(m => m.RegularStudentsListPage)
   },
   {
     path: 'mensalistas/novo',

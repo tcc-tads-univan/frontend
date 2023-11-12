@@ -6,7 +6,8 @@ import {DriverService} from "../../services/driver.service";
 import {RegularStudentRegistration} from "../../shared/models/regular-student/regular-student-registration";
 import {Router} from "@angular/router";
 import {ToastService} from 'src/app/services/toast.service';
-import {AuthenticationService} from 'src/app/services/authentication.service';
+import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
+import {HttpStatusCode} from "@angular/common/http";
 
 @Component({
   selector: 'app-add-regular-student',
@@ -17,12 +18,17 @@ import {AuthenticationService} from 'src/app/services/authentication.service';
   providers: [DriverService, ToastService, AuthenticationService]
 })
 export class AddRegularStudentPage implements OnInit {
-  private userId!: number;
+  private driverId!: number;
+  readonly expirationDays = [
+    {value: 1, text: "Dia 01"},
+    {value: 5, text: "Dia 05"},
+    {value: 15, text: "Dia 15"},
+  ]
 
   regularStudentForm = this.fb.group({
-    studentId: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+    studentId: ['', [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]],
     monthlyFee: ['', [Validators.required, Validators.pattern(/^\d+(\.\d+)?$/)]],
-    expirationDay: ['', [Validators.required, Validators.min(1), Validators.max(31), Validators.pattern(/^\d+$/)]],
+    expirationDay: [1, [Validators.required]],
   });
 
   constructor(private fb: FormBuilder,
@@ -33,16 +39,16 @@ export class AddRegularStudentPage implements OnInit {
   }
 
   ngOnInit() {
-    this.userId = this.authService.loggedUser!.userId;
+    this.driverId = this.authService.loggedUser!.userId;
   }
 
   handleSubmit() {
     if (this.regularStudentForm.valid) {
       const regularStudent: RegularStudentRegistration = {
-        driverId: this.userId,
+        driverId: this.driverId,
         studentId: parseInt(this.student?.value ?? ''),
         monthlyFee: parseFloat(this.monthlyFee?.value ?? ''),
-        expirationDay: parseInt(this.expirationDay?.value ?? ''),
+        expirationDay: this.expirationDay!.value ?? 1,
       }
 
       this.createRegularStudent(regularStudent);
@@ -52,11 +58,21 @@ export class AddRegularStudentPage implements OnInit {
   createRegularStudent(regularStudent: RegularStudentRegistration) {
     this.driverService.inviteStudent(regularStudent).subscribe({
       next: _data => {
-        this.toastService.showSuccessToast('Cadastro concluído');
+        this.toastService.showSuccessToast('Novo mensalista adicionado com sucesso');
         this.router.navigate(['/motorista']);
       },
       error: err => {
-        this.toastService.showErrorToastAndLog('Erro ao concluir o cadastro do Aluno', err);
+        if (err.error) {
+          if (err.error.status === HttpStatusCode.Conflict) {
+            this.toastService.showDangerToast('Esse aluno já é um mensalista de outro motorista', 'alert-circle-outline');
+          }
+
+          if (err.error.status === HttpStatusCode.BadRequest && err.error.title === "The driver doesn't have a vehicle.") {
+            this.toastService.showDangerToast('Você precisa ter uma van cadastrada', 'alert-circle-outline');
+          }
+        } else {
+          this.toastService.showErrorToastAndLog('Erro ao concluir adicionar o mensalista', err);
+        }
       }
     });
   }

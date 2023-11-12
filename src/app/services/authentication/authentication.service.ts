@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {LoginRequest} from "../shared/models/user/login-request.model";
+import {LoginRequest} from "../../shared/models/user/login-request.model";
 import {HttpClient} from "@angular/common/http";
-import {getApiURL, httpOptions} from "../shared/utils";
-import {ApiEndpoints} from "../shared/enums/api-endpoints";
-import {LoginResponse} from "../shared/models/user/login-response.model";
-import {LocalStorageKeys} from '../shared/enums/local-storage-keys';
+import {getApiURL, httpOptions} from "../../shared/utils";
+import {ApiEndpoints} from "../../shared/enums/api-endpoints";
+import {LoginResponse} from "../../shared/models/user/login-response.model";
+import {LocalStorageKeys} from '../../shared/enums/local-storage-keys';
 import {of} from "rxjs";
-import {UserType} from "../shared/enums/user-type";
+import {UserType} from "../../shared/enums/user-type";
 
 @Injectable({
   providedIn: 'root'

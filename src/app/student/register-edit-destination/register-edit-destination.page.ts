@@ -7,7 +7,7 @@ import {RoutesService} from "../../services/routes.service";
 import {Address} from "../../shared/models/address/address";
 import {HttpStatusCode} from "@angular/common/http";
 import {StudentService} from "../../services/student.service";
-import {AuthenticationService} from 'src/app/services/authentication.service';
+import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 import {ToastService} from "../../services/toast.service";
 
 @Component({

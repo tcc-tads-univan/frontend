@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {LocalStorageKeys} from "../enums/local-storage-keys";
+import {LocalStorageKeys} from "../../shared/enums/local-storage-keys";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

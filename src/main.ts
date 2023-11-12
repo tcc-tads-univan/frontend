@@ -7,8 +7,8 @@ import {routes} from './app/app.routes';
 import {AppComponent} from './app/app.component';
 import {environment} from './environments/environment';
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {AuthInterceptor} from "./app/shared/interceptors/auth-interceptor";
-import {AuthGuardService} from "./app/shared/guards/auth.guard";
+import {AuthInterceptor} from "./app/services/authentication/auth-interceptor";
+import {AuthGuardService} from "./app/services/authentication/auth.guard";
 
 if (environment.production) {
   enableProdMode();

@@ -1,9 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {UserType} from "../enums/user-type";
+import {UserType} from "../../shared/enums/user-type";
 import {ToastService} from 'src/app/services/toast.service';
-import {LocalStorageKeys} from "../enums/local-storage-keys";
-import {LoginResponse} from "../models/user/login-response.model";
+import {LocalStorageKeys} from "../../shared/enums/local-storage-keys";
+import {LoginResponse} from "../../shared/models/user/login-response.model";
 
 @Injectable()
 export class AuthGuardService {

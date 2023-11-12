@@ -9,7 +9,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {LoginResponse} from "../../shared/models/user/login-response.model";
 import {CpfFormatDirective} from "../../shared/directives/cpf-format.directive";
 import {PhoneNumberDirective} from "../../shared/directives/phone-number-directive";
-import {AuthenticationService} from 'src/app/services/authentication.service';
+import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 import {ToastService} from "../../services/toast.service";
 
 @Component({

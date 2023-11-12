@@ -8,7 +8,7 @@ import {CollegeService} from "../../services/college.service";
 import {CollegeCampus} from "../../shared/models/college/college-campus";
 import {convertDateToScheduleTime} from "../../shared/utils";
 import {ToastService} from "../../services/toast.service";
-import {AuthenticationService} from 'src/app/services/authentication.service';
+import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-request-carpool',

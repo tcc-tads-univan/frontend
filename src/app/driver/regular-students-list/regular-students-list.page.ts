@@ -7,17 +7,18 @@ import {Observable} from "rxjs";
 import {DriverSubscriptions} from "../../shared/models/subscriptions/driver-subscriptions";
 import {RegularStudent} from "../../shared/models/regular-student/regular-student";
 import {RouterLink} from "@angular/router";
-import {AuthenticationService} from 'src/app/services/authentication.service';
+import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
+import {EmptyRegularStudentsComponent} from "../../components/empty-regular-students/empty-regular-students.component";
 
 @Component({
   selector: 'app-register-edit-regular-student',
-  templateUrl: './register-edit-regular-student.page.html',
-  styleUrls: ['./register-edit-regular-student.page.scss'],
+  templateUrl: './regular-students-list.page.html',
+  styleUrls: ['./regular-students-list.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterLink],
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink, EmptyRegularStudentsComponent],
   providers: [DriverService, AuthenticationService]
 })
-export class RegisterEditRegularStudentPage implements OnInit {
+export class RegularStudentsListPage implements OnInit {
   private driverId!: number;
   username: string | undefined;
   isModalOpen: boolean = false;

@@ -9,17 +9,17 @@ import {CpfFormatDirective} from "../../shared/directives/cpf-format.directive";
 import {CnhFormatDirective} from "../../shared/directives/cnh-format-directive";
 import {PhoneNumberDirective} from "../../shared/directives/phone-number-directive";
 import {ToastService} from 'src/app/services/toast.service';
-import {AuthenticationService} from 'src/app/services/authentication.service';
+import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-driver-registration',
-  templateUrl: './driver-registration-page.component.html',
-  styleUrls: ['./driver-registration-page.component.scss'],
+  templateUrl: './driver-register-update.page.html',
+  styleUrls: ['./driver-register-update.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, CpfFormatDirective, CnhFormatDirective, PhoneNumberDirective],
   providers: [DriverService, ToastService, AuthenticationService]
 })
-export class DriverRegistrationPage implements OnInit {
+export class DriverRegisterUpdatePage implements OnInit {
   isEdit = false;
 
   registrationForm = this.fb.group({

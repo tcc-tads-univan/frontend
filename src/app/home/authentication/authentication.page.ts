@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
-import {AuthenticationService} from "../../services/authentication.service";
+import {AuthenticationService} from "../../services/authentication/authentication.service";
 import {LoginRequest} from "../../shared/models/user/login-request.model";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {UserType} from "../../shared/enums/user-type";

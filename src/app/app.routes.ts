@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {driverAuthentication, studentAuthentication} from "./shared/guards/auth.guard";
+import {driverAuthentication, studentAuthentication} from "./services/authentication/auth.guard";
 
 export const routes: Routes = [
   {
@@ -12,7 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'motorista/cadastro',
-    loadComponent: () => import('./driver/register-edit/driver-registration-page.component').then(m => m.DriverRegistrationPage)
+    loadComponent: () => import('./driver/driver-register-update/driver-register-update.page').then(m => m.DriverRegisterUpdatePage)
   },
   {
     path: 'aluno',

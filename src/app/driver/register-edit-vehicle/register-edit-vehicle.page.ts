@@ -6,7 +6,7 @@ import {Router, RouterLink} from "@angular/router";
 import {VehicleRegistration} from "../../shared/models/vehicle/vehicle-registration";
 import {DriverService} from "../../services/driver.service";
 import {ToastService} from 'src/app/services/toast.service';
-import {AuthenticationService} from 'src/app/services/authentication.service';
+import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-register-edit-vehicle',
