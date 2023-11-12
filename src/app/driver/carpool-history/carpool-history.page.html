@@ -46,21 +46,7 @@
   </div>
 
   <div *ngIf="isEmpty">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Parece que você ainda não realizou nenhuma carona</ion-card-title>
-        <ion-card-subtitle>Não encontramos nenhuma carona já realizada</ion-card-subtitle>
-      </ion-card-header>
-
-      <ion-card-content>
-        Ofereça a sua primeira carona agora mesmo, clicando no botão abaixo.
-      </ion-card-content>
-
-      <ion-button fill="outline" expand="block" class="ion-margin" [routerLink]="['/motorista/caronas/procurar']">
-        Oferecer Carona
-        <ion-icon name="car-outline" slot="end"></ion-icon>
-      </ion-button>
-    </ion-card>
+    <app-empty-history-card [navigateTo]="['/motorista/caronas/procurar']"></app-empty-history-card>
   </div>
 
   <ion-fab vertical="bottom" class="behind-text">

@@ -1,4 +1,4 @@
-export interface History {
+export interface CarpoolHistory {
   id: number;
   studentId: number;
   studentName: string;

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {getApiURL} from "../shared/utils";
 import {ApiEndpoints} from "../shared/enums/api-endpoints";
-import {History} from "../shared/models/history/history";
+import {CarpoolHistory} from "../shared/models/history/carpoolHistory";
 import {UserType} from '../shared/enums/user-type';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class HistoryService {
       .set('userType', userType);
 
     const apiUrl = getApiURL(ApiEndpoints.HISTORY + "/trips")
-    return this.http.get<History[]>(apiUrl, {params});
+    return this.http.get<CarpoolHistory[]>(apiUrl, {params});
   }
 
 }

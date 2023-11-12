@@ -1,4 +1,5 @@
 import {Routes} from '@angular/router';
+import {CarpoolHistoryPage} from "../shared/pages/carpool-history/carpool-history.page";
 
 export const routes: Routes = [
   {
@@ -27,7 +28,7 @@ export const routes: Routes = [
   },
   {
     path: 'carona/historico',
-    loadComponent: () => import('./carpool-history/carpool-history.page').then(m => m.CarpoolHistoryPage)
+    loadComponent: () => import('../shared/pages/carpool-history/carpool-history.page').then(m => m.CarpoolHistoryPage)
   },
   {
     path: 'mensalista',

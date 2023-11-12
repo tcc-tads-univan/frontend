@@ -21,7 +21,7 @@ export const routes: Routes = [
   {
 
     path: 'caronas/historico',
-    loadComponent: () => import('./carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
+    loadComponent: () => import('../shared/pages/carpool-history/carpool-history.page').then(m => m.CarpoolHistoryPage)
   },
   {
     path: 'perfil',

@@ -4,7 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {HistoryService} from "../../services/history.service";
 import {Observable} from "rxjs";
-import {History} from "../../shared/models/history/history";
+import {CarpoolHistory} from "../../shared/models/history/carpoolHistory";
 import {AuthenticationService} from 'src/app/services/authentication.service';
 
 @Component({
@@ -17,7 +17,7 @@ import {AuthenticationService} from 'src/app/services/authentication.service';
 })
 export class CarpoolHistoryPage implements OnInit {
   stars: number | undefined;
-  tripsHistory$!: Observable<History[]>
+  tripsHistory$!: Observable<CarpoolHistory[]>
 
   constructor(private historyService: HistoryService, private authService: AuthenticationService) {
   }
