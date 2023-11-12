@@ -10,20 +10,25 @@ import {LoginResponse} from "../../shared/models/user/login-response.model";
 import {StudentSubscription} from "../../shared/models/subscriptions/student-subscription";
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 import {ToastService} from "../../services/toast.service";
+import {RegularStudentInfoComponent} from "../../components/regular-student-info/regular-student-info.component";
+import {Student} from "../../shared/models/student/student";
 
 @Component({
   selector: 'app-regular-student',
   templateUrl: './regular-student.page.html',
   styleUrls: ['./regular-student.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, RegularStudentInfoComponent],
   providers: [SubscriptionService, StudentService, AuthenticationService]
 })
 export class RegularStudentPage implements OnInit {
-  paymentStatus: boolean = true;
+  private loggedUser!: LoginResponse;
+
   pendingSubscriptions$!: Observable<PendingSubscriptions[]>
   studentSubscription$!: Observable<StudentSubscription>
-  private loggedUser!: null | LoginResponse;
+  student!: Student;
+
+  paymentStatus: boolean = true;
 
   constructor(private subscriptionService: SubscriptionService,
               private studentService: StudentService,
@@ -32,12 +37,18 @@ export class RegularStudentPage implements OnInit {
   }
 
   ngOnInit() {
-    this.loggedUser = this.authService.loggedUser;
-    if (!this.loggedUser) {
-      throw new Error("User is not logged in");
-    }
-    this.pendingSubscriptions$ = this.studentService.findPendingSubscriptions(this.loggedUser?.userId);
-    this.studentSubscription$ = this.studentService.findStudentSubscription(this.loggedUser?.userId);
+    this.loggedUser = this.authService.loggedUser!;
+    const {userId} = this.loggedUser;
+
+    this.studentService.findStudentById(userId).subscribe({
+      next: data => this.student = data,
+      error: err => {
+        this.toastService.showErrorToastAndLog("Problema ao recuperar informações", err);
+      }
+    });
+
+    this.pendingSubscriptions$ = this.studentService.findPendingSubscriptions(userId);
+    this.studentSubscription$ = this.studentService.findStudentSubscription(userId);
   }
 
   declineSubscription(subscriptionId: number) {

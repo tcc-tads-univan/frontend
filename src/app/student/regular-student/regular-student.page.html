@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
-  <div *ngIf="studentSubscription$ | async as studentSubscription; else loading">
+  <div *ngIf="studentSubscription$ | async as studentSubscription; else noRegularSubscription">
     <ion-card class="card-padding">
       <ion-card-header>
         <ion-card-title>
@@ -70,11 +70,11 @@
     </ion-card> ##FEATURES COMENTADAS ATÉ API RETORNAR DADOS NECESSÁRIOS
       -->
   </div>
-  <ng-template #loading>
-    <ion-progress-bar type="indeterminate"></ion-progress-bar>
-    <ion-text color="primary">
-    </ion-text>
+
+  <ng-template #noRegularSubscription>
+    <app-regular-student-info *ngIf="student" [student]="student"></app-regular-student-info>
   </ng-template>
+
   <div *ngIf="pendingSubscriptions$ | async as subscriptions">
     <div *ngIf="subscriptions.length > 0">
       <ion-card class="card-padding" *ngFor="let subscriptionStudent of subscriptions">
