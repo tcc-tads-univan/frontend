@@ -1,46 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Solicitação de Carona</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-text class="ion-text-center">
-    <ion-icon src="assets/undraw_confirmed_re_sef7.svg" class="bigger-icon"></ion-icon>
-    <h1>Seu agendamento foi solicitado</h1>
-    <p>Por favor aguarde, pois os motoristas irão analisar sua solicitação</p>
-  </ion-text>
-  <ion-card *ngIf="requestedCarpool$ | async as requestedCarpool; else loading" class="ion-padding">
+  <ion-card class="ion-padding">
     <ion-card-header>
       <ion-card-title>
         Informações do Agendamento
       </ion-card-title>
     </ion-card-header>
-    <ion-card-content>
-      <h2>
-        <ion-icon name="time-outline"></ion-icon>
-        Horário de embarque: <strong>{{requestedCarpool.scheduleTime}}</strong>
-      </h2>
-      <h2>
-        <ion-icon name="location-outline"></ion-icon>
-        Embarque em:
-        <strong>Universidade Federal do Paraná</strong>
-      </h2>
-      <p>{{requestedCarpool.campusLineAddress}}</p>
-    </ion-card-content>
-    <ion-button
-      id="cancel-carpool-request"
-      expand="block"
-      color="danger">
-      Cancelar
-    </ion-button>
-    <ion-alert
-      trigger="cancel-carpool-request"
-      header="Deseja mesmo cancelar?"
-      [buttons]="alertButtons"
-      (didDismiss)="setResult($event)"
-    ></ion-alert>
-  </ion-card>
 
-  <ng-template #loading>
-    <ion-progress-bar type="indeterminate"></ion-progress-bar>
-    <ion-text color="primary">
-      <p class="ion-text-center">Carregando...</p>
-    </ion-text>
-  </ng-template>
+    <div *ngIf="requestedCarpool$ | async as requestedCarpool; else hasNoRequestedCarpool">
+      <ion-card-content>
+        <h3>
+          <ion-icon name="time-outline"></ion-icon>
+          Horário de embarque: <strong>{{requestedCarpool.scheduleTime}}</strong>
+        </h3>
+        <h3>
+          <ion-icon name="location-outline"></ion-icon>
+          Embarque em:
+          <strong>Universidade Federal do Paraná</strong>
+        </h3>
+        <p>{{requestedCarpool.campusLineAddress}}</p>
+      </ion-card-content>
+
+      <ion-button id="cancel-carpool-request"
+                  expand="block"
+                  color="danger">
+        Cancelar
+      </ion-button>
+      <ion-alert trigger="cancel-carpool-request"
+                 header="Deseja mesmo cancelar?"
+                 [buttons]="alertButtons"
+                 (didDismiss)="setResult($event)"
+      ></ion-alert>
+    </div>
+
+    <ng-template #hasNoRequestedCarpool>
+      <ion-card-content>
+        Não encontramos nenhuma solicitação em andamento, clique no botão abaixo para solicitar uma carona
+      </ion-card-content>
+
+      <ion-button expand="block"
+                  [routerLink]="['/aluno/carona']">
+        Procurar Carona
+      </ion-button>
+    </ng-template>
+  </ion-card>
 
 </ion-content>

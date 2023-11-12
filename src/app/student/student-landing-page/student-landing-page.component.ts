@@ -8,6 +8,7 @@ import {StudentService} from "../../services/student.service";
 import {Address} from "../../shared/models/address/address";
 import {ToastService} from 'src/app/services/toast.service';
 import {Student} from "../../shared/models/student/student";
+import {CarpoolService} from "../../services/carpool.service";
 
 @Component({
   selector: 'app-student-landing-page',
@@ -15,7 +16,7 @@ import {Student} from "../../shared/models/student/student";
   styleUrls: ['./student-landing-page.component.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink],
-  providers: [AuthenticationService, StudentService]
+  providers: [AuthenticationService, StudentService, CarpoolService, ToastService]
 })
 export class StudentLandingPage implements OnInit {
   navigationUrls = {
@@ -35,6 +36,7 @@ export class StudentLandingPage implements OnInit {
 
   constructor(private router: Router,
               private authService: AuthenticationService,
+              private carpoolService: CarpoolService,
               private studentService: StudentService,
               private toastService: ToastService) {
   }

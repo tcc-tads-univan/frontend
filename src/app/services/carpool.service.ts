@@ -34,10 +34,6 @@ export class CarpoolService {
     return this.http.get<RequestedCarpool[]>(`${this.CAMPI_API}/${campusId}/rides`, httpOptions);
   }
 
-  findCarpoolRequestByCampusAndStudentId(campusId: number, studentId: number) {
-    return this.http.get<RequestedCarpool>(`${this.CAMPI_API}/${campusId}/rides/${studentId}`, httpOptions);
-  }
-
   cancelCarpoolRequest(studentId: number, campusId: number) {
     const cancelCarpoolHttpHeaders = {
       ...httpOptions,

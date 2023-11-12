@@ -5,7 +5,7 @@ import {IonicModule} from '@ionic/angular';
 import {CarpoolService} from "../../services/carpool.service";
 import {Observable} from "rxjs";
 import {CarpoolDetails} from "../../shared/models/carpool/carpool-details";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {ToastService} from 'src/app/services/toast.service';
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 
@@ -14,7 +14,7 @@ import {AuthenticationService} from 'src/app/services/authentication/authenticat
   templateUrl: './carpool-requested.page.html',
   styleUrls: ['./carpool-requested.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink],
   providers: [CarpoolService, ToastService, AuthenticationService]
 })
 export class CarpoolRequestedPage implements OnInit {
