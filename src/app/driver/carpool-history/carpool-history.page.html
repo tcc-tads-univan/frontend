@@ -8,56 +8,62 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
-  <div *ngIf="(tripsHistory$ | async) as history; else loading">
-    <ion-card class="ion-padding" *ngFor="let tripInfo of history">
+  <div *ngIf="!isEmpty">
+    <ion-card *ngFor="let history of tripsHistory">
       <ion-card-header>
         <ion-card-title>
-          <ion-label class="price ion-justify-content-end">
-            <ion-icon class="icon-price" name="card-outline"></ion-icon>
-            {{tripInfo.price}}
+          <ion-label>
+            {{history.studentName}}
           </ion-label>
-          <ion-item>
-            <ion-avatar slot="start">
-              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
-            </ion-avatar>
-            <ion-col class="ion-justify-content-between">
-              <ion-label>
-                {{tripInfo.studentName}}
-              </ion-label>
-              <ion-card-subtitle>
-                <ion-icon name="star"></ion-icon>
-                {{tripInfo.stars}}
-              </ion-card-subtitle>
-            </ion-col>
-          </ion-item>
+          <ion-card-subtitle>
+            <ion-icon name="star"></ion-icon>
+            {{history.stars}}
+          </ion-card-subtitle>
         </ion-card-title>
       </ion-card-header>
+
       <ion-card-content>
+        <ion-text>
+          <ion-icon class="icon-price" name="card-outline"></ion-icon>
+          R$ {{history.price}}
+        </ion-text>
         <ion-text>
           <p>
             <ion-icon name="time-outline"></ion-icon>
-            {{tripInfo.date}}
+            Data: {{history.date}}
           </p>
           <p>
             <ion-icon name="navigate"></ion-icon>
-            {{tripInfo.initialDestination}}
+            Origem: {{history.initialDestination}}
           </p>
           <p>
             <ion-icon name="location-outline"></ion-icon>
-            {{tripInfo.finalDestination}}
+            Destino: {{history.finalDestination}}
           </p>
         </ion-text>
       </ion-card-content>
     </ion-card>
   </div>
-  <ng-template #loading>
-    <ion-progress-bar type="indeterminate"></ion-progress-bar>
-    <ion-text color="primary">
-      <p class="ion-text-center">Carregando...</p>
-    </ion-text>
-  </ng-template>
 
-  <ion-fab vertical="bottom">
-    <ion-icon src="assets/undraw_current_location_re_j130.svg" class="bigger-icon ion-align-items-baseline" ></ion-icon>
+  <div *ngIf="isEmpty">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Parece que você ainda não realizou nenhuma carona</ion-card-title>
+        <ion-card-subtitle>Não encontramos nenhuma carona já realizada</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        Ofereça a sua primeira carona agora mesmo, clicando no botão abaixo.
+      </ion-card-content>
+
+      <ion-button fill="outline" expand="block" class="ion-margin" [routerLink]="['/motorista/caronas/procurar']">
+        Oferecer Carona
+        <ion-icon name="car-outline" slot="end"></ion-icon>
+      </ion-button>
+    </ion-card>
+  </div>
+
+  <ion-fab vertical="bottom" class="behind-text">
+    <ion-icon src="assets/undraw_current_location_re_j130.svg" class="bigger-icon ion-align-items-baseline"></ion-icon>
   </ion-fab>
 </ion-content>

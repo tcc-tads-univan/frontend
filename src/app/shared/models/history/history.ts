@@ -1,7 +1,7 @@
 export interface History {
   id: number;
   studentId: number;
-  studentName: number;
+  studentName: string;
   driverId: number;
   driverName: string;
   initialDestination: string;
