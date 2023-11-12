@@ -17,6 +17,7 @@ import {CollegeService} from "../../services/college.service";
 import {CollegeCampus} from "../../shared/models/college/college-campus";
 import {Student} from "../../shared/models/student/student";
 import {StudentService} from "../../services/student.service";
+import {DriverService} from "../../services/driver.service";
 
 @Component({
   selector: 'app-carpool-route-detail',
@@ -24,7 +25,7 @@ import {StudentService} from "../../services/student.service";
   styleUrls: ['./carpool-route-detail.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, GoogleMapsModule, HttpClientModule, ReactiveFormsModule],
-  providers: [CarpoolService, MapDirectionsService, AuthenticationService, ToastService, CollegeService, StudentService]
+  providers: [CarpoolService, MapDirectionsService, AuthenticationService, ToastService, CollegeService, StudentService, DriverService]
 })
 export class CarpoolRouteDetailPage implements OnInit {
   price = new FormControl('', [Validators.required, Validators.min(5.0)]);
@@ -40,6 +41,7 @@ export class CarpoolRouteDetailPage implements OnInit {
 
   constructor(private carpoolService: CarpoolService,
               private collegeService: CollegeService,
+              private driverService: DriverService,
               private studentService: StudentService,
               private mapDirectionsService: MapDirectionsService,
               private authService: AuthenticationService,
@@ -50,6 +52,9 @@ export class CarpoolRouteDetailPage implements OnInit {
 
   ngOnInit(): void {
     this.driverId = this.authService.loggedUser!.userId;
+
+    this.validateDriverHasVehicle();
+
     this.studentId = +this.activatedRoute.snapshot.queryParamMap.get('aluno')!;
     this.campusId = +this.activatedRoute.snapshot.queryParamMap.get('campus')!;
 
@@ -64,6 +69,21 @@ export class CarpoolRouteDetailPage implements OnInit {
     });
 
     this.findRouteDirections(this.driverId, this.studentId, this.campus.placeId);
+  }
+
+  private validateDriverHasVehicle() {
+    this.driverService.findDriverById(this.driverId).subscribe({
+      next: data => {
+        if (data.vehicleId === 0) {
+          this.toastService.showWarningToast("Você precisa cadastrar uma van para aceitar caronas", "alert-circle-outline");
+          this.router.navigate(['/motorista/van']);
+        }
+      },
+      error: err => {
+        this.toastService.showErrorToastAndLog("Erro ao recuperar suas informações", err);
+        this.router.navigate(['/motorista'])
+      }
+    });
   }
 
   private findRouteDirections(driverId: number, studentId: number, campusPlaceId: string) {

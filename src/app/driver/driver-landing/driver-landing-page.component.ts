@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router, RouterLink} from "@angular/router";
+import {DriverService} from "../../services/driver.service";
 
 @Component({
   selector: 'app-driver-landing-page',
@@ -11,10 +12,11 @@ import {Router, RouterLink} from "@angular/router";
   styleUrls: ['./driver-landing-page.component.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink],
-  providers: [AuthenticationService]
+  providers: [AuthenticationService, DriverService]
 })
 export class DriverLandingPage implements OnInit {
   username!: string;
+  isFindCarpoolEnabled = false;
 
   findCarpoolNav = {
     description: "Procurar alunos",
@@ -29,12 +31,23 @@ export class DriverLandingPage implements OnInit {
     {description: "Histórico", icon: "calendar-outline", url: ['/motorista/caronas/historico']},
   ];
 
-  constructor(private router: Router, private authService: AuthenticationService) {
+  constructor(private authService: AuthenticationService,
+              private driverService: DriverService,
+              private router: Router) {
   }
 
   ngOnInit() {
     const loggedUser = this.authService.loggedUser;
     this.username = loggedUser ? loggedUser.name.split(" ")[0] : 'pessoa';
+
+    this.driverService.findDriverById(loggedUser!.userId).subscribe({
+      next: data => {
+        if (data.vehicleId !== 0) {
+          this.isFindCarpoolEnabled = true;
+        }
+      },
+      error: err => console.error("There was a problem retrieving driver info", err)
+    });
   }
 
   logout() {
