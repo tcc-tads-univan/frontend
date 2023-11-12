@@ -13,14 +13,14 @@ import {AuthenticationService} from 'src/app/services/authentication/authenticat
 import {ToastService} from "../../services/toast.service";
 
 @Component({
-  selector: 'app-student-registration',
-  templateUrl: './student-registration-page.component.html',
-  styleUrls: ['./student-registration-page.component.scss'],
+  selector: 'app-student-register-update',
+  templateUrl: './student-register-update.page.html',
+  styleUrls: ['./student-register-update.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, HttpClientModule, CpfFormatDirective, PhoneNumberDirective],
   providers: [StudentService, AuthenticationService]
 })
-export class StudentRegistrationPage implements OnInit {
+export class StudentRegisterUpdatePage implements OnInit {
   isEdit = false;
 
   registrationForm = this.fb.group({
@@ -94,11 +94,11 @@ export class StudentRegistrationPage implements OnInit {
   registerStudent(student: StudentRegistration) {
     this.studentService.registerStudent(student).subscribe({
       next: _ => {
-        this.toastService.showSuccessToast('Cadastro finalizado com sucesso');
+        this.toastService.showSuccessToast('Cadastro realizado com sucesso');
         this.router.navigate(['/']);
       },
       error: err => {
-        this.toastService.showErrorToastAndLog('Houve um problema ao finalizar o seu cadastro', err);
+        this.toastService.showErrorToastAndLog('Ocorreu um problema ao tentar finalizar seu cadastro', err);
       }
     });
   }
@@ -110,12 +110,12 @@ export class StudentRegistrationPage implements OnInit {
         this.loggedUser!.name = student.name;
         this.authService.saveAuthenticationInfo(this.loggedUser!);
 
-        this.toastService.showSuccessToast('Cadastro finalizado com sucesso');
+        this.toastService.showSuccessToast('Informações atualizadas com sucesso');
 
         this.router.navigate(['/aluno']);
       },
       error: err => {
-        this.toastService.showErrorToastAndLog('Houve um problema ao finalizar o seu cadastro', err);
+        this.toastService.showErrorToastAndLog('Houve um problema ao atualizar suas informações', err);
       }
     });
   }

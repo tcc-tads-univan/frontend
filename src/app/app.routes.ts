@@ -8,7 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'aluno/cadastro',
-    loadComponent: () => import('./student/student-registration/student-registration-page.component').then(m => m.StudentRegistrationPage)
+    loadComponent: () => import('./student/student-register-update/student-register-update.page').then(m => m.StudentRegisterUpdatePage)
   },
   {
     path: 'motorista/cadastro',

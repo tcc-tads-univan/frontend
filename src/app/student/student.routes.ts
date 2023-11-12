@@ -19,7 +19,7 @@ export const routes: Routes = [
   },
   {
     path: 'editar',
-    loadComponent: () => import('./student-registration/student-registration-page.component').then(m => m.StudentRegistrationPage)
+    loadComponent: () => import('./student-register-update/student-register-update.page').then(m => m.StudentRegisterUpdatePage)
   },
   {
     path: 'endereco',
