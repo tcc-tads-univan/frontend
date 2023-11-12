@@ -7,6 +7,7 @@ import {Router, RouterLink} from "@angular/router";
 import {StudentService} from "../../services/student.service";
 import {Address} from "../../shared/models/address/address";
 import {ToastService} from 'src/app/services/toast.service';
+import {Student} from "../../shared/models/student/student";
 
 @Component({
   selector: 'app-student-landing-page',
@@ -27,21 +28,31 @@ export class StudentLandingPage implements OnInit {
 
   userId!: number;
   username!: string;
-  addressRegistered = false;
-  address: Address | undefined;
+  user!: Student;
 
-  constructor(
-    private router: Router,
-    private authService: AuthenticationService,
-    private studentService: StudentService,
-    private toastService: ToastService
-  ) {
+  addressRegistered = false;
+  address!: Address;
+
+  constructor(private router: Router,
+              private authService: AuthenticationService,
+              private studentService: StudentService,
+              private toastService: ToastService) {
   }
 
 
   ngOnInit() {
     this.userId = this.authService.loggedUser!.userId;
     this.username = this.authService.loggedUser!.name;
+
+    this.studentService.findStudentById(this.userId).subscribe({
+      next: data => {
+        this.user = data;
+      },
+      error: err => {
+        this.toastService.showErrorToastAndLog("Problema ao recuperar seus dados", err);
+      }
+    });
+
     this.isStudentAddressRegistered();
   }
 
@@ -51,12 +62,12 @@ export class StudentLandingPage implements OnInit {
   }
 
   deleteStudentAddress(studentId: number) {
-    this.studentService.deleteStudentAddress(studentId, 2).subscribe({
+    this.studentService.deleteStudentAddress(studentId, this.user.addressId).subscribe({
       next: (_data) => {
         this.toastService.showSuccessToast('Endereço removido com sucesso');
       },
       error: (err) => {
-        this.toastService.showErrorToastAndLog('Erro ao remover o endereço. Verifique seu status de mensalista', err);
+        this.toastService.showErrorToastAndLog('Problema ao remover o endereço. Verifique seu status de mensalista', err);
       }
     });
   }
@@ -77,7 +88,7 @@ export class StudentLandingPage implements OnInit {
 
 
   isStudentAddressRegistered() {
-    this.studentService.findStudentAddress(this.userId, 2).subscribe({
+    this.studentService.findStudentAddress(this.userId, this.user.addressId).subscribe({
       next: data => {
         this.address = data;
         this.addressRegistered = true;
