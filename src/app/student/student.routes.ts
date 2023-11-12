@@ -1,5 +1,4 @@
 import {Routes} from '@angular/router';
-import {CarpoolHistoryPage} from "../shared/pages/carpool-history/carpool-history.page";
 
 export const routes: Routes = [
   {

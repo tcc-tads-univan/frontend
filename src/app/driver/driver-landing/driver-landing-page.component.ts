@@ -27,7 +27,7 @@ export class DriverLandingPage implements OnInit {
   navigations = [
     {description: "Editar Perfil", icon: "person-outline", url: ['/motorista/perfil']},
     {description: "Minha Van", icon: "bus-outline", url: ['/motorista/van']},
-    {description: "Mensalistas", icon: "people-outline", url: ['/motorista/mensalistas/editar']},
+    {description: "Mensalistas", icon: "people-outline", url: ['/motorista/mensalistas/']},
     {description: "Histórico", icon: "calendar-outline", url: ['/motorista/caronas/historico']},
   ];
 

@@ -41,7 +41,7 @@ export class RegularStudentsListPage implements OnInit {
   }
 
   handleModal(subscriptionId: number) {
-    this.regularStudent$! = this.driverService.findDriverSubscriptionsById(this.driverId, subscriptionId)
+    this.regularStudent$! = this.driverService.findDriverSubscriptionsById(this.driverId, subscriptionId);
     this.setOpen(true);
     console.log(this.regularStudent$);
   }

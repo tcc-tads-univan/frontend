@@ -28,4 +28,8 @@ export const routes: Routes = [
     path: 'carpool-history',
     loadComponent: () => import('./shared/pages/carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
   },
+  {
+    path: 'carpool-history',
+    loadComponent: () => import('./shared/pages/carpool-history/carpool-history.page').then(m => m.CarpoolHistoryPage)
+  },
 ];
