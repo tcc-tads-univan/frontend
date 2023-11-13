@@ -11,7 +11,7 @@
   <div *ngIf="(subscriptions$ | async) as subscriptions; else emptySubscriptions">
     <div class="card-header">
       <h1 style="padding: 18px 0 0 24px; font-weight: 600;">Olá, {{username}}</h1>
-      <p style="padding: 11px 0 0 25px;">Hoje é Sexta-feira, <b>dia 24/04/2023</b></p>
+      <p style="padding: 11px 0 0 25px;">Hoje é<b>dia {{ currentDate | date: 'short' }}</b></p>
       <p *ngIf="subscriptions.availableSeats > 0" style="padding: 11px 0 0 25px;">
         Você tem <strong>{{subscriptions.availableSeats}} assentos vagos.</strong>
       </p>
@@ -32,49 +32,49 @@
       </ion-button>
     </ion-item>
 
-    <div *ngIf="regularStudent$ | async as regular">
-      <ion-modal [isOpen]="isModalOpen">
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>{{regular.name}}</ion-title>
-            <ion-buttons slot="end">
-              <ion-button (click)="setOpen(false)">
-                <ion-icon name="close-circle-outline"></ion-icon>
-              </ion-button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-          <ion-item>
-            <ion-input readonly
-                       label="Telefone"
-                       labelPlacement="stacked"
-                       value="{{regular.phone}}"
-            ></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input readonly
-                       label="Endereço Final"
-                       labelPlacement="stacked"
-                       value="{{regular.finalAddress}}"
-            ></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input readonly
-                       label="Status de Mensalista"
-                       labelPlacement="stacked"
-                       value="{{regular.subscriptionStatus}}"
-            ></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input readonly
-                       label="Status de Pagamento"
-                       labelPlacement="stacked" value="{{regular.payment}}"
-            ></ion-input>
-          </ion-item>
-        </ion-content>
-      </ion-modal>
-    </div>
+    <ion-modal [isOpen]="isModalOpen">
+      <ng-template>
+        <div *ngIf="regularStudent$ | async as regular">
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>Mensalista: {{regular.name}}</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="setOpen(false)" [strong]="true">VOltar</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <ion-item>
+              <ion-input readonly
+                         label="Telefone"
+                         labelPlacement="stacked"
+                         value="{{regular?.phone}}"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input readonly
+                         label="Endereço Final"
+                         labelPlacement="stacked"
+                         value="{{regular?.finalAddress}}"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input readonly
+                         label="Status de Mensalista"
+                         labelPlacement="stacked"
+                         value="{{regular?.subscriptionStatus}}"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input readonly
+                         label="Status de Pagamento"
+                         labelPlacement="stacked" value="{{regular?.payment}}"
+              ></ion-input>
+            </ion-item>
+          </ion-content>
+        </div>
+      </ng-template>
+    </ion-modal>
 
     <ion-fab slot="fixed" vertical="bottom" horizontal="center">
       <ion-fab-button id="add-student" [routerLink]="['./novo']">

@@ -22,7 +22,7 @@ export class RegularStudentsListPage implements OnInit {
   private driverId!: number;
   username: string | undefined;
   isModalOpen: boolean = false;
-
+  currentDate: Date = new Date();
   subscriptions$!: Observable<DriverSubscriptions>;
   regularStudent$!: Observable<RegularStudent>;
 
