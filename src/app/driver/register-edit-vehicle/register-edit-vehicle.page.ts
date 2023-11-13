@@ -7,6 +7,9 @@ import {VehicleRegistration} from "../../shared/models/vehicle/vehicle-registrat
 import {DriverService} from "../../services/driver.service";
 import {ToastService} from 'src/app/services/toast.service';
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
+import {HttpStatusCode} from "@angular/common/http";
+import {RoutesService} from "../../services/routes.service";
+import {Address} from "../../shared/models/address/address";
 
 @Component({
   selector: 'app-register-edit-vehicle',
@@ -14,7 +17,7 @@ import {AuthenticationService} from 'src/app/services/authentication/authenticat
   styleUrls: ['./register-edit-vehicle.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink, ReactiveFormsModule],
-  providers: [DriverService, ToastService, AuthenticationService]
+  providers: [DriverService, ToastService, AuthenticationService, RoutesService]
 })
 export class RegisterEditVehiclePage implements OnInit {
   private userId!: number;
@@ -22,19 +25,31 @@ export class RegisterEditVehiclePage implements OnInit {
   isRegistered!: boolean;
   username!: string;
   currentYear = new Date().getFullYear();
-
+  addressForm = this.fb.group({
+    streetname: ['', [Validators.required, Validators.minLength(3)]],
+    number: [0, [Validators.required, Validators.min(0)]],
+    neighborhood: ['', [Validators.required]],
+    city: ['', [Validators.required, Validators.minLength(3)]],
+    state: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]]
+  });
   vehicleForm = this.fb.group({
     plate: ['', [Validators.required]],
     model: ['', [Validators.minLength(3), Validators.required]],
     fabricationYear: ['', [Validators.required, Validators.min(1980), Validators.max(this.currentYear)]],
     seats: ['', [Validators.required, Validators.min(0), Validators.max(20)]],
+    garageAddress: ['']
   });
+
+  showResultList = false;
+  addressList!: Array<Address>;
+  selectedAddress: Address | undefined;
 
   constructor(private fb: FormBuilder,
               private driverService: DriverService,
               private toastService: ToastService,
               private router: Router,
-              private authService: AuthenticationService) {
+              private authService: AuthenticationService,
+              private routesService: RoutesService) {
   }
 
   ngOnInit() {
@@ -48,17 +63,48 @@ export class RegisterEditVehiclePage implements OnInit {
   }
 
   handleSubmit() {
-    if (this.vehicleForm.valid) {
+    if (this.vehicleForm.valid && this.selectedAddress) {
       const vehicle: VehicleRegistration = {
         plate: this.licensePlate?.value ?? '',
         model: this.model?.value ?? '',
         fabricationYear: parseInt(this.fabricationYear?.value ?? '', 10),
         seats: parseInt(this.seatsNumber?.value ?? '', 10),
+        garageAddress: this.selectedAddress?.placeId
       }
-
       this.registerVehicle(vehicle, this.userId);
     }
   }
+
+  buildAddress(): string {
+    let strBuilder = `${this.streetname?.value}, ${this.number?.value}`;
+    strBuilder += ` - ${this.neighborhood?.value}, ${this.city?.value} - ${this.state?.value}`;
+    return strBuilder;
+  }
+
+  handleAddressSubmit() {
+    this.selectedAddress = undefined;
+
+    if (this.addressForm.valid) {
+      this.routesService
+        .autocompleteAddress(this.buildAddress())
+        .subscribe({
+          next: data => {
+            this.addressList = data;
+            this.showResultList = true;
+          },
+          error: err => {
+            this.showResultList = false;
+
+            if (err.error.status === HttpStatusCode.NotFound) {
+              this.toastService.showWarningToast('Endereço não encontrado', 'alert-outline');
+            } else {
+              this.toastService.showErrorToastAndLog('Problema ao buscar o endereço', err);
+            }
+          }
+        });
+    }
+  }
+
 
   private readonly driverHomeUrl = ['/motorista'];
 
@@ -95,7 +141,8 @@ export class RegisterEditVehiclePage implements OnInit {
           plate: data.plate,
           model: data.model,
           fabricationYear: data.fabricationYear.toString(),
-          seats: data.seats.toString()
+          seats: data.seats.toString(),
+          garageAddress: data.garageAddress
         });
 
         this.licensePlate?.disable({onlySelf: true});
@@ -114,6 +161,9 @@ export class RegisterEditVehiclePage implements OnInit {
       }
     });
   }
+  trackByItem(_idx: number, item: Address) {
+    return item.completeLineAddress;
+  }
 
   public get licensePlate() {
     return this.vehicleForm.get('plate');
@@ -129,5 +179,26 @@ export class RegisterEditVehiclePage implements OnInit {
 
   public get seatsNumber() {
     return this.vehicleForm.get('seats');
+  }
+
+
+  get streetname() {
+    return this.addressForm.get('streetname');
+  }
+
+  get number() {
+    return this.addressForm.get('number');
+  }
+
+  get neighborhood() {
+    return this.addressForm.get('neighborhood');
+  }
+
+  get city() {
+    return this.addressForm.get('city');
+  }
+
+  get state() {
+    return this.addressForm.get('state');
   }
 }

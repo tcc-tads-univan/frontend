@@ -27,6 +27,12 @@
           <p class="ion-margin-start">Você precisa cadastrar uma van para oferecer caronas</p>
         </ion-item>
       </ion-col>
+      <ion-col>
+        <ion-button *ngIf="isFindCarpoolEnabled" color="light" expand="block" [routerLink]="manageCarpool.url">
+          {{manageCarpool.description}}
+          <ion-icon slot="end" [name]="manageCarpool.icon"></ion-icon>
+        </ion-button>
+      </ion-col>
     </ion-row>
     <div class="grey-border"></div>
     <ion-row id="user-options" class="ion-justify-content-start">

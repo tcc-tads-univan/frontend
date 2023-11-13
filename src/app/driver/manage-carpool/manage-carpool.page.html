@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mensalistas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding" color="light">
+  <div>
+    <div class="card-header">
+      <h1 style="padding: 18px 0 0 24px; font-weight: 600;">Olá, {{username}}</h1>
+      <p style="padding: 11px 0 0 25px;">Hoje é Sexta-feira, <b>dia 24/04/2023</b></p>
+      <p style="padding: 11px 0 0 25px;">
+        <strong>Você tem </strong>
+      </p>
+      <ion-img id="van-svg" src="./assets/airport_shuttle_FILL0_wght400_GRAD0_opsz48 1.svg"></ion-img>
+    </div>
+
+    <h2 id="generic-title">Alunos</h2>
+    <ion-item id="present-alert">
+      <ion-avatar slot="start">
+        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
+      </ion-avatar>
+      <ion-label></ion-label>
+      <ion-button color="tertiary" id="open-modal" expand="block">
+        Ver mais
+      </ion-button>
+    </ion-item>
+
+
+    <ion-buttons slot="fixed" >
+      <ion-button fill="outline" slot="center">
+        <ion-icon slot="start" name="star"></ion-icon>
+        Iniciar Viagem
+      </ion-button>
+    </ion-buttons>
+  </div>
+
+  <ng-template #emptySubscriptions>
+  </ng-template>
+
+</ion-content>
