@@ -1,31 +1,24 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="logout()" color="danger">Sair</ion-button>
-    </ion-buttons>
-    <ion-title>
-      <span>Olá, {{username}}</span>
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-landing-page-header [username]="username"></app-landing-page-header>
+
 <ion-content>
   <ion-grid [fixed]="true">
+
     <ion-row class="ion-justify-content-center ion-align-items-end">
-      <ion-icon src="assets/logo_1.svg" id="univan-logo"></ion-icon>
+      <ion-icon src="assets/logo_1.svg" id="univan-logo" class="ion-margin-bottom ion-margin-top"></ion-icon>
     </ion-row>
-    <ion-row id="start-carpool" class="ion-justify-content-center">
+
+    <ion-row class="ion-justify-content-center ion-margin-bottom">
       <ion-col>
         <ion-button *ngIf="isFindCarpoolEnabled" color="light" expand="block" [routerLink]="findCarpoolNav.url">
           {{findCarpoolNav.description}}
           <ion-icon slot="end" [name]="findCarpoolNav.icon"></ion-icon>
         </ion-button>
-        <ion-item *ngIf="!isFindCarpoolEnabled" color="warning">
+
+        <ion-item *ngIf="!isFindCarpoolEnabled" color="warning" class="info-block">
           <ion-icon name="alert-circle-outline"></ion-icon>
           <p class="ion-margin-start">Você precisa cadastrar uma van para oferecer caronas</p>
         </ion-item>
+
       </ion-col>
       <ion-col>
         <ion-button *ngIf="isFindCarpoolEnabled" color="light" expand="block" [routerLink]="manageCarpool.url">
@@ -34,14 +27,17 @@
         </ion-button>
       </ion-col>
     </ion-row>
-    <div class="grey-border"></div>
+
+    <ion-item-divider></ion-item-divider>
+
     <ion-row id="user-options" class="ion-justify-content-start">
       <ion-col>
-        <ion-button *ngFor="let navigation of navigations" class="buttons" color="light" expand="block" [routerLink]="navigation.url">
+        <ion-button *ngFor="let navigation of navigations" class="ion-margin-top" color="light" expand="block" [routerLink]="navigation.url">
           <ion-icon slot="start" [name]="navigation.icon"></ion-icon>
           {{navigation.description}}
         </ion-button>
       </ion-col>
     </ion-row>
+
   </ion-grid>
 </ion-content>

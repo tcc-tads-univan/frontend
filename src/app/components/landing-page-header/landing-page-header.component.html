@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" color="danger">
+        Sair
+        <ion-icon name="exit-outline" slot="end"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <span>Olá, {{username}}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
