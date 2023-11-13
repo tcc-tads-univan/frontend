@@ -3,6 +3,7 @@ import {PendingSubscriptions} from "../../../../shared/models/subscriptions/pend
 import {IonicModule} from "@ionic/angular";
 import {SubscriptionService} from "../../../../services/subscription.service";
 import {ToastService} from "../../../../services/toast.service";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-pending-requests',
@@ -10,7 +11,8 @@ import {ToastService} from "../../../../services/toast.service";
   styleUrls: ['./pending-requests.component.scss'],
   standalone: true,
   imports: [
-    IonicModule
+    IonicModule,
+    CommonModule
   ],
   providers: [SubscriptionService]
 })
