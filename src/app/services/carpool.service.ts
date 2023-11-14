@@ -25,7 +25,7 @@ export class CarpoolService {
     return this.http.post(this.RIDE_API, body, httpOptions);
   }
 
-  approveCarpoolRequest(studentId: number, driverId: number, campusId: number, price: number) {
+  approveCarpoolRequest(studentId: number, driverId: number, campusId: number, price: string) {
     const body = {driverId, studentId, campusId, price};
     return this.http.post(this.SCHEDULE_API, body, httpOptions);
   }

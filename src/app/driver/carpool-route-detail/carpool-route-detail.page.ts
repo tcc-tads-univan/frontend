@@ -108,7 +108,7 @@ export class CarpoolRouteDetailPage implements OnInit {
 
   submitCarpoolProposal() {
     if (this.price.valid && this.price.value) {
-      const priceValue = +this.price.value ? +this.price.value : 0.0;
+      const priceValue = +this.price.value ? (+this.price.value).toFixed(2) : (0.0).toFixed(2);
 
       this.carpoolService.approveCarpoolRequest(this.studentId, this.driverId, this.campusId, priceValue)
         .subscribe({

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
@@ -19,7 +19,7 @@ import {RegisterAddressComponent} from "../../components/shared/register-address
   imports: [IonicModule, CommonModule, FormsModule, RouterLink, ReactiveFormsModule, RegisterAddressComponent],
   providers: [DriverService, ToastService, AuthenticationService, RoutesService]
 })
-export class RegisterEditVehiclePage implements OnInit {
+export class RegisterEditVehiclePage implements OnInit, AfterViewInit {
   private readonly driverHomeUrl = ['/motorista'];
   private userId!: number;
   private vehicleId!: number;
@@ -44,7 +44,9 @@ export class RegisterEditVehiclePage implements OnInit {
 
   ngOnInit() {
     this.userId = this.authService.loggedUser!.userId;
+  }
 
+  ngAfterViewInit(): void {
     this.driverService.findDriverById(this.userId).subscribe(driver => {
       const {vehicleId} = driver;
       this.setVehicleInformation(vehicleId);
