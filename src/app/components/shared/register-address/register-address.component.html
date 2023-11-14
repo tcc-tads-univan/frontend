@@ -1,0 +1,74 @@
+<form [formGroup]="addressForm">
+  <ion-list>
+    <ion-list-header>
+      <h4>Busque pelo seu endereço</h4>
+    </ion-list-header>
+
+    <ion-item>
+      <ion-input formControlName="streetname"
+                 type="text"
+                 label="Logradouro"
+                 placeholder="Rua Laranja Lima / Avenida Floriano Peixoto"
+                 labelPlacement="floating"
+                 errorText="Preencha o logradouro, por favor">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input formControlName="number"
+                 type="number"
+                 label="Número"
+                 placeholder="123"
+                 labelPlacement="floating"
+                 errorText="Insira um número válido">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input formControlName="neighborhood"
+                 type="text"
+                 label="Bairro"
+                 placeholder="Jardins"
+                 labelPlacement="floating"
+                 errorText="Preencha seu bairro"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input formControlName="city"
+                 type="text"
+                 label="Cidade"
+                 placeholder="Brasília"
+                 labelPlacement="floating"
+                 errorText="Preencha uma cidade"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input formControlName="state"
+                 type="text"
+                 label="Sigla Estado"
+                 placeholder="DF"
+                 labelPlacement="floating"
+                 errorText="Preencha a sigla do estado"
+                 maxlength="2"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-button (click)="handleAutocompleteAddress()" type="submit" expand="block" color="primary">
+    Buscar Endereço
+    <ion-icon name="search-outline" slot="end"></ion-icon>
+  </ion-button>
+
+  <ng-container *ngIf="results">
+    <ion-item-divider></ion-item-divider>
+    <h4>Confirme seu endereço</h4>
+
+    <ion-radio-group formControlName="selectedAddress" (click)="selectAddress()">
+      <ion-item *ngFor="let result of results">
+        <ion-radio [value]="result" justify="space-between">
+          <p class="ion-text-wrap">{{result.completeLineAddress}}</p>
+        </ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ng-container>
+
+</form>

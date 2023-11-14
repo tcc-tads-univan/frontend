@@ -10,14 +10,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-grid>
-    <ion-row class="display-info">
-      <ion-col class="ion-text-center">
-        <h2>Olá {{username}}</h2>
-        <ion-icon name="bus-outline" size="large"></ion-icon>
-      </ion-col>
-    </ion-row>
+<ion-content [fullscreen]="true">
+  <ion-row class="display-info">
+    <ion-col class="ion-text-center">
+      <h2>Preencha as informações abaixo</h2>
+      <ion-icon name="bus-outline" size="large"></ion-icon>
+    </ion-col>
+  </ion-row>
+
+  <ion-grid class="ion-padding">
     <ion-row>
       <ion-col class="ion-padding ion-margin-end">
         <form [formGroup]="vehicleForm" (ngSubmit)="handleSubmit()" enctype="application/x-www-form-urlencoded">

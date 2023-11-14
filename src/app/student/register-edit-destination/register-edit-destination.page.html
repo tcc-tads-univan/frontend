@@ -8,96 +8,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <form [formGroup]="addressForm">
-    <ion-list>
-      <ion-list-header>
-        <h3>Preencha os campos</h3>
-      </ion-list-header>
-
-      <ion-item>
-        <ion-input
-          formControlName="streetname"
-          type="text"
-          label="Logradouro"
-          placeholder="Rua Laranja Lima / Avenida Floriano Peixoto"
-          labelPlacement="floating"
-          errorText="Preencha o logradouro, por favor"
-        >
-        </ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-input
-          formControlName="number"
-          type="number"
-          label="Número"
-          placeholder="123"
-          labelPlacement="floating"
-          errorText="Insira um número válido"
-        ></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-input
-          formControlName="neighborhood"
-          type="text"
-          label="Bairro"
-          placeholder="Jardins"
-          labelPlacement="floating"
-          errorText="Preencha seu bairro"
-        ></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-input
-          formControlName="city"
-          type="text"
-          label="Cidade"
-          placeholder="Brasília"
-          labelPlacement="floating"
-          errorText="Preencha uma cidade"
-        ></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-input
-          formControlName="state"
-          type="text"
-          label="Sigla Estado"
-          placeholder="DF"
-          labelPlacement="floating"
-          errorText="Preencha a sigla do estado"
-          maxlength="2"
-        ></ion-input>
-      </ion-item>
-    </ion-list>
-
-    <ion-button (click)="handleSubmit()" type="submit" expand="block" color="primary">
-      Buscar Endereço
-      <ion-icon name="search-outline" slot="end"></ion-icon>
-    </ion-button>
-  </form>
-
-  <ng-container *ngIf="showResultList">
-    <ion-item-divider></ion-item-divider>
-    <h4>Confirme seu endereço</h4>
-    <ion-radio-group [(ngModel)]="selectedAddress">
-      <ion-item *ngFor="let result of addressList; trackBy: trackByItem">
-        <ion-radio [value]="result" justify="start">
-          <p class="ion-text-wrap">{{result.completeLineAddress}}</p>
-        </ion-radio>
-      </ion-item>
-    </ion-radio-group>
-  </ng-container>
+  <app-register-address (addressOutput)="handleSelectedAddress($event)"></app-register-address>
 </ion-content>
 
-<ion-footer *ngIf="showResultList">
+<ion-footer>
   <ion-toolbar class="ion-padding">
-    <ion-button (click)="saveAddress()"
-                type="button"
+    <ion-button type="button"
                 expand="block"
                 color="success"
-                [disabled]="!selectedAddress">
+                [disabled]="!selectedAddress"
+                (click)="handleSubmit()">
       Salvar
       <ion-icon name="save-outline" slot="end"></ion-icon>
     </ion-button>

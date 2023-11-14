@@ -23,8 +23,9 @@ export class RegisterEditVehiclePage implements OnInit {
   private userId!: number;
   private vehicleId!: number;
   isRegistered!: boolean;
-  username!: string;
+
   currentYear = new Date().getFullYear();
+
   addressForm = this.fb.group({
     streetname: ['', [Validators.required, Validators.minLength(3)]],
     number: [0, [Validators.required, Validators.min(0)]],
@@ -32,12 +33,13 @@ export class RegisterEditVehiclePage implements OnInit {
     city: ['', [Validators.required, Validators.minLength(3)]],
     state: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]]
   });
+
   vehicleForm = this.fb.group({
     plate: ['', [Validators.required]],
     model: ['', [Validators.minLength(3), Validators.required]],
     fabricationYear: ['', [Validators.required, Validators.min(1980), Validators.max(this.currentYear)]],
     seats: ['', [Validators.required, Validators.min(0), Validators.max(20)]],
-    garageAddress: ['']
+    garageAddress: ['', Validators.required]
   });
 
   showResultList = false;
@@ -54,7 +56,6 @@ export class RegisterEditVehiclePage implements OnInit {
 
   ngOnInit() {
     this.userId = this.authService.loggedUser!.userId;
-    this.username = this.authService.loggedUser!.name;
 
     this.driverService.findDriverById(this.userId).subscribe(propertyValue => {
       const {vehicleId} = propertyValue;
@@ -69,8 +70,9 @@ export class RegisterEditVehiclePage implements OnInit {
         model: this.model?.value ?? '',
         fabricationYear: parseInt(this.fabricationYear?.value ?? '', 10),
         seats: parseInt(this.seatsNumber?.value ?? '', 10),
-        garageAddress: this.selectedAddress?.placeId
+        garageAddress: this.selectedAddress!.placeId
       }
+
       this.registerVehicle(vehicle, this.userId);
     }
   }
@@ -161,6 +163,7 @@ export class RegisterEditVehiclePage implements OnInit {
       }
     });
   }
+
   trackByItem(_idx: number, item: Address) {
     return item.completeLineAddress;
   }
