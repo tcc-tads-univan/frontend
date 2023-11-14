@@ -24,9 +24,9 @@ import {Observable} from "rxjs";
 export class StudentAddressComponent implements OnInit {
   @Input({required: true})
   student!: Student;
+  @Input({required: true})
   address$!: Observable<Address>;
 
-  addressRegistered: boolean = false;
   alertButtons = [
     {
       text: 'Cancelar',
@@ -46,7 +46,6 @@ export class StudentAddressComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.address$ = this.studentService.findStudentAddress(this.student.id, this.student.addressId);
   }
 
   deleteStudentAddress() {
@@ -54,6 +53,7 @@ export class StudentAddressComponent implements OnInit {
       .subscribe({
         next: (_data) => {
           this.toastService.showSuccessToast('Endereço removido com sucesso');
+          window.location.reload();
         },
         error: (err) => {
           this.toastService.showErrorToastAndLog('Problema ao remover o endereço. Verifique seu status de mensalista', err);

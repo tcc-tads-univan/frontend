@@ -1,11 +1,9 @@
-<ion-row class="ion-align-items-center">
-  <h3>Endereço</h3>
-  <ion-icon id="add-icon" size="large" name="add-outline" [routerLink]="['../endereco']"
-            *ngIf="!addressRegistered"></ion-icon>
-</ion-row>
+<ion-list>
+  <ion-list-header>
+    <h3>Endereço</h3>
+  </ion-list-header>
 
-<div *ngIf="address$ | async as address">
-  <ion-card *ngIf="addressRegistered">
+  <ion-card *ngIf="address$ | async as address; else noAddress">
     <ion-card-header>
       <ion-card-title>
         <ion-icon name="location-outline"></ion-icon>
@@ -20,4 +18,16 @@
                  [buttons]="alertButtons"></ion-alert>
     </ion-card-content>
   </ion-card>
-</div>
+
+  <ng-template #noAddress>
+    <ion-button
+      expand="block"
+      style="text-transform: none"
+      color="success"
+      [routerLink]="['../endereco']">
+      Cadastrar Endereço
+      <ion-icon name="location-outline" slot="end"></ion-icon>
+    </ion-button>
+  </ng-template>
+
+</ion-list>

@@ -46,7 +46,10 @@
       </ion-col>
     </ion-row>
 
-    <app-student-address *ngIf="isStudent" [student]="student"></app-student-address>
+    <app-student-address *ngIf="isStudent"
+                         [student]="student"
+                         [address$]="studentAddress$">
+    </app-student-address>
 
   </ion-grid>
 </ion-content>

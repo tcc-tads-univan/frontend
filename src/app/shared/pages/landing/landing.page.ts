@@ -13,6 +13,8 @@ import {Student} from "../../models/student/student";
 import {Driver} from "../../models/driver/driver";
 import {DriverService} from "../../../services/driver.service";
 import {ToastService} from "../../../services/toast.service";
+import {Address} from "../../models/address/address";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-landing-page',
@@ -34,6 +36,7 @@ export class LandingPage implements OnInit {
 
   driver!: Driver;
   student!: Student;
+  studentAddress$!: Observable<Address>;
 
   constructor(private authService: AuthenticationService,
               private driverService: DriverService,
@@ -56,16 +59,7 @@ export class LandingPage implements OnInit {
 
   private setStudentLandingPage(userId: number) {
     this.isStudent = true;
-
-    this.studentService.findStudentById(userId).subscribe({
-      next: data => {
-        this.student = data;
-        this.actionNeeded = data.addressId === null || data.addressId === 0;
-      },
-      error: err => {
-        this.toastService.showErrorToastAndLog("Problema ao recuperar suas informações", err);
-      }
-    });
+    this.warningMessage = "Você precisa cadastrar um endereço para solicitar caronas";
 
     this.navigations = [
       {description: 'Editar Perfil', icon: 'person-outline', url: ['../perfil']},
@@ -73,11 +67,28 @@ export class LandingPage implements OnInit {
       {description: 'Histórico', icon: 'calendar-outline', url: ['../carona/historico']},
     ];
 
-    this.warningMessage = "Você precisa cadastrar um endereço para solicitar caronas";
+    this.studentService.findStudentById(userId).subscribe({
+      next: data => {
+        this.student = data;
+        this.actionNeeded = data.addressId === null || data.addressId === 0;
+        this.studentAddress$ = this.studentService.findStudentAddress(data.id, data.addressId);
+      },
+      error: err => {
+        this.toastService.showErrorToastAndLog("Problema ao recuperar suas informações", err);
+      }
+    });
   }
 
   private setDriverLandingPage(userId: number) {
     this.isDriver = true;
+    this.warningMessage = "Você precisa cadastrar uma van para oferecer caronas";
+
+    this.navigations = [
+      {description: "Editar Perfil", icon: "person-outline", url: ['../perfil']},
+      {description: "Minha Van", icon: "bus-outline", url: ['../van']},
+      {description: "Mensalistas", icon: "people-outline", url: ['../mensalistas/']},
+      {description: "Histórico", icon: "calendar-outline", url: ['../caronas/historico']},
+    ];
 
     this.driverService.findDriverById(userId).subscribe({
       next: data => {
@@ -88,14 +99,5 @@ export class LandingPage implements OnInit {
         this.toastService.showErrorToastAndLog("Problema ao recuperar suas informações", err);
       }
     });
-
-    this.navigations = [
-      {description: "Editar Perfil", icon: "person-outline", url: ['../perfil']},
-      {description: "Minha Van", icon: "bus-outline", url: ['../van']},
-      {description: "Mensalistas", icon: "people-outline", url: ['../mensalistas/']},
-      {description: "Histórico", icon: "calendar-outline", url: ['../caronas/historico']},
-    ];
-
-    this.warningMessage = "Você precisa cadastrar uma van para oferecer caronas";
   }
 }
