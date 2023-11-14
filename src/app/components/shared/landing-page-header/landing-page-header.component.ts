@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
-import {AuthenticationService} from "../../services/authentication/authentication.service";
+import {AuthenticationService} from "../../../services/authentication/authentication.service";
 import {Router} from "@angular/router";
 
 @Component({

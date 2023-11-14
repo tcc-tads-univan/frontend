@@ -18,7 +18,7 @@ export const routes: Routes = [
     loadComponent: () => import('./carpool-requested/carpool-requested.page').then(m => m.CarpoolRequestedPage)
   },
   {
-    path: 'editar',
+    path: 'perfil',
     loadComponent: () => import('./student-register-update/student-register-update.page').then(m => m.StudentRegisterUpdatePage)
   },
   {
@@ -35,7 +35,7 @@ export const routes: Routes = [
   },
   {
     path: 'inicio',
-    loadComponent: () => import('./student-landing-page/student-landing-page.component').then(m => m.StudentLandingPage)
+    loadComponent: () => import('../shared/pages/landing/landing.page').then(m => m.LandingPage)
   },
   {
     path: '',

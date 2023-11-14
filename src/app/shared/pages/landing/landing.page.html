@@ -1,0 +1,52 @@
+<app-landing-page-header [username]="userFirstName"></app-landing-page-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-grid [fixed]="true">
+
+    <ion-row class="ion-justify-content-center ion-align-items-end">
+      <ion-icon src="assets/logo_1.svg" id="univan-logo" class="ion-margin-vertical"></ion-icon>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-start">
+      <ion-col *ngIf="!actionNeeded">
+        <ion-button *ngIf="isStudent" color="light" expand="block" [routerLink]="['../carona']">
+          Pegar Carona
+          <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+        </ion-button>
+
+        <div *ngIf="isDriver">
+          <ion-button class="ion-margin-bottom" color="light" expand="block" [routerLink]="['../caronas/procurar']">
+            Procurar alunos
+            <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+          </ion-button>
+          <ion-button color="light" expand="block" [routerLink]="['../caronas/iniciar']">
+            Gerenciar Viagem
+            <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-col>
+
+      <ion-col *ngIf="actionNeeded">
+        <ion-item color="warning">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          <p class="ion-margin-start">{{warningMessage}}</p>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-item-divider></ion-item-divider>
+
+    <ion-row class="ion-justify-content-start ion-margin-vertical">
+      <ion-col>
+        <ion-button *ngFor="let navigation of navigations" class="ion-margin-top" color="light" expand="block"
+                    [routerLink]="navigation.url">
+          <ion-icon slot="start" [name]="navigation.icon"></ion-icon>
+          {{navigation.description}}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <app-student-address *ngIf="isStudent" [student]="student"></app-student-address>
+
+  </ion-grid>
+</ion-content>

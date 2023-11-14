@@ -3,7 +3,7 @@ import {Routes} from "@angular/router";
 export const routes: Routes = [
   {
     path: 'inicio',
-    loadComponent: () => import('./landing-page/landing-page.page').then(m => m.LandingPagePage)
+    loadComponent: () => import('./home-page/home.page').then(m => m.HomePage)
   },
   {
     path: 'entrar',

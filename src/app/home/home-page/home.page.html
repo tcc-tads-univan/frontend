@@ -1,22 +1,26 @@
 <ion-content [fullscreen]="true">
   <ion-grid [fixed]="true">
-    <ion-row class="ion-justify-content-center ion-align-items-end">
-      <ion-icon src="assets/logo_1.svg" class="small-icon"></ion-icon>
-    </ion-row>
+
+    <app-univan-logo size="small"></app-univan-logo>
+
     <ion-row class="ion-justify-content-center">
       <ion-col>
-        <ion-button [routerLink]="authenticationRoute" [queryParams]="profileQueryParams.driver" color="light" expand="block">
+        <ion-button [routerLink]="authenticationRoute" [queryParams]="profileQueryParams.driver" color="light"
+                    expand="block" class="ion-margin-bottom">
           Sou motorista
           <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
         </ion-button>
-        <ion-button [routerLink]="authenticationRoute" [queryParams]="profileQueryParams.student" color="light" expand="block">
+        <ion-button [routerLink]="authenticationRoute" [queryParams]="profileQueryParams.student" color="light"
+                    expand="block">
           Sou aluno
           <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-row>
+
     <ion-row class="ion-justify-content-center ion-align-items-start">
-      <ion-icon src="assets/undraw_city_driver_re_9xyv.svg" class="big-icon"></ion-icon>
+      <ion-icon src="assets/undraw_city_driver_re_9xyv.svg" style="font-size: 80vw"></ion-icon>
     </ion-row>
+
   </ion-grid>
 </ion-content>

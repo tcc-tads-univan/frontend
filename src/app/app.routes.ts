@@ -25,11 +25,7 @@ export const routes: Routes = [
     canActivate: [driverAuthentication]
   },
   {
-    path: 'carpool-history',
-    loadComponent: () => import('./shared/pages/carpool-history/carpool-history.page').then( m => m.CarpoolHistoryPage)
-  },
-  {
-    path: 'carpool-history',
-    loadComponent: () => import('./shared/pages/carpool-history/carpool-history.page').then(m => m.CarpoolHistoryPage)
+    path: 'user-landing-page',
+    loadComponent: () => import('./shared/pages/landing/landing.page').then(m => m.LandingPage)
   },
 ];

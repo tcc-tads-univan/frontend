@@ -3,15 +3,16 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {RouterLink} from "@angular/router";
+import {UnivanLogoComponent} from "../../components/shared/univan-logo/univan-logo.component";
 
 @Component({
-  selector: 'app-tela-inicio',
-  templateUrl: './landing-page.page.html',
-  styleUrls: ['./landing-page.page.scss'],
+  selector: 'app-home-page',
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterLink]
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink, UnivanLogoComponent]
 })
-export class LandingPagePage implements OnInit {
+export class HomePage implements OnInit {
   authenticationRoute = ['/entrar'];
 
   profileQueryParams = {

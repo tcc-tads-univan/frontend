@@ -7,13 +7,14 @@ import {LoginRequest} from "../../shared/models/user/login-request.model";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {UserType} from "../../shared/enums/user-type";
 import {ToastService} from 'src/app/services/toast.service';
+import {UnivanLogoComponent} from "../../components/shared/univan-logo/univan-logo.component";
 
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.page.html',
   styleUrls: ['./authentication.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, UnivanLogoComponent],
   providers: [AuthenticationService, ToastService]
 })
 export class AuthenticationPage implements OnInit {

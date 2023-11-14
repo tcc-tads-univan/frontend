@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
-import {EmptyHistoryCardComponent} from "../../../components/empty-history-card/empty-history-card.component";
+import {EmptyHistoryCardComponent} from "../../../components/shared/empty-history-card/empty-history-card.component";
 import {AuthenticationService} from "../../../services/authentication/authentication.service";
 import {ToastService} from "../../../services/toast.service";
 import {HistoryService} from "../../../services/history.service";

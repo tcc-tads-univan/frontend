@@ -8,7 +8,7 @@ import {DriverSubscriptions} from "../../shared/models/subscriptions/driver-subs
 import {RegularStudent} from "../../shared/models/regular-student/regular-student";
 import {RouterLink} from "@angular/router";
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
-import {EmptyRegularStudentsComponent} from "../../components/empty-regular-students/empty-regular-students.component";
+import {EmptyRegularStudentsComponent} from "../../components/driver/empty-regular-students/empty-regular-students.component";
 
 @Component({
   selector: 'app-register-edit-regular-student',

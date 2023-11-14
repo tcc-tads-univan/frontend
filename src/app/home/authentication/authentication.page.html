@@ -9,11 +9,12 @@
 
 <ion-content>
   <ion-grid>
-    <ion-row class="display-info">
+    <ion-row>
       <ion-col class="ion-text-center">
-        <ion-icon src="assets/logo_1.svg" class="univan-logo"></ion-icon>
+        <app-univan-logo size="medium"></app-univan-logo>
       </ion-col>
     </ion-row>
+
     <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
       <ion-row>
         <ion-col class="ion-padding ion-margin-end">
