@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {IonicModule} from "@ionic/angular";
+import {AlertButton, IonicModule} from "@ionic/angular";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {StudentService} from "../../../services/student.service";
@@ -27,7 +27,7 @@ export class StudentAddressComponent implements OnInit {
   @Input({required: true})
   address$!: Observable<Address>;
 
-  alertButtons = [
+  alertButtons: AlertButton[] = [
     {
       text: 'Cancelar',
       role: 'cancel',
