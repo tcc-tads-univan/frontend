@@ -5,6 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import {RouterLink} from "@angular/router";
 import {CarpoolService} from "../../services/carpool.service";
 import {AuthenticationService} from "../../services/authentication/authentication.service";
+import {Observable} from "rxjs";
+import {Schedule} from "../../shared/models/carpool/schedule";
 
 @Component({
   selector: 'app-manage-carpool',
@@ -17,12 +19,39 @@ import {AuthenticationService} from "../../services/authentication/authenticatio
 export class ManageCarpoolPage implements OnInit {
   driverId: number | undefined;
   username: string | undefined
-  constructor(private authService: AuthenticationService) { }
+  carpoolOngoing: boolean = true;
+  schedules$!:  Observable<Schedule[]>
+  userId: number;
+  private schedule: Schedule[] = [];
+
+  currentDate: Date = new Date();
+
+  startLocation: string;
+  private middleLocation: string[] = []
+  finalLocation: string;
+
+  constructor(private authService: AuthenticationService, private carpoolService: CarpoolService) {
+    this.userId = this.authService.loggedUser!.userId;
+    this.startLocation = 'teste';
+    this.finalLocation = 'teste';
+  }
 
 
   ngOnInit() {
     this.driverId = this.authService.loggedUser!.userId;
     this.username = this.authService.loggedUser!.name;
+    this.schedules$! = this.carpoolService.listAcceptedDriverCarpool(58);
+
+  }
+
+  handleMiddleLocation() {
+    this.middleLocation = [
+
+    ]
+
+  }
+  redirectToMaps () {
+
   }
 
 }

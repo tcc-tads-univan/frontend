@@ -3,42 +3,77 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Mensalistas</ion-title>
+    <ion-title>Gerenciar Viagem</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
+  <div *ngIf="schedules$ | async as schedules">
   <div>
     <div class="card-header">
       <h1 style="padding: 18px 0 0 24px; font-weight: 600;">Olá, {{username}}</h1>
-      <p style="padding: 11px 0 0 25px;">Hoje é Sexta-feira, <b>dia 24/04/2023</b></p>
+      <p style="padding: 11px 0 0 25px;">Hoje é <b>dia {{ currentDate | date: 'short' }}.</b></p>
       <p style="padding: 11px 0 0 25px;">
-        <strong>Você tem </strong>
       </p>
-      <ion-img id="van-svg" src="./assets/airport_shuttle_FILL0_wght400_GRAD0_opsz48 1.svg"></ion-img>
+      <ion-img id="van-svg" src="./assets/airport_shuttle_FILL0_wght400_GRAD0_opsz48 1.svg"
+               style="width: 52%;"></ion-img>
     </div>
 
-    <h2 id="generic-title">Alunos</h2>
-    <ion-item id="present-alert">
-      <ion-avatar slot="start">
-        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
-      </ion-avatar>
-      <ion-label></ion-label>
-      <ion-button color="tertiary" id="open-modal" expand="block">
-        Ver mais
-      </ion-button>
-    </ion-item>
+    <h2 id="generic-title">Caronas</h2>
+      <ion-card class="ion-padding" *ngFor="let schedule of schedules">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-label>
+              R$: {{schedule.ridePrice}}
+            </ion-label>
+            <ion-card-subtitle>
+              <ion-icon name="star"></ion-icon>
+              {{schedule.driver.rating}}
+            </ion-card-subtitle>
+          </ion-card-title>
+        </ion-card-header>
 
+        <ion-item>
+          <ion-avatar slot="start">
+            <img alt="Silhouette of a person's head" src="{{schedule.driver.photoUrl}}"/>
+          </ion-avatar>
+          <ion-col class="ion-justify-content-between">
+            <ion-label>
+              {{schedule.driver.name}}
+            </ion-label>
+            <ion-card-subtitle>
+              <ion-icon name="call-outline"></ion-icon>
+              {{schedule.driver.phoneNumber}}
+            </ion-card-subtitle>
+          </ion-col>
+        </ion-item>
+        <ion-card-content>
+          <ion-text>
+            <p>
+            <p>
+              <ion-icon name="location-outline"></ion-icon>
+              Destino: {{schedule.destinationAddress}}
+            </p>
+          </ion-text>
+        </ion-card-content>
+      </ion-card>
+    </div>
 
-    <ion-buttons slot="fixed" >
-      <ion-button fill="outline" slot="center">
-        <ion-icon slot="start" name="star"></ion-icon>
-        Iniciar Viagem
-      </ion-button>
-    </ion-buttons>
   </div>
 
   <ng-template #emptySubscriptions>
   </ng-template>
-
 </ion-content>
+<ion-footer>
+  <ion-toolbar class="ion-padding">
+    <div *ngIf="carpoolOngoing">
+      <ion-button type="submit" expand="block" fill="outline">
+        <ion-icon name="save-outline" class="ion-margin-end"></ion-icon>
+        Iniciar Viagem
+      </ion-button>
+    </div>
+    <div *ngIf="!carpoolOngoing">
+      <ion-button type="button" [routerLink]="['/login']" expand="block" color="success">Finalizar VIagem</ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

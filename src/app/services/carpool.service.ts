@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {getApiURL, httpOptions} from "../shared/utils";
 import {ApiEndpoints} from "../shared/enums/api-endpoints";
 import {CarpoolRequest} from "../shared/models/carpool/carpool-request";
@@ -7,6 +7,7 @@ import {CarpoolDetails} from "../shared/models/carpool/carpool-details";
 import {Schedule} from "../shared/models/carpool/schedule";
 import {RequestedCarpool} from "../shared/models/carpool/requested-carpool";
 import {RouteDirections} from "../shared/models/address/route-directions";
+import {CarpoolHistory} from "../shared/models/history/carpoolHistory";
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +65,12 @@ export class CarpoolService {
 
   findRouteDirections(driverId: number, studentId: number) {
     return this.http.get<RouteDirections>(`${this.ROUTES_API}/directions?driverId=${driverId}&studentId=${studentId}`, httpOptions);
+  }
+
+  listAcceptedDriverCarpool(driverId: number) {
+    const params = new HttpParams()
+      .set('driverId', driverId)
+    const apiUrl = getApiURL(this.SCHEDULE_API + "/accepted")
+    return this.http.get<Schedule[]>(`${this.SCHEDULE_API}/accepted`, {params});
   }
 }
