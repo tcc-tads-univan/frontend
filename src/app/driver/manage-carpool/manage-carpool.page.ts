@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {IonicModule} from '@ionic/angular';
 import {RouterLink} from "@angular/router";
 import {CarpoolService} from "../../services/carpool.service";
 import {AuthenticationService} from "../../services/authentication/authentication.service";
@@ -20,14 +20,14 @@ export class ManageCarpoolPage implements OnInit {
   driverId: number | undefined;
   username: string | undefined
   carpoolOngoing: boolean = true;
-  schedules$!:  Observable<Schedule[]>
+  schedules$!: Observable<Schedule[]>
   userId: number;
   private schedule: Schedule[] = [];
 
   currentDate: Date = new Date();
 
   startLocation: string;
-  private middleLocation: string[] = []
+  private middleLocation: string[] = [];
   finalLocation: string;
 
   constructor(private authService: AuthenticationService, private carpoolService: CarpoolService) {
@@ -40,18 +40,15 @@ export class ManageCarpoolPage implements OnInit {
   ngOnInit() {
     this.driverId = this.authService.loggedUser!.userId;
     this.username = this.authService.loggedUser!.name;
-    this.schedules$! = this.carpoolService.listAcceptedDriverCarpool(58);
 
+    this.schedules$! = this.carpoolService.listAcceptedDriverCarpool(this.driverId);
   }
 
   handleMiddleLocation() {
-    this.middleLocation = [
-
-    ]
-
+    this.middleLocation = []
   }
-  redirectToMaps () {
 
+  redirectToMaps() {
   }
 
 }
