@@ -1,8 +1,11 @@
+import {Payment} from "./payment";
+
 export interface RegularStudent {
-  name: string,
-  phone: string,
-  finalAddress: string,
-  subscriptionStatus: string,
-  payment: null
+  subscriptionId: number;
+  name: string;
+  phone: string;
+  finalAddress: string;
+  subscriptionStatus: string;
+  payment: Payment;
 }
 

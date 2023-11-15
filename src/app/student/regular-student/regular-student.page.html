@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Mensalista</ion-title>
+    <ion-title>Perfil de Mensalista</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -18,7 +18,7 @@
             </ion-avatar>
             <ion-col class="ion-justify-content-between">
               <ion-label class="title">
-                {{studentSubscription.driverName}}
+                Motorista: {{studentSubscription.driverName}}
               </ion-label>
               <ion-card-subtitle>
                 <ion-icon name="call"></ion-icon>
@@ -34,41 +34,19 @@
       </ion-card-header>
     </ion-card>
 
-    <!--
-    <ion-card id="notify-card">
-      <ion-card-header>
-        <ion-card-title>12/04/2023</ion-card-title>
-      </ion-card-header>
-      <ion-card-content id="generic-text">
-        Não vai conseguir ir para a faculdade hoje?
-      </ion-card-content>
-        <ion-button expand="block" shape="round" class="ion-justify-content-center notify-button" fill="outline" color="danger">Notificar Motorista</ion-button>
-    </ion-card>
     <h1 id="generic-title">MENSALIDADES</h1>
-    <ion-card id="monthly-price">
-      <ion-card-content>
-        <ion-grid [fixed]="true">
+    <ion-card *ngFor="let payments of studentSubscription.payments">
+      <ion-card-header>
+        <ion-card-title style="color: #18C161;">
+          Status: {{payments.status === 'PAID' ? 'Pago' : 'Vencido'}}</ion-card-title>
+        <ion-card-subtitle>R$: {{payments.value}}</ion-card-subtitle>
 
-          <ion-row>
-            <ion-col><h6 id="student-name">Gabriel Pinto</h6></ion-col>
-            <ng-container *ngIf="paymentStatus; then paidOut; else pending"></ng-container>
-            <ng-template #pending>
-              <ion-col><h6 id="pending">PENDENTE</h6></ion-col>
-            </ng-template>
-            <ng-template #paidOut>
-              <ion-col><h6 id="paidOut">PAGO</h6></ion-col>
-            </ng-template>
-          </ion-row>
-        </ion-grid>
-        <ion-grid [fixed]="true">
-          <ion-row>
-            <ion-col><h6 id="month">04/2023</h6></ion-col>
-            <ion-col><h6 id="price">{{studentSubscription.payments}}</h6></ion-col>
-          </ion-row>
-        </ion-grid>
+      </ion-card-header>
+
+      <ion-card-content>
+        Data: {{payments.date}}
       </ion-card-content>
-    </ion-card> ##FEATURES COMENTADAS ATÉ API RETORNAR DADOS NECESSÁRIOS
-      -->
+    </ion-card>
   </div>
 
   <ng-template #noRegularSubscription>

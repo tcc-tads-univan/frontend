@@ -11,7 +11,7 @@
   <div *ngIf="(subscriptions$ | async) as subscriptions; else emptySubscriptions">
     <div class="card-header">
       <h1 style="padding: 18px 0 0 24px; font-weight: 600;">Olá, {{username}}</h1>
-      <p style="padding: 11px 0 0 25px;">Hoje é<b>dia {{ currentDate | date: 'short' }}</b></p>
+      <p style="padding: 11px 0 0 25px;">Hoje é<b> dia {{ currentDate | date: 'short' }}</b></p>
       <p *ngIf="subscriptions.availableSeats > 0" style="padding: 11px 0 0 25px;">
         Você tem <strong>{{subscriptions.availableSeats}} assentos vagos.</strong>
       </p>
@@ -43,12 +43,13 @@
               </ion-buttons>
             </ion-toolbar>
           </ion-header>
-          <ion-content class="ion-padding">
+          <ion-content [fullscreen]="true" class="ion-padding">
             <ion-item>
               <ion-input readonly
                          label="Telefone"
                          labelPlacement="stacked"
                          value="{{regular?.phone}}"
+                         [maskito]="phoneMask"
               ></ion-input>
             </ion-item>
             <ion-item>
@@ -62,15 +63,34 @@
               <ion-input readonly
                          label="Status de Mensalista"
                          labelPlacement="stacked"
-                         value="{{regular?.subscriptionStatus}}"
+                         value="{{regular?.subscriptionStatus === 'ACTIVE' ? 'Ativo' : 'Inativo'}}"
               ></ion-input>
             </ion-item>
             <ion-item>
               <ion-input readonly
                          label="Status de Pagamento"
-                         labelPlacement="stacked" value="{{regular?.payment}}"
+                         labelPlacement="stacked" value="{{regular?.payment?.status === 'PAID' ? 'Pago' : 'Vencido'}}"
               ></ion-input>
             </ion-item>
+            <ion-item>
+              <ion-input readonly
+                         label="Valor"
+                         labelPlacement="stacked" value="R$ {{regular?.payment?.value}}"
+              ></ion-input>
+            </ion-item>
+            <ion-row>
+              <ion-col size="6">
+                <ion-button class="ion-margin-bottom" color="danger" expand="block" (click)="createNewPayment(driverId, regular.subscriptionId)">
+                  Nova cobrança
+                </ion-button>
+              </ion-col>
+              <ion-col size="6">
+                <ion-button color="success" expand="block" (click)="updatePaymentStatus(driverId, regular.subscriptionId, regular.payment.paymentId)">
+                  Atualizar Status
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
           </ion-content>
         </div>
       </ng-template>
