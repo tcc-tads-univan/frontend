@@ -14,11 +14,6 @@
   width: 72px;
 }
 
-.notify-button {
-  display: grid;
-  width: 97%;
-}
-
 /* ID */
 #generic-text {
   font-size: 13px;
@@ -61,26 +56,6 @@
   position: relative;
   top: -17px;
   right: 6px;
-}
-
-#pending {
-  color: #C17418;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 16px;
-  right: -40px;
-  position: relative;
-  top: -16px;
-}
-
-#paidOut {
-  color: #18C161;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 16px;
-  right: -59px;
-  position: relative;
-  top: -16px;
 }
 
 #generic-title {

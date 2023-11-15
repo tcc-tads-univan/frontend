@@ -71,5 +71,13 @@ export class DriverService {
     return this.http.delete<Vehicle>(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/vehicle/" + vehicleId), httpOptions);
   }
 
+  createNewPayment(driverId: number, subscriptionId: number) {
+    return this.http.post(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/subscriptions/" +  subscriptionId + "/payment"), httpOptions);
+  }
+
+  updatePaymentStatus(driverId: number, subscriptionId: number, paymentId: number) {
+    return this.http.post(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/subscriptions/" +  subscriptionId + "/payment/" + paymentId + "/complete"), httpOptions);
+  }
+
 }
 
