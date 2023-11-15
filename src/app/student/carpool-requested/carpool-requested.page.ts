@@ -8,6 +8,7 @@ import {CarpoolDetails} from "../../shared/models/carpool/carpool-details";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {ToastService} from 'src/app/services/toast.service';
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
+import {LocalStorageKeys} from "../../shared/enums/local-storage-keys";
 
 @Component({
   selector: 'app-carpool-requested',
@@ -55,6 +56,8 @@ export class CarpoolRequestedPage implements OnInit {
       .cancelCarpoolRequest(this.studentId, this.campusId)
       .subscribe({
         next: _data => {
+          localStorage.removeItem(LocalStorageKeys.CARPOOL);
+
           this.toastService.showSuccessToast('Carona cancelada com sucesso');
           this.router.navigate(['/aluno']);
         },

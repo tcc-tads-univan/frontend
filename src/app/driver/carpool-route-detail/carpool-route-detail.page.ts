@@ -58,17 +58,21 @@ export class CarpoolRouteDetailPage implements OnInit {
     this.studentId = +this.activatedRoute.snapshot.queryParamMap.get('aluno')!;
     this.campusId = +this.activatedRoute.snapshot.queryParamMap.get('campus')!;
 
-    this.collegeService.findCampusById(this.campusId).subscribe({
-      next: data => this.campus = data,
-      error: err => this.toastService.showErrorToastAndLog("Problema ao recuperar informações do campus", err)
-    });
-
     this.studentService.findStudentById(this.studentId).subscribe({
-      next: data => this.student = data,
+      next: data => {
+        this.student = data;
+
+        this.collegeService.findCampusById(this.campusId).subscribe({
+          next: data => {
+            this.campus = data;
+
+            this.findRouteDirections(this.driverId, this.studentId, this.campus.placeId);
+          },
+          error: err => this.toastService.showErrorToastAndLog("Problema ao recuperar informações do campus", err)
+        });
+      },
       error: err => this.toastService.showErrorToastAndLog("Problema ao recuperar informações do aluno", err)
     });
-
-    this.findRouteDirections(this.driverId, this.studentId, this.campus.placeId);
   }
 
   private validateDriverHasVehicle() {

@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {LandingPageHeaderComponent} from "../../../components/shared/landing-page-header/landing-page-header.component";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {StudentAddressComponent} from "../../../components/student/student-address/student-address.component";
 import {LadingPageNavigation} from "../../utils/lading-page-navigation";
 import {AuthenticationService} from "../../../services/authentication/authentication.service";
@@ -15,6 +15,12 @@ import {DriverService} from "../../../services/driver.service";
 import {ToastService} from "../../../services/toast.service";
 import {Address} from "../../models/address/address";
 import {Observable} from "rxjs";
+import {LocalStorageKeys} from "../../enums/local-storage-keys";
+import {CarpoolStatusInfo} from "../../models/carpool/carpool-status-info";
+import {CarpoolStatus} from "../../enums/carpool-status";
+import {CarpoolService} from "../../../services/carpool.service";
+import {HistoryService} from "../../../services/history.service";
+import {HttpStatusCode} from "@angular/common/http";
 
 @Component({
   selector: 'app-landing-page',
@@ -22,7 +28,7 @@ import {Observable} from "rxjs";
   styleUrls: ['./landing.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, LandingPageHeaderComponent, RouterLink, StudentAddressComponent],
-  providers: [AuthenticationService, DriverService, StudentService, ToastService]
+  providers: [AuthenticationService, DriverService, StudentService, ToastService, CarpoolService, HistoryService]
 })
 export class LandingPage implements OnInit {
   userFirstName!: string;
@@ -41,6 +47,9 @@ export class LandingPage implements OnInit {
   constructor(private authService: AuthenticationService,
               private driverService: DriverService,
               private studentService: StudentService,
+              private carpoolService: CarpoolService,
+              private historyService: HistoryService,
+              private router: Router,
               private toastService: ToastService) {
   }
 
@@ -53,6 +62,41 @@ export class LandingPage implements OnInit {
     }
 
     if (loggedUser.userType === UserType.STUDENT) {
+      const currentCarpool = localStorage.getItem(LocalStorageKeys.CARPOOL);
+
+      if (currentCarpool && JSON.parse(currentCarpool)) {
+        const parse = JSON.parse(currentCarpool) as CarpoolStatusInfo;
+
+        if (parse.status === CarpoolStatus.PENDING) {
+          this.carpoolService.findScheduleByStudentId(loggedUser.userId).subscribe({
+            next: schedule => {
+              this.router.navigate(['/aluno/carona/validar']);
+            },
+            error: err => {
+              if (err.status === HttpStatusCode.Conflict) {
+                this.router.navigate(['/aluno/carona/solicitada'], {queryParams: {campus: parse.originId}})
+              }
+            }
+          });
+        }
+
+        if (parse.status === CarpoolStatus.TRAVELING) {
+          this.historyService.findHistoryByScheduleId(parse.scheduleId!).subscribe({
+            next: history => {
+              if (history.status === CarpoolStatus.TRAVELING) {
+                this.router.navigate(['/aluno/carona/confirmada']);
+              }
+
+              if (history.status === CarpoolStatus.COMPLETED) {
+                localStorage.removeItem(LocalStorageKeys.CARPOOL);
+                // TODO: Aqui significa que a corrida acabou de ser finalizada
+                // pode ser avaliação ou histórico apresentando
+              }
+            }
+          })
+        }
+      }
+
       this.setStudentLandingPage(loggedUser.userId);
     }
   }

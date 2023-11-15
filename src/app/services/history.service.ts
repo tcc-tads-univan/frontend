@@ -13,13 +13,20 @@ export class HistoryService {
   constructor(private http: HttpClient) {
   }
 
+  private readonly apiURL = getApiURL(ApiEndpoints.HISTORY);
+
   getCarpoolHistory(userId: number, userType: UserType) {
     const params = new HttpParams()
       .set('userId', userId)
       .set('userType', userType);
 
-    const apiUrl = getApiURL(ApiEndpoints.HISTORY + "/trips")
-    return this.http.get<CarpoolHistory[]>(apiUrl, {params});
+    return this.http.get<CarpoolHistory[]>(`${this.apiURL}/trips`, {params});
+  }
+
+  findHistoryByScheduleId(scheduleId: number) {
+    const params = new HttpParams().set('scheduleId', scheduleId);
+
+    return this.http.get<CarpoolHistory>(this.apiURL, {params});
   }
 
 }

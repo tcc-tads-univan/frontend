@@ -8,6 +8,9 @@ import {Router} from "@angular/router";
 import {Schedule} from "../../shared/models/carpool/schedule";
 import {ToastService} from 'src/app/services/toast.service';
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
+import {LocalStorageKeys} from "../../shared/enums/local-storage-keys";
+import {CarpoolStatusInfo} from "../../shared/models/carpool/carpool-status-info";
+import {CarpoolStatus} from "../../shared/enums/carpool-status";
 
 @Component({
   selector: 'app-validate-carpool-proposal',
@@ -35,10 +38,23 @@ export class ValidateCarpoolProposalPage implements OnInit {
     this.carpoolService.approveSchedule(scheduleId)
       .subscribe({
         next: _data => {
-          this.toastService.showSuccessToast('Carona confirmada');
-          this.router.navigate(['/aluno/carona/confirmada'], {queryParams: {carona: scheduleId}});
+          const carpoolStatusJson = localStorage.getItem(LocalStorageKeys.CARPOOL);
+          if (carpoolStatusJson) {
+
+            const carpoolStatusInfo = JSON.parse(carpoolStatusJson) as CarpoolStatusInfo;
+            carpoolStatusInfo.status = CarpoolStatus.TRAVELING;
+            carpoolStatusInfo.lastUpdated = new Date();
+            carpoolStatusInfo.scheduleId = scheduleId;
+
+            localStorage.setItem(LocalStorageKeys.CARPOOL, JSON.stringify(carpoolStatusInfo));
+
+            this.toastService.showSuccessToast('Carona confirmada');
+            this.router.navigate(['/aluno/carona/confirmada'], {queryParams: {carona: scheduleId}});
+          }
         },
-        error: err => this.toastService.showErrorToastAndLog('Erro ao aceitar a carona', err)
+        error: err => {
+          this.toastService.showErrorToastAndLog('Ocorreu um problema ao aceitar a carona', err);
+        }
       });
   }
 
@@ -46,10 +62,17 @@ export class ValidateCarpoolProposalPage implements OnInit {
     this.carpoolService.declineSchedule(scheduleId)
       .subscribe({
         next: _data => {
-          this.toastService.showSuccessToast('Proposta recusada com sucesso');
-          this.router.navigate(['/aluno']);
+          const carpoolStatusJson = localStorage.getItem(LocalStorageKeys.CARPOOL);
+          if (carpoolStatusJson) {
+            const carpoolStatusInfo = JSON.parse(carpoolStatusJson) as CarpoolStatusInfo;
+
+            this.toastService.showSuccessToast('Proposta recusada com sucesso');
+            this.router.navigate(['/aluno/carona/solicitada'], {queryParams: {campus: carpoolStatusInfo.originId}});
+          }
         },
-        error: err => this.toastService.showErrorToastAndLog('Erro ao recusar a carona', err)
+        error: err => {
+          this.toastService.showErrorToastAndLog('Ocorreu um problema ao recusar essa proposta', err);
+        }
       });
   }
 }

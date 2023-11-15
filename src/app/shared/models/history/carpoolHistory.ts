@@ -1,3 +1,5 @@
+import {CarpoolStatus} from "../../enums/carpool-status";
+
 export interface CarpoolHistory {
   id: number;
   studentId: number;
@@ -9,4 +11,5 @@ export interface CarpoolHistory {
   price: number;
   date: string;
   stars: number;
+  status: CarpoolStatus;
 }

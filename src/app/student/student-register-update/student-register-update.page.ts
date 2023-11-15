@@ -44,7 +44,7 @@ export class StudentRegisterUpdatePage implements OnInit {
   }
 
   ngOnInit() {
-    if (this.router.url === '/aluno/editar') {
+    if (this.router.url === '/aluno/perfil') {
       this.isEdit = true;
 
       this.password?.removeValidators(Validators.required);

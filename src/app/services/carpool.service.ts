@@ -7,7 +7,6 @@ import {CarpoolDetails} from "../shared/models/carpool/carpool-details";
 import {Schedule} from "../shared/models/carpool/schedule";
 import {RequestedCarpool} from "../shared/models/carpool/requested-carpool";
 import {RouteDirections} from "../shared/models/address/route-directions";
-import {CarpoolHistory} from "../shared/models/history/carpoolHistory";
 
 @Injectable({
   providedIn: 'root'

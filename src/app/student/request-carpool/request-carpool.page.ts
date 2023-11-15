@@ -9,6 +9,10 @@ import {CollegeCampus} from "../../shared/models/college/college-campus";
 import {convertDateToScheduleTime} from "../../shared/utils";
 import {ToastService} from "../../services/toast.service";
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
+import {LocalStorageKeys} from "../../shared/enums/local-storage-keys";
+import {CarpoolStatusInfo} from "../../shared/models/carpool/carpool-status-info";
+import {CarpoolStatus} from "../../shared/enums/carpool-status";
+import {UserType} from "../../shared/enums/user-type";
 
 @Component({
   selector: 'app-request-carpool',
@@ -71,7 +75,19 @@ export class RequestCarpoolPage implements OnInit {
       this.carpoolService
         .requestCarpool(campusId, userId, convertDateToScheduleTime(new Date(this.selectedTimePeriod)))
         .subscribe({
-          next: data => this.router.navigate(['/aluno/carona/atual'], {queryParams: {campus: campusId}}),
+          next: data => {
+            const carpoolStatusInfo: CarpoolStatusInfo = {
+              userId,
+              originId: campusId,
+              status: CarpoolStatus.PENDING,
+              lastUpdated: new Date(),
+              scheduleId: 0
+            }
+
+            localStorage.setItem(LocalStorageKeys.CARPOOL, JSON.stringify(carpoolStatusInfo));
+
+            this.router.navigate(['/aluno/carona/solicitada'], {queryParams: {campus: campusId}});
+          },
           error: err => this.toastService.showErrorToastAndLog("Problema ao solicitar a carona", err)
         });
     }

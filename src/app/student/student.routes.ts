@@ -6,16 +6,16 @@ export const routes: Routes = [
     loadComponent: () => import('./request-carpool/request-carpool.page').then(m => m.RequestCarpoolPage)
   },
   {
+    path: 'carona/solicitada',
+    loadComponent: () => import('./carpool-requested/carpool-requested.page').then(m => m.CarpoolRequestedPage)
+  },
+  {
     path: 'carona/validar',
     loadComponent: () => import('./validate-carpool-proposal/validate-carpool-proposal.page').then((m) => m.ValidateCarpoolProposalPage),
   },
   {
     path: 'carona/confirmada',
     loadComponent: () => import('./carpool-scheduled/carpool-scheduled').then(m => m.CarpoolScheduled)
-  },
-  {
-    path: 'carona/atual',
-    loadComponent: () => import('./carpool-requested/carpool-requested.page').then(m => m.CarpoolRequestedPage)
   },
   {
     path: 'perfil',
