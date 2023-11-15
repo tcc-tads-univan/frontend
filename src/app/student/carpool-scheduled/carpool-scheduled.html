@@ -1,3 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-nav-link>
+        <ion-button [routerLink]="['/aluno']">
+          <ion-icon slot="end" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-nav-link>
+    </ion-buttons>
+    <ion-title>Sua carona</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
   <div *ngIf="(schedule$ | async) as schedule">
   <ion-text class="ion-text-center">

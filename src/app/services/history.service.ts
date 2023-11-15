@@ -26,7 +26,7 @@ export class HistoryService {
   findHistoryByScheduleId(scheduleId: number) {
     const params = new HttpParams().set('scheduleId', scheduleId);
 
-    return this.http.get<CarpoolHistory>(this.apiURL, {params});
+    return this.http.get<CarpoolHistory>(`${this.apiURL}/trip`, {params});
   }
 
 }

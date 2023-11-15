@@ -84,7 +84,7 @@ export class LandingPage implements OnInit {
           this.historyService.findHistoryByScheduleId(parse.scheduleId!).subscribe({
             next: history => {
               if (history.status === CarpoolStatus.TRAVELING) {
-                this.router.navigate(['/aluno/carona/confirmada']);
+                this.router.navigate(['/aluno/carona/confirmada'], {queryParams: {carona: parse.scheduleId}});
               }
 
               if (history.status === CarpoolStatus.COMPLETED) {

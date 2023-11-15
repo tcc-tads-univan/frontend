@@ -5,14 +5,14 @@ import {IonicModule} from '@ionic/angular';
 import {CarpoolService} from "../../services/carpool.service";
 import {Schedule} from "../../shared/models/carpool/schedule";
 import {Observable} from "rxjs";
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-carpool-scheduled',
   templateUrl: './carpool-scheduled.html',
   styleUrls: ['./carpool-scheduled.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink],
   providers: [CarpoolService]
 })
 export class CarpoolScheduled implements OnInit {
