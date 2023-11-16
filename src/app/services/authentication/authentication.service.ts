@@ -21,6 +21,7 @@ export class AuthenticationService {
 
   logout() {
     localStorage.removeItem(LocalStorageKeys.AUTH);
+    localStorage.clear();
   }
 
   saveAuthenticationInfo(user: LoginResponse) {
