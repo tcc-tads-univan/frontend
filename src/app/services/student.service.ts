@@ -7,6 +7,8 @@ import {Student} from "../shared/models/student/student";
 import {PendingSubscriptions} from "../shared/models/subscriptions/pending-subscriptions";
 import {StudentSubscription} from "../shared/models/subscriptions/student-subscription";
 import {Address} from "../shared/models/address/address";
+import {DriverRegistration} from "../shared/models/driver/driver-registration";
+import {Rating} from "../shared/models/rating/rating";
 
 @Injectable({
   providedIn: 'root'
@@ -50,8 +52,6 @@ export class StudentService {
   }
 
   registerStudentAddress(studentId: number, address: Address) {
-    console.log(address.completeLineAddress + address.placeId)
-
     const body = {
       completeLineAddress: address.completeLineAddress,
       placeId: address.placeId,
@@ -68,4 +68,14 @@ export class StudentService {
   deleteStudentAddress(studentId: number, addressId: number) {
     return this.http.delete<Address>(getApiURL(ApiEndpoints.STUDENT + "/" + studentId + "/address/" + addressId), httpOptions)
   }
+
+  rankStudent(studentId: number, rating: Rating) {
+    const body = {
+      rating: rating.rating,
+    };
+    const url = getApiURL(ApiEndpoints.STUDENT + "/" + studentId + "/rating")
+    return this.http.put(url, body);
+  }
+
+
 }
