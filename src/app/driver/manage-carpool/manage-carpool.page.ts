@@ -26,6 +26,7 @@ import {Rating} from "../../shared/models/rating/rating";
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink, GoogleMapsModule, ReactiveFormsModule],
   providers: [CarpoolService, AuthenticationService, AuthenticationService, CollegeService, MapDirectionsService, HistoryService, StudentService]
+
 })
 export class ManageCarpoolPage implements OnInit {
   driverId: number | undefined;
@@ -37,6 +38,7 @@ export class ManageCarpoolPage implements OnInit {
   studentsId!: number[];
   campus!: CollegeCampus;
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
+
   isModalOpen: boolean = false;
 
   rankForm = this.fb.group({
@@ -53,6 +55,7 @@ export class ManageCarpoolPage implements OnInit {
 
   constructor(private authService: AuthenticationService, private carpoolService: CarpoolService, private toastService: ToastService, private collegeService: CollegeService, private mapDirectionsService: MapDirectionsService,
               private historyService: HistoryService, private router: Router, private fb: FormBuilder, private studentService: StudentService
+
   ) {
     this.userId = this.authService.loggedUser!.userId;
   }
