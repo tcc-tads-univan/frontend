@@ -29,5 +29,12 @@ export class HistoryService {
     return this.http.get<CarpoolHistory>(`${this.apiURL}/trip`, {params});
   }
 
+  finishTrip(driverId: number, studentId: number) {
+    const params = new HttpParams()
+      .set('driverId', driverId)
+      .set('studentId', studentId);
+    return this.http.post(`${this.apiURL}/finish-trip`, {params});
+  }
+
 }
 
