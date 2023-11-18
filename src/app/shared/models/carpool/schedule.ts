@@ -11,4 +11,11 @@ export interface Schedule {
     phoneNumber: string,
     vehiclePlate: string
   }
+  student: {
+    studentId: number,
+    name: string,
+    photoUrl: string,
+    rating: number,
+    phoneNumber: string
+  }
 }
