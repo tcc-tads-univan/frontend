@@ -9,16 +9,16 @@
 
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
   <div *ngIf="!carpoolStarted">
-  <div class="card-header">
-    <h1 style="padding: 18px 0 0 24px; font-weight: 600;">Olá, {{username}}</h1>
-    <p style="padding: 11px 0 0 25px;">Hoje é <b>dia {{ currentDate | date: 'short' }}.</b></p>
-    <p style="padding: 11px 0 0 25px;">
-    </p>
-    <ion-img id="van-svg" src="./assets/airport_shuttle_FILL0_wght400_GRAD0_opsz48 1.svg"
-             style="width: 52%;"></ion-img>
-  </div>
+    <div class="card-header">
+      <h1 style="padding: 18px 0 0 24px; font-weight: 600;">Olá, {{username}}</h1>
+      <p style="padding: 11px 0 0 25px;">Hoje é <b>dia {{ currentDate | date: 'short' }}.</b></p>
+      <p style="padding: 11px 0 0 25px;">
+      </p>
+      <ion-img id="van-svg" src="./assets/airport_shuttle_FILL0_wght400_GRAD0_opsz48 1.svg"
+               style="width: 52%;"></ion-img>
+    </div>
 
-  <h2 id="generic-title">Caronas</h2>
+    <h2 id="generic-title">Caronas</h2>
 
     <ion-card class="ion-padding" *ngFor="let schedule of schedules">
       <ion-card-header>
@@ -70,13 +70,14 @@
 
   <ion-modal [isOpen]="isModalOpen">
     <ng-template>
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>Avaliação</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content [fullscreen]="true" class="ion-padding">
-          <form [formGroup]="rankForm" (ngSubmit)="ratingStudent()">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Avaliação</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content [fullscreen]="true" class="ion-padding">
+        <h1>Qual nota você dá para esse aluno?</h1>
+        <form [formGroup]="rankForm" (ngSubmit)="ratingStudent()">
 
           <ion-item-group>
             <ion-item>
@@ -85,11 +86,13 @@
               </ion-select>
             </ion-item>
           </ion-item-group>
-          </form>
-          <ion-button color="success" expand="block" (click)="ratingStudent()">
-                Avaliar
-          </ion-button>
-        </ion-content>
+        </form>
+      </ion-content>
+      <ion-footer>
+        <ion-button color="success" expand="block" (click)="ratingStudent()">
+          Avaliar
+        </ion-button>
+      </ion-footer>
     </ng-template>
   </ion-modal>
 
@@ -107,7 +110,8 @@
       </ion-button>
     </div>
     <div *ngIf="carpoolStarted">
-      <ion-button type="button" expand="block" color="success" (click)="finishTrip()">Finalizar Viagem</ion-button>
+      <ion-button type="button" expand="block" color="success" (click)="finishTrip(scheduleId)">Finalizar Viagem
+      </ion-button>
     </div>
   </ion-toolbar>
 </ion-footer>

@@ -38,7 +38,7 @@ export class ManageCarpoolPage implements OnInit {
   studentsId!: number[];
   campus!: CollegeCampus;
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
-
+  scheduleId!: number;
   isModalOpen: boolean = false;
 
   rankForm = this.fb.group({
@@ -70,6 +70,7 @@ export class ManageCarpoolPage implements OnInit {
         next: value => {
           this.schedules = value;
           this.studentsId = value.map(schedule => schedule.student.studentId);
+          this.scheduleId = value.length > 0 ? value[0].scheduleId : 0;
         }
       }
     )
@@ -106,8 +107,8 @@ export class ManageCarpoolPage implements OnInit {
     });
   }
 
-  finishTrip() {
-    this.historyService.finishTrip(this.userId, this.studentsId[0]).subscribe(
+  finishTrip(scheduleId: number) {
+    this.carpoolService.completeTrip(scheduleId).subscribe(
       next => {
         this.carpoolStarted = false;
         this.setOpen(true);
@@ -129,6 +130,7 @@ export class ManageCarpoolPage implements OnInit {
         next => {
           this.toastService.showSuccessToast("Carona finalizada com sucesso!");
           this.router.navigate(['/motorista']);
+          window.location.reload();
         },
       error => {
         this.toastService.showErrorToastAndLog("Houve algum erro ao avaliar o aluno", error);

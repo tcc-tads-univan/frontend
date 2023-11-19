@@ -72,4 +72,9 @@ export class CarpoolService {
     const apiUrl = getApiURL(this.SCHEDULE_API + "/accepted")
     return this.http.get<Schedule[]>(`${this.SCHEDULE_API}/accepted`, {params});
   }
+
+  completeTrip(scheduleId: number) {
+    return this.http.put(`${this.SCHEDULE_API}/` + scheduleId + "/complete", httpOptions);
+  }
+
 }
