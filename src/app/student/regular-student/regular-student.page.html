@@ -22,11 +22,11 @@
               </ion-label>
               <ion-card-subtitle>
                 <ion-icon name="call"></ion-icon>
-                {{studentSubscription.driverPhone}}
+                {{studentSubscription.driverPhone | phoneFormat}}
               </ion-card-subtitle>
               <ion-card-subtitle>
                 <ion-icon name="car"></ion-icon>
-                {{studentSubscription.vehiclePlate}}
+                {{studentSubscription.vehiclePlate | licensePlateFormat}}
               </ion-card-subtitle>
             </ion-col>
           </ion-item>
@@ -39,12 +39,12 @@
       <ion-card-header>
         <ion-card-title style="color: #18C161;">
           Status: {{payments.status === 'PAID' ? 'Pago' : 'Vencido'}}</ion-card-title>
-        <ion-card-subtitle>R$: {{payments.value}}</ion-card-subtitle>
+        <ion-card-subtitle>{{payments.value | currencyFormat}}</ion-card-subtitle>
 
       </ion-card-header>
 
       <ion-card-content>
-        Data: {{payments.date}}
+        Data: {{payments.date | dateFormat:'dd-MM-yyyy HH:mm':'America/Sao_Paulo'}}
       </ion-card-content>
     </ion-card>
   </div>
