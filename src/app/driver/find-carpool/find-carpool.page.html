@@ -15,7 +15,7 @@
     </ion-card-header>
 
     <ion-card-content>
-      <ion-searchbar placeholder="Pesquisar câmpus" [debounce]="150" (ionInput)="handleInput($event)"></ion-searchbar>
+      <ion-searchbar placeholder="Pesquisar campus" [debounce]="150" (ionInput)="handleInput($event)"></ion-searchbar>
       <ion-list>
         <ion-radio-group [(ngModel)]="selectedCampus">
           <cdk-virtual-scroll-viewport itemSize="15">

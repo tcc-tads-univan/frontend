@@ -30,7 +30,7 @@
   <ion-list>
     <ion-list-header>
       <ion-label>
-        Selecione o câmpus
+        Selecione o campus
         <ion-icon name="school-outline" slot="end"></ion-icon>
       </ion-label>
     </ion-list-header>
@@ -43,8 +43,8 @@
     </ng-container>
 
     <ng-container *ngIf="filteredCampiList && filteredCampiList.length > 0">
-      <ion-searchbar placeholder="Pesquisar câmpus" [debounce]="150" (ionInput)="handleInput($event)"></ion-searchbar>
-      <ion-radio-group [(ngModel)]="selectedCampus">
+      <ion-searchbar placeholder="Pesquisar campus" [debounce]="150" (ionInput)="handleInput($event)"></ion-searchbar>
+      <ion-radio-group [(ngModel)]="selectedCampus">'
         <ion-item *ngFor="let campus of filteredCampiList; trackBy: trackByItem">
           <ion-radio [value]="campus" justify="space-between">
             <h6>{{campus.campusName}}</h6>
