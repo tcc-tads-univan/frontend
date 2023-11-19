@@ -18,6 +18,7 @@ import {CollegeCampus} from "../../shared/models/college/college-campus";
 import {Student} from "../../shared/models/student/student";
 import {StudentService} from "../../services/student.service";
 import {DriverService} from "../../services/driver.service";
+import {Address} from "../../shared/models/address/address";
 
 @Component({
   selector: 'app-carpool-route-detail',
@@ -33,6 +34,7 @@ export class CarpoolRouteDetailPage implements OnInit {
 
   studentId!: number;
   student!: Student;
+  studentAddress$!: Observable<Address>;
 
   campusId!: number;
   campus!: CollegeCampus;
@@ -61,6 +63,8 @@ export class CarpoolRouteDetailPage implements OnInit {
     this.studentService.findStudentById(this.studentId).subscribe({
       next: data => {
         this.student = data;
+
+        this.studentAddress$ = this.studentService.findStudentAddress(this.studentId, this.student.addressId);
 
         this.collegeService.findCampusById(this.campusId).subscribe({
           next: data => {

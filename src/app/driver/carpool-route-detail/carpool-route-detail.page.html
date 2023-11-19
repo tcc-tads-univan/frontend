@@ -24,9 +24,9 @@
           <ion-icon name="school-outline"></ion-icon>
           {{campus.completeLineAddress}}
         </ion-card-subtitle>
-        <ion-card-subtitle>
+        <ion-card-subtitle *ngIf="studentAddress$ | async as studentAddress">
           <ion-icon name="location-outline"></ion-icon>
-          mock da silva ssauro, 123 - silva jardim
+          {{studentAddress.completeLineAddress}}
         </ion-card-subtitle>
       </ion-card-header>
 

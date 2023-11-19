@@ -5,8 +5,6 @@ import {getApiURL, httpOptions} from "../../shared/utils";
 import {ApiEndpoints} from "../../shared/enums/api-endpoints";
 import {LoginResponse} from "../../shared/models/user/login-response.model";
 import {LocalStorageKeys} from '../../shared/enums/local-storage-keys';
-import {of} from "rxjs";
-import {UserType} from "../../shared/enums/user-type";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +19,6 @@ export class AuthenticationService {
 
   logout() {
     localStorage.removeItem(LocalStorageKeys.AUTH);
-    localStorage.clear();
   }
 
   saveAuthenticationInfo(user: LoginResponse) {
