@@ -43,6 +43,10 @@ export const routes: Routes = [
     loadComponent: () => import('./manage-carpool/manage-carpool.page').then( m => m.ManageCarpoolPage)
   },
   {
+    path: 'caronas/avaliar',
+    loadComponent: () => import('../shared/pages/rank-trip/rank-trip.page').then(m => m.RankTripPage)
+  },
+  {
     path: '',
     redirectTo: '/motorista/inicio',
     pathMatch: 'full'

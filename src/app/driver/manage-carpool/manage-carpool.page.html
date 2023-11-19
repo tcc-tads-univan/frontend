@@ -68,34 +68,6 @@
     </google-map>
   </div>
 
-  <ion-modal [isOpen]="isModalOpen">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Avaliação</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content [fullscreen]="true" class="ion-padding">
-        <h1>Qual nota você dá para esse aluno?</h1>
-        <form [formGroup]="rankForm" (ngSubmit)="ratingStudent()">
-
-          <ion-item-group>
-            <ion-item>
-              <ion-select label="Nota" formControlName="tripStars">
-                <ion-select-option *ngFor="let trip of tripStars" [value]="trip.value">{{trip.text}}</ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-item-group>
-        </form>
-      </ion-content>
-      <ion-footer>
-        <ion-button color="success" expand="block" (click)="ratingStudent()">
-          Avaliar
-        </ion-button>
-      </ion-footer>
-    </ng-template>
-  </ion-modal>
-
   <ng-template #emptySubscriptions>
   </ng-template>
 </ion-content>

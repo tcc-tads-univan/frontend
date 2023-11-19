@@ -17,7 +17,8 @@ import DirectionsWaypoint = google.maps.DirectionsWaypoint;
 import {GoogleMapsModule, MapDirectionsService} from "@angular/google-maps";
 import {HistoryService} from "../../services/history.service";
 import {StudentService} from "../../services/student.service";
-import {Rating} from "../../shared/models/rating/rating";
+import {UserType} from "../../shared/enums/user-type";
+import {LocalStorageKeys} from "../../shared/enums/local-storage-keys";
 
 @Component({
   selector: 'app-manage-carpool',
@@ -39,23 +40,9 @@ export class ManageCarpoolPage implements OnInit {
   campus!: CollegeCampus;
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
   scheduleId!: number;
-  isModalOpen: boolean = false;
-
-  rankForm = this.fb.group({
-    tripStars: [1, [Validators.required]],
-  });
-
-  readonly tripStars = [
-    {value: 1, text: "1"},
-    {value: 2, text: "2"},
-    {value: 3, text: "3"},
-    {value: 4, text: "4"},
-    {value: 5, text: "5"},
-  ]
 
   constructor(private authService: AuthenticationService, private carpoolService: CarpoolService, private toastService: ToastService, private collegeService: CollegeService, private mapDirectionsService: MapDirectionsService,
-              private router: Router, private fb: FormBuilder, private studentService: StudentService
-
+              private router: Router
   ) {
     this.userId = this.authService.loggedUser!.userId;
   }
@@ -111,7 +98,13 @@ export class ManageCarpoolPage implements OnInit {
     this.carpoolService.completeTrip(scheduleId).subscribe(
       next => {
         this.carpoolStarted = false;
-        this.setOpen(true);
+        localStorage.removeItem(LocalStorageKeys.CARPOOL);
+        this.router.navigate(['motorista/caronas/avaliar'], {
+          queryParams: {
+            userId: this.studentsId[0],
+            userType: UserType.DRIVER
+          }
+        })
       },
       error => {
         this.toastService.showErrorToastAndLog("Houve algum erro ao finalizar a carona", error);
@@ -120,32 +113,5 @@ export class ManageCarpoolPage implements OnInit {
 
   }
 
-  ratingStudent() {
-    if (this.rankForm.valid) {
-      const rating: Rating = {
-        rating: this.rating!.value ?? 1,
-      }
-
-      this.studentService.rankStudent(this.studentsId[0], rating).subscribe(
-        next => {
-          this.toastService.showSuccessToast("Carona finalizada com sucesso!");
-          this.router.navigate(['/motorista']);
-          window.location.reload();
-        },
-      error => {
-        this.toastService.showErrorToastAndLog("Houve algum erro ao avaliar o aluno", error);
-      }
-      )
-    }
-
-  }
-
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
-  }
-
-  public get rating() {
-    return this.rankForm.get('tripStars');
-  }
 }
 

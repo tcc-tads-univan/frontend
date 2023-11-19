@@ -28,4 +28,8 @@ export const routes: Routes = [
     path: 'user-landing-page',
     loadComponent: () => import('./shared/pages/landing/landing.page').then(m => m.LandingPage)
   },
+  {
+    path: 'rank-trip',
+    loadComponent: () => import('./shared/pages/rank-trip/rank-trip.page').then(m => m.RankTripPage)
+  },
 ];

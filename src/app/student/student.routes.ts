@@ -38,6 +38,10 @@ export const routes: Routes = [
     loadComponent: () => import('../shared/pages/landing/landing.page').then(m => m.LandingPage)
   },
   {
+    path: 'carona/avaliar',
+    loadComponent: () => import('../shared/pages/rank-trip/rank-trip.page').then(m => m.RankTripPage)
+  },
+  {
     path: '',
     redirectTo: '/aluno/inicio',
     pathMatch: 'full'

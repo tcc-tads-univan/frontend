@@ -10,6 +10,7 @@ import {RegularStudentRegistration} from "../shared/models/regular-student/regul
 import {DriverSubscriptions} from "../shared/models/subscriptions/driver-subscriptions";
 import {Observable} from "rxjs";
 import {RegularStudent} from "../shared/models/regular-student/regular-student";
+import {Rating} from "../shared/models/rating/rating";
 
 @Injectable({
   providedIn: 'root'
@@ -72,12 +73,19 @@ export class DriverService {
   }
 
   createNewPayment(driverId: number, subscriptionId: number) {
-    return this.http.post(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/subscriptions/" +  subscriptionId + "/payment"), httpOptions);
+    return this.http.post(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/subscriptions/" + subscriptionId + "/payment"), httpOptions);
   }
 
   updatePaymentStatus(driverId: number, subscriptionId: number, paymentId: number) {
-    return this.http.post(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/subscriptions/" +  subscriptionId + "/payment/" + paymentId + "/complete"), httpOptions);
+    return this.http.post(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/subscriptions/" + subscriptionId + "/payment/" + paymentId + "/complete"), httpOptions);
   }
 
+  rankDriver(driverId: number, rating: Rating) {
+    const body = {
+      rating: rating.rating,
+    };
+    const url = getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/rating")
+    return this.http.put(url, body);
+  }
 }
 

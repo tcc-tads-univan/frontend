@@ -89,8 +89,7 @@ export class LandingPage implements OnInit {
 
               if (history.status === CarpoolStatus.COMPLETED) {
                 localStorage.removeItem(LocalStorageKeys.CARPOOL);
-                // TODO: Aqui significa que a corrida acabou de ser finalizada
-                // pode ser avaliação ou histórico apresentando
+                this.router.navigate(['/aluno/carona/avaliar'], {queryParams: {userId: history.driverId, userType: UserType.STUDENT}})
               }
             }
           })
