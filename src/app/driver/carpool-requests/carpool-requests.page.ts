@@ -8,13 +8,14 @@ import {RequestedCarpool} from "../../shared/models/carpool/requested-carpool";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {ToastService} from "../../services/toast.service";
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
+import {PhoneFormatPipe} from "../../shared/pipes/phone-format.pipe";
 
 @Component({
   selector: 'app-carpool-requests',
   templateUrl: './carpool-requests.page.html',
   styleUrls: ['./carpool-requests.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterLink],
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink, PhoneFormatPipe],
   providers: [CarpoolService, ToastService, AuthenticationService]
 })
 export class CarpoolRequestsPage implements OnInit {

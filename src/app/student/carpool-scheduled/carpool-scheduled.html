@@ -27,7 +27,7 @@
           <ion-label>
             {{schedule.driver.name}} - Placa: {{schedule.driver.vehiclePlate}}
             <ion-card-subtitle>
-              Contato: {{schedule.driver.phoneNumber}}
+              Contato: {{schedule.driver.phoneNumber | phoneFormat}}
           </ion-card-subtitle>
           </ion-label>
         </ion-item>

@@ -14,13 +14,15 @@ import {
 import {ToastService} from "../../services/toast.service";
 import {MaskitoOptions} from "@maskito/core";
 import {MaskitoModule} from "@maskito/angular";
+import {DateFormatPipe} from "../../shared/pipes/date-format.pipe";
+import {CurrencyFormatPipe} from "../../shared/pipes/currency-format.pipe";
 
 @Component({
   selector: 'app-register-edit-regular-student',
   templateUrl: './regular-students-list.page.html',
   styleUrls: ['./regular-students-list.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterLink, EmptyRegularStudentsComponent, MaskitoModule],
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink, EmptyRegularStudentsComponent, MaskitoModule, DateFormatPipe, CurrencyFormatPipe],
   providers: [DriverService, AuthenticationService]
 })
 export class RegularStudentsListPage implements OnInit {

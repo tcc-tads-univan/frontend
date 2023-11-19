@@ -6,7 +6,6 @@ import {Rating} from "../../models/rating/rating";
 import {DriverService} from "../../../services/driver.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastService} from "../../../services/toast.service";
-import {LocalStorageKeys} from "../../enums/local-storage-keys";
 import {UserType} from "../../enums/user-type";
 import {StudentService} from "../../../services/student.service";
 

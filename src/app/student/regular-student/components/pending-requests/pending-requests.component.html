@@ -15,15 +15,15 @@
           </ion-label>
           <ion-card-subtitle>
             <ion-icon name="call"></ion-icon>
-            {{request.driverPhone}}
+            {{request.driverPhone | phoneFormat}}
           </ion-card-subtitle>
           <ion-card-subtitle>
-            <ion-icon name="car"></ion-icon>
-            {{request.expirationDay}}
+            <ion-icon name="calendar-number-outline"></ion-icon>
+            Vence dia {{request.expirationDay}}
           </ion-card-subtitle>
           <ion-card-subtitle>
             <ion-icon name="cash"></ion-icon>
-            {{request.monthlyFee}}
+            {{request.monthlyFee | currencyFormat}}
           </ion-card-subtitle>
         </ion-col>
       </ion-item>
@@ -32,10 +32,11 @@
 
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button fill="clear" (click)="declineSubscription(request.subscriptionId)">Recusar</ion-button>
+      <ion-button fill="outline" color="danger" (click)="declineSubscription(request.subscriptionId)">Recusar
+      </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="acceptSubscription(request.subscriptionId)">Aceitar</ion-button>
+      <ion-button color="success" fill="solid" (click)="acceptSubscription(request.subscriptionId)">Aceitar</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-card>

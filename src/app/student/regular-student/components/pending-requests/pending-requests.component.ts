@@ -4,6 +4,8 @@ import {IonicModule} from "@ionic/angular";
 import {SubscriptionService} from "../../../../services/subscription.service";
 import {ToastService} from "../../../../services/toast.service";
 import {CommonModule} from "@angular/common";
+import {PhoneFormatPipe} from "../../../../shared/pipes/phone-format.pipe";
+import {CurrencyFormatPipe} from "../../../../shared/pipes/currency-format.pipe";
 
 @Component({
   selector: 'app-pending-requests',
@@ -12,7 +14,9 @@ import {CommonModule} from "@angular/common";
   standalone: true,
   imports: [
     IonicModule,
-    CommonModule
+    CommonModule,
+    PhoneFormatPipe,
+    CurrencyFormatPipe
   ],
   providers: [SubscriptionService]
 })
