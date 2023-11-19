@@ -46,7 +46,7 @@
         <ion-text>
           <p>
             <ion-icon name="time-outline"></ion-icon>
-            Data: {{history.date}}
+            Data: {{history.date | dateFormat:'dd-MM-yyyy HH:mm:ss':'America/Sao_Paulo'}}
           </p>
           <p>
             <ion-icon name="navigate"></ion-icon>

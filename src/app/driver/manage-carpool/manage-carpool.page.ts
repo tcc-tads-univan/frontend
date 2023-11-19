@@ -54,7 +54,7 @@ export class ManageCarpoolPage implements OnInit {
   ]
 
   constructor(private authService: AuthenticationService, private carpoolService: CarpoolService, private toastService: ToastService, private collegeService: CollegeService, private mapDirectionsService: MapDirectionsService,
-              private historyService: HistoryService, private router: Router, private fb: FormBuilder, private studentService: StudentService
+              private router: Router, private fb: FormBuilder, private studentService: StudentService
 
   ) {
     this.userId = this.authService.loggedUser!.userId;

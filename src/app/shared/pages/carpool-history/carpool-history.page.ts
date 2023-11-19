@@ -8,13 +8,14 @@ import {ToastService} from "../../../services/toast.service";
 import {HistoryService} from "../../../services/history.service";
 import {UserType} from "../../enums/user-type";
 import {CarpoolHistory} from "../../models/history/carpoolHistory";
+import {DateFormatPipe} from "../../pipes/date-format.pipe";
 
 @Component({
   selector: 'app-carpool-history',
   templateUrl: './carpool-history.page.html',
   styleUrls: ['./carpool-history.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, EmptyHistoryCardComponent],
+  imports: [IonicModule, CommonModule, FormsModule, EmptyHistoryCardComponent, DateFormatPipe],
   providers: [AuthenticationService, HistoryService, ToastService]
 })
 export class CarpoolHistoryPage implements OnInit {
