@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {Router, RouterLink} from "@angular/router";
 import {CarpoolService} from "../../services/carpool.service";
@@ -19,13 +19,16 @@ import {HistoryService} from "../../services/history.service";
 import {StudentService} from "../../services/student.service";
 import {UserType} from "../../shared/enums/user-type";
 import {LocalStorageKeys} from "../../shared/enums/local-storage-keys";
+import {DateFormatPipe} from "../../shared/pipes/date-format.pipe";
+import {CurrencyFormatPipe} from "../../shared/pipes/currency-format.pipe";
+import {PhoneFormatPipe} from "../../shared/pipes/phone-format.pipe";
 
 @Component({
   selector: 'app-manage-carpool',
   templateUrl: './manage-carpool.page.html',
   styleUrls: ['./manage-carpool.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterLink, GoogleMapsModule, ReactiveFormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink, GoogleMapsModule, ReactiveFormsModule, DateFormatPipe, CurrencyFormatPipe, PhoneFormatPipe],
   providers: [CarpoolService, AuthenticationService, AuthenticationService, CollegeService, MapDirectionsService, HistoryService, StudentService]
 
 })
