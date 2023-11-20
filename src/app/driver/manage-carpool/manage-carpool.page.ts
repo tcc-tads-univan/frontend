@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {Router, RouterLink} from "@angular/router";
 import {CarpoolService} from "../../services/carpool.service";
@@ -44,7 +44,11 @@ export class ManageCarpoolPage implements OnInit {
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
   scheduleId!: number;
 
-  constructor(private authService: AuthenticationService, private carpoolService: CarpoolService, private toastService: ToastService, private collegeService: CollegeService, private mapDirectionsService: MapDirectionsService,
+  constructor(private authService: AuthenticationService,
+              private carpoolService: CarpoolService,
+              private toastService: ToastService,
+              private collegeService: CollegeService,
+              private mapDirectionsService: MapDirectionsService,
               private router: Router
   ) {
     this.userId = this.authService.loggedUser!.userId;
@@ -54,8 +58,10 @@ export class ManageCarpoolPage implements OnInit {
   ngOnInit() {
     this.driverId = this.authService.loggedUser!.userId;
     this.username = this.authService.loggedUser!.name;
+  }
 
-    this.carpoolService.listAcceptedDriverCarpool(this.driverId).subscribe(
+  ionViewWillEnter() {
+    this.carpoolService.listAcceptedDriverCarpool(this.driverId!).subscribe(
       {
         next: value => {
           this.schedules = value;
@@ -63,7 +69,7 @@ export class ManageCarpoolPage implements OnInit {
           this.scheduleId = value.length > 0 ? value[0].scheduleId : 0;
         }
       }
-    )
+    );
   }
 
   private findRouteDirections(driverId: number, studentId: number, campusPlaceId: string) {
@@ -81,7 +87,9 @@ export class ManageCarpoolPage implements OnInit {
           };
           this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => response.result));
         },
-        error: err => this.toastService.showErrorToastAndLog("Problema ao pesquisar a rota", err)
+        error: err => {
+          this.toastService.showErrorToastAndLog("Problema ao pesquisar a rota", err);
+        }
       });
   }
 
@@ -98,8 +106,8 @@ export class ManageCarpoolPage implements OnInit {
   }
 
   finishTrip(scheduleId: number) {
-    this.carpoolService.completeTrip(scheduleId).subscribe(
-      next => {
+    this.carpoolService.completeTrip(scheduleId).subscribe({
+      next: next => {
         this.carpoolStarted = false;
         localStorage.removeItem(LocalStorageKeys.CARPOOL);
         this.router.navigate(['motorista/caronas/avaliar'], {
@@ -109,11 +117,10 @@ export class ManageCarpoolPage implements OnInit {
           }
         })
       },
-      error => {
+      error: error => {
         this.toastService.showErrorToastAndLog("Houve algum erro ao finalizar a carona", error);
       }
-    )
-
+    });
   }
 
 }

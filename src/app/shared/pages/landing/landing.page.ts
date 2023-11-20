@@ -54,6 +54,9 @@ export class LandingPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     const loggedUser = this.authService.loggedUser!;
     this.userFirstName = loggedUser.name;
 

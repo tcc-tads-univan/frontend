@@ -37,13 +37,17 @@ export class RegularStudentsListPage implements OnInit {
     mask: ['+', '55', ' ', '(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
   };
 
-  constructor(private driverService: DriverService, private authService: AuthenticationService, private toastService: ToastService) {
+  constructor(private driverService: DriverService,
+              private authService: AuthenticationService,
+              private toastService: ToastService) {
   }
 
   ngOnInit() {
     this.driverId = this.authService.loggedUser!.userId;
     this.username = this.authService.loggedUser!.name;
+  }
 
+  ionViewWillEnter() {
     this.subscriptions$! = this.driverService.findDriverSubscriptions(this.driverId);
   }
 

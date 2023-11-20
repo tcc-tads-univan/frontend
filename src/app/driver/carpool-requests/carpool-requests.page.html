@@ -12,50 +12,61 @@
     Universidade Federal do Paraná - SEPT
   </h2>
   <div *ngIf="(requestedCarpools$ | async) as requestedCarpools; else loading">
-    <ion-card *ngFor="let request of requestedCarpools; trackBy: trackByItem">
-      <ion-card-header>
-        <ion-card-title>
-          <ion-item>
-            <ion-avatar slot="start">
-              <img alt="Avatar do usuário" [src]="request.photoUrl"/>
-            </ion-avatar>
-            <ion-label>
-              {{request.name}}
-            </ion-label>
-          </ion-item>
-        </ion-card-title>
-        <ion-card-subtitle>
-          Avaliação:
-          <ion-icon name="star"></ion-icon>
-          {{request.rating}}
-        </ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <p>
-          <ion-icon name="call-outline"></ion-icon>
-          Telefone: {{request.phoneNumber | phoneFormat}}
-        </p>
-        <p>
-          <ion-icon name="time-outline"></ion-icon>
-          Saída: <strong>{{request.scheduleTime}}</strong>
-        </p>
-        <p>
-          <ion-icon name="location-outline"></ion-icon>
-          Destino: {{request.lineAddress}}
-        </p>
-        <ion-item-group class="ion-margin-top">
-          <ion-button color="secondary"
-                      fill="outline"
-                      expand="block"
-                      [routerLink]="['/motorista/caronas/detalhe']"
-                      [queryParams]="{aluno: request.studentId, campus: campusId}">
-            <ion-icon name="map-outline"></ion-icon>
-            Visualizar Rota
-          </ion-button>
-         </ion-item-group>
-      </ion-card-content>
-    </ion-card>
+    <div *ngIf="requestedCarpools.length === 0">
+      <ion-item color="secondary">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <p class="ion-margin-start">Não há nenhuma solicitação de carona no momento.</p>
+      </ion-item>
+    </div>
+
+    <div *ngIf="requestedCarpools.length >= 0">
+      <ion-card *ngFor="let request of requestedCarpools; trackBy: trackByItem">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-item>
+              <ion-avatar slot="start">
+                <img alt="Avatar do usuário" [src]="request.photoUrl"/>
+              </ion-avatar>
+              <ion-label>
+                {{request.name}}
+              </ion-label>
+            </ion-item>
+          </ion-card-title>
+          <ion-card-subtitle>
+            Avaliação:
+            <ion-icon name="star"></ion-icon>
+            {{request.rating}}
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p>
+            <ion-icon name="call-outline"></ion-icon>
+            Telefone: {{request.phoneNumber | phoneFormat}}
+          </p>
+          <p>
+            <ion-icon name="time-outline"></ion-icon>
+            Saída: <strong>{{request.scheduleTime}}</strong>
+          </p>
+          <p>
+            <ion-icon name="location-outline"></ion-icon>
+            Destino: {{request.lineAddress}}
+          </p>
+          <ion-item-group class="ion-margin-top">
+            <ion-button color="secondary"
+                        fill="outline"
+                        expand="block"
+                        [routerLink]="['/motorista/caronas/detalhe']"
+                        [queryParams]="{aluno: request.studentId, campus: campusId}">
+              <ion-icon name="map-outline"></ion-icon>
+              Visualizar Rota
+            </ion-button>
+          </ion-item-group>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
   </div>
+
   <ng-template #loading>
     <ion-item color="warning">
       <ion-icon name="alert-circle-outline"></ion-icon>

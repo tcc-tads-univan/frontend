@@ -30,6 +30,9 @@ export class CarpoolHistoryPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     const {userId, userType} = this.authService.loggedUser!;
 
     if (userType === UserType.DRIVER) {

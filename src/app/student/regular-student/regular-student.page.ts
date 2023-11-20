@@ -40,6 +40,9 @@ export class RegularStudentPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.loggedUser = this.authService.loggedUser!;
     const {userId} = this.loggedUser;
 

@@ -8,6 +8,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ToastService} from "../../../services/toast.service";
 import {UserType} from "../../enums/user-type";
 import {StudentService} from "../../../services/student.service";
+import {AuthenticationService} from "../../../services/authentication/authentication.service";
+import {LoginResponse} from "../../models/user/login-response.model";
 
 @Component({
   selector: 'app-rank-trip',
@@ -15,9 +17,10 @@ import {StudentService} from "../../../services/student.service";
   styleUrls: ['./rank-trip.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule],
-  providers: [DriverService, StudentService]
+  providers: [DriverService, StudentService, AuthenticationService]
 })
 export class RankTripPage implements OnInit {
+  loggedUser!: LoginResponse;
   userId!: number;
   userType!: UserType
   rankForm = this.fb.group({
@@ -32,14 +35,22 @@ export class RankTripPage implements OnInit {
     {value: 5, text: "5"},
   ]
 
-  constructor(private fb: FormBuilder, private driverService: DriverService, private route: ActivatedRoute, private toastService: ToastService, private router: Router, private studentService: StudentService) {
+  constructor(private fb: FormBuilder,
+              private driverService: DriverService,
+              private authService: AuthenticationService,
+              private route: ActivatedRoute,
+              private toastService: ToastService,
+              private router: Router,
+              private studentService: StudentService) {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      this.userType = params['userType']
-      this.userId = params['userId'];
-    })
+    const {loggedUser} = this.authService;
+
+    if (loggedUser) {
+      this.userType = loggedUser.userType;
+      this.userId = loggedUser.userId;
+    }
   }
 
   ratingDriver() {
@@ -48,15 +59,15 @@ export class RankTripPage implements OnInit {
         rating: this.rating!.value ?? 1,
       }
 
-      this.driverService.rankDriver(this.userId, rating).subscribe(
-        next => {
+      this.driverService.rankDriver(this.userId, rating).subscribe({
+        next: next => {
           this.toastService.showSuccessToast("Carona finalizada com sucesso!");
           this.router.navigate(['/aluno']);
         },
-        error => {
+        error: error => {
           this.toastService.showErrorToastAndLog("Houve algum erro ao avaliar o motorista", error);
         }
-      )
+      });
     }
   }
 

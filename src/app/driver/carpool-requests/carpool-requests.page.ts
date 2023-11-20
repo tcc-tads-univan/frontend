@@ -32,7 +32,9 @@ export class CarpoolRequestsPage implements OnInit {
   ngOnInit() {
     this.campusPlaceId = this.activatedRoute.snapshot.queryParamMap.get('origem');
     this.campusId = +this.activatedRoute.snapshot.queryParamMap.get('campus')!;
+  }
 
+  ionViewWillEnter() {
     this.requestedCarpools$ = this.carpoolService.findCarpoolRequestsByCampus(this.campusId);
   }
 

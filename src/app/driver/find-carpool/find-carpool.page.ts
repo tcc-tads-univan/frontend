@@ -30,7 +30,7 @@ export class FindCarpoolPage implements OnInit {
         this.campiList = campi;
         this.filteredCampiList = [...this.campiList];
       }
-    )
+    );
   }
 
   trackByItem(idx: number, item: any) {

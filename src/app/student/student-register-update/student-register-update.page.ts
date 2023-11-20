@@ -52,8 +52,12 @@ export class StudentRegisterUpdatePage implements OnInit {
       this.birthdate?.disable({onlySelf: true});
 
       this.loggedUser = this.authService.loggedUser!;
+    }
+  }
 
-      this.studentService.findStudentById(this.loggedUser.userId).subscribe({
+  ionViewWillEnter() {
+    if (this.isEdit) {
+      this.studentService.findStudentById(this.loggedUser!.userId).subscribe({
         next: data => {
           this.registrationForm.setValue({
             name: data.name,
@@ -77,12 +81,13 @@ export class StudentRegisterUpdatePage implements OnInit {
     if (this.registrationForm.valid) {
       const student: StudentRegistration = {
         name: this.name?.value ?? '',
-        cpf: this.cpf?.value ? this.cpf.value.replace(/\D/g, "").slice(0, 11) : '',
-        phonenumber: this.phonenumber?.value ? this.phonenumber.value.replace(/\D/g, "").slice(0, 11) : '',
+        cpf: this.cpf?.value ? this.cpf.value!.replace(/\D/g, "").slice(0, 11) : '',
+        phonenumber: this.phonenumber?.value ? this.phonenumber.value!.replace(/\D/g, "").slice(0, 11) : '',
         email: this.email?.value ?? '',
         password: this.password?.value ?? '',
         birthdate: this.birthdate?.value ?? ''
       }
+
       if (this.isEdit) {
         this.updateStudent(this.loggedUser!.userId, student);
       } else {
