@@ -105,7 +105,7 @@ export class CarpoolRouteDetailPage implements OnInit {
             language: 'pt-BR',
             unitSystem: UnitSystem.METRIC,
             optimizeWaypoints: true,
-            waypoints: response.waypoints.map(waypoint => ({location: {placeId: waypoint}} as DirectionsWaypoint))
+            waypoints: response.waypoints.map(waypoint => ({location: {placeId: waypoint.placeId}} as DirectionsWaypoint))
           };
 
           this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => response.result));

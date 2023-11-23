@@ -1,4 +1,7 @@
 export interface RouteDirections {
-  waypoints: string[];
+  waypoints: [{
+    placeId: string;
+    userId: number;
+  }];
   destination: string;
 }
