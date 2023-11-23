@@ -37,7 +37,6 @@ export class RankTripPage implements OnInit {
 
   constructor(private fb: FormBuilder,
               private driverService: DriverService,
-              private authService: AuthenticationService,
               private route: ActivatedRoute,
               private toastService: ToastService,
               private router: Router,
@@ -45,12 +44,10 @@ export class RankTripPage implements OnInit {
   }
 
   ngOnInit() {
-    const {loggedUser} = this.authService;
-
-    if (loggedUser) {
-      this.userType = loggedUser.userType;
-      this.userId = loggedUser.userId;
-    }
+    this.route.queryParams.subscribe(params => {
+      this.userType = params['userType']
+      this.userId = params['userId'];
+    })
   }
 
   ratingDriver() {
