@@ -43,6 +43,7 @@ export class ManageCarpoolPage implements OnInit {
   campus!: CollegeCampus;
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
   scheduleId!: number;
+  noSchedules!: boolean;
 
   constructor(private authService: AuthenticationService,
               private carpoolService: CarpoolService,
@@ -64,9 +65,17 @@ export class ManageCarpoolPage implements OnInit {
     this.carpoolService.listAcceptedDriverCarpool(this.driverId!).subscribe(
       {
         next: value => {
-          this.schedules = value;
-          this.studentsId = value.map(schedule => schedule.student.studentId);
-          this.scheduleId = value.length > 0 ? value[0].scheduleId : 0;
+          if (value.length === 0) {
+            this.noSchedules = true;
+          }
+          else {
+            this.schedules = value;
+            this.studentsId = value.map(schedule => schedule.student.studentId);
+            this.scheduleId = value.length > 0 ? value[0].scheduleId : 0;
+          }
+        },
+        error: err => {
+          this.toastService.showErrorToastAndLog("Problema ao encontrar caronas. ", err);
         }
       }
     );
