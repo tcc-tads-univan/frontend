@@ -47,6 +47,12 @@
         Data: {{payments.date | dateFormat:'dd/MM/yyyy HH:mm':'America/Sao_Paulo'}}
       </ion-card-content>
     </ion-card>
+    <div *ngIf="studentSubscription.payments.length === 0">
+      <ion-item color="secondary">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <p class="ion-margin-start">Você ainda não tem mensalidades geradas.</p>
+      </ion-item>
+    </div>
   </div>
 
   <ng-template #noRegularSubscription>
