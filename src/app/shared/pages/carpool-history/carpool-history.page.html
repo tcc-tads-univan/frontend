@@ -15,8 +15,11 @@
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
         </ion-avatar>
         <ion-col class="ion-justify-content-between">
-          <ion-label>
+          <ion-label *ngIf="userType === UserType.DRIVER">
             {{history.studentName}}
+          </ion-label>
+          <ion-label *ngIf="userType === UserType.STUDENT">
+            {{history.driverName}}
           </ion-label>
         </ion-col>
       </ion-item>
