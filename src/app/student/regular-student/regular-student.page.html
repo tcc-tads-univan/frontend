@@ -1,13 +1,22 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="aluno/inicio"></ion-back-button>
     </ion-buttons>
     <ion-title>Perfil de Mensalista</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding" color="light">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh()">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Puxe para recarregar"
+      refreshingSpinner="circles"
+      refreshingText="Recarregando..."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
   <div *ngIf="studentSubscription$ | async as studentSubscription; else noRegularSubscription">
     <ion-card class="card-padding">
       <ion-card-header>

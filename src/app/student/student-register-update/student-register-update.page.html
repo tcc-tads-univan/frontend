@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="aluno/inicio"></ion-back-button>
     </ion-buttons>
     <ion-title>
       <span *ngIf="isEdit">Atualizar perfil</span>
@@ -11,6 +11,15 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh()">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Puxe para recarregar"
+      refreshingSpinner="circles"
+      refreshingText="Recarregando..."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
   <form [formGroup]="registrationForm" (ngSubmit)="handleSubmit()" enctype="multipart/form-data">
     <ion-list>
       <ion-item>

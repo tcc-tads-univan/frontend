@@ -9,6 +9,7 @@ import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {ToastService} from 'src/app/services/toast.service';
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 import {LocalStorageKeys} from "../../shared/enums/local-storage-keys";
+import {RefreshService} from "../../services/refresh.service";
 
 @Component({
   selector: 'app-carpool-requested',
@@ -16,7 +17,7 @@ import {LocalStorageKeys} from "../../shared/enums/local-storage-keys";
   styleUrls: ['./carpool-requested.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink],
-  providers: [CarpoolService, ToastService, AuthenticationService]
+  providers: [CarpoolService, ToastService, AuthenticationService, RefreshService]
 })
 export class CarpoolRequestedPage implements OnInit {
   requestedCarpool$!: Observable<CarpoolDetails>;
@@ -41,7 +42,8 @@ export class CarpoolRequestedPage implements OnInit {
               private authService: AuthenticationService,
               private toastService: ToastService,
               private router: Router,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private refreshService: RefreshService) {
   }
 
   ngOnInit() {
@@ -63,6 +65,10 @@ export class CarpoolRequestedPage implements OnInit {
         },
         error: err => this.toastService.showErrorToastAndLog('Erro ao cancelar a carona', err)
       });
+  }
+
+  onRefresh() {
+    this.refreshService.handleRefreshForStudent();
   }
 
   setResult(ev: any) {

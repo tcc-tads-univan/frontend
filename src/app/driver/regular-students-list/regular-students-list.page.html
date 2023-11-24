@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="motorista/inicio"></ion-back-button>
     </ion-buttons>
     <ion-title>Mensalistas</ion-title>
   </ion-toolbar>
@@ -19,7 +19,15 @@
         Você não tem assentos vagos.
       </p>
     </div>
-
+    <ion-refresher slot="fixed" (ionRefresh)="onRefresh()" >
+      <ion-refresher-content
+        pullingIcon="chevron-down-circle-outline"
+        pullingText="Puxe para recarregar"
+        refreshingSpinner="circles"
+        refreshingText="Recarregando..."
+      >
+      </ion-refresher-content>
+    </ion-refresher>
     <h2 id="generic-title">Alunos</h2>
     <ion-item id="present-alert" *ngFor="let student of subscriptions.students">
       <ion-avatar slot="start">

@@ -19,6 +19,7 @@ import {Student} from "../../shared/models/student/student";
 import {StudentService} from "../../services/student.service";
 import {DriverService} from "../../services/driver.service";
 import {Address} from "../../shared/models/address/address";
+import {RefreshService} from "../../services/refresh.service";
 
 @Component({
   selector: 'app-carpool-route-detail',
@@ -49,7 +50,8 @@ export class CarpoolRouteDetailPage implements OnInit {
               private authService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
               private toastService: ToastService,
-              private router: Router) {
+              private router: Router,
+  ) {
   }
 
   ngOnInit(): void {

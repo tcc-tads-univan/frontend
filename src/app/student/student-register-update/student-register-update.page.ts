@@ -11,6 +11,7 @@ import {CpfFormatDirective} from "../../shared/directives/cpf-format.directive";
 import {PhoneNumberDirective} from "../../shared/directives/phone-number-directive";
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 import {ToastService} from "../../services/toast.service";
+import {RefreshService} from "../../services/refresh.service";
 
 @Component({
   selector: 'app-student-register-update',
@@ -18,7 +19,7 @@ import {ToastService} from "../../services/toast.service";
   styleUrls: ['./student-register-update.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, HttpClientModule, CpfFormatDirective, PhoneNumberDirective],
-  providers: [StudentService, AuthenticationService]
+  providers: [StudentService, AuthenticationService, RefreshService]
 })
 export class StudentRegisterUpdatePage implements OnInit {
   isEdit = false;
@@ -40,7 +41,8 @@ export class StudentRegisterUpdatePage implements OnInit {
     private studentService: StudentService,
     private router: Router,
     private toastService: ToastService,
-    private authService: AuthenticationService,) {
+    private authService: AuthenticationService,
+    private refreshService: RefreshService) {
   }
 
   ngOnInit() {
@@ -127,6 +129,10 @@ export class StudentRegisterUpdatePage implements OnInit {
 
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;
+  }
+
+  onRefresh() {
+    this.refreshService.handleRefresh();
   }
 
   get name() {

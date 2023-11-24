@@ -9,6 +9,15 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <ion-card class="ion-padding">
+    <ion-refresher slot="fixed" (ionRefresh)="onRefresh()">
+      <ion-refresher-content
+        pullingIcon="chevron-down-circle-outline"
+        pullingText="Puxe para recarregar"
+        refreshingSpinner="circles"
+        refreshingText="Recarregando..."
+      >
+      </ion-refresher-content>
+    </ion-refresher>
     <ion-card-header>
       <ion-card-title>
         Informações do Agendamento

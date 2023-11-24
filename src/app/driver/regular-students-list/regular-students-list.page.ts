@@ -16,6 +16,7 @@ import {MaskitoOptions} from "@maskito/core";
 import {MaskitoModule} from "@maskito/angular";
 import {DateFormatPipe} from "../../shared/pipes/date-format.pipe";
 import {CurrencyFormatPipe} from "../../shared/pipes/currency-format.pipe";
+import {RefreshService} from "../../services/refresh.service";
 
 @Component({
   selector: 'app-register-edit-regular-student',
@@ -23,7 +24,7 @@ import {CurrencyFormatPipe} from "../../shared/pipes/currency-format.pipe";
   styleUrls: ['./regular-students-list.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink, EmptyRegularStudentsComponent, MaskitoModule, DateFormatPipe, CurrencyFormatPipe],
-  providers: [DriverService, AuthenticationService]
+  providers: [DriverService, AuthenticationService, RefreshService]
 })
 export class RegularStudentsListPage implements OnInit {
   driverId!: number;
@@ -39,7 +40,8 @@ export class RegularStudentsListPage implements OnInit {
 
   constructor(private driverService: DriverService,
               private authService: AuthenticationService,
-              private toastService: ToastService) {
+              private toastService: ToastService,
+              private refreshService: RefreshService) {
   }
 
   ngOnInit() {
@@ -84,5 +86,7 @@ export class RegularStudentsListPage implements OnInit {
     )
   }
 
-
+  onRefresh() {
+    this.refreshService.handleRefresh();
+  }
 }

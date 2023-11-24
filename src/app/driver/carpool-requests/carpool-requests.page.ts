@@ -9,6 +9,7 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {ToastService} from "../../services/toast.service";
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 import {PhoneFormatPipe} from "../../shared/pipes/phone-format.pipe";
+import {RefreshService} from "../../services/refresh.service";
 
 @Component({
   selector: 'app-carpool-requests',
@@ -16,7 +17,7 @@ import {PhoneFormatPipe} from "../../shared/pipes/phone-format.pipe";
   styleUrls: ['./carpool-requests.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink, PhoneFormatPipe],
-  providers: [CarpoolService, ToastService, AuthenticationService]
+  providers: [CarpoolService, ToastService, AuthenticationService, RefreshService]
 })
 export class CarpoolRequestsPage implements OnInit {
   requestedCarpools$!: Observable<RequestedCarpool[]>;
@@ -25,7 +26,8 @@ export class CarpoolRequestsPage implements OnInit {
 
   constructor(
     private carpoolService: CarpoolService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private refreshService: RefreshService
   ) {
   }
 
@@ -40,5 +42,8 @@ export class CarpoolRequestsPage implements OnInit {
 
   trackByItem(idx: number, item: RequestedCarpool) {
     return item.studentId;
+  }
+  onRefresh() {
+    this.refreshService.handleRefresh();
   }
 }

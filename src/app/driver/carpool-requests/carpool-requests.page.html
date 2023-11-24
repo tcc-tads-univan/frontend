@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="motorista/caronas/procurar"></ion-back-button>
     </ion-buttons>
     <ion-title>Solicitações de Carona</ion-title>
   </ion-toolbar>
@@ -18,7 +18,15 @@
         <p class="ion-margin-start">Não há nenhuma solicitação de carona no momento.</p>
       </ion-item>
     </div>
-
+    <ion-refresher slot="fixed" (ionRefresh)="onRefresh()" >
+      <ion-refresher-content
+        pullingIcon="chevron-down-circle-outline"
+        pullingText="Puxe para recarregar"
+        refreshingSpinner="circles"
+        refreshingText="Recarregando..."
+      >
+      </ion-refresher-content>
+    </ion-refresher>
     <div *ngIf="requestedCarpools.length >= 0">
       <ion-card *ngFor="let request of requestedCarpools; trackBy: trackByItem">
         <ion-card-header>

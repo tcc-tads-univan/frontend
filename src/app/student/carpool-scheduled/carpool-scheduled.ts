@@ -7,6 +7,7 @@ import {Schedule} from "../../shared/models/carpool/schedule";
 import {Observable} from "rxjs";
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {PhoneFormatPipe} from "../../shared/pipes/phone-format.pipe";
+import {RefreshService} from "../../services/refresh.service";
 
 @Component({
   selector: 'app-carpool-scheduled',
@@ -14,16 +15,20 @@ import {PhoneFormatPipe} from "../../shared/pipes/phone-format.pipe";
   styleUrls: ['./carpool-scheduled.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink, PhoneFormatPipe],
-  providers: [CarpoolService]
+  providers: [CarpoolService, RefreshService]
 })
 export class CarpoolScheduled implements OnInit {
   schedule$!: Observable<Schedule>;
 
-  constructor(private carpoolService: CarpoolService, private activatedRoute: ActivatedRoute) {
+  constructor(private carpoolService: CarpoolService, private activatedRoute: ActivatedRoute, private refreshService: RefreshService) {
   }
 
   ngOnInit() {
     const scheduleId = +this.activatedRoute.snapshot.queryParamMap.get('carona')!;
     this.schedule$ = this.carpoolService.findScheduleById(scheduleId);
+  }
+
+  onRefresh() {
+    this.refreshService.handleRefreshForStudent();
   }
 }

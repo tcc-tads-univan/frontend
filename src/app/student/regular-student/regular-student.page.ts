@@ -16,6 +16,7 @@ import {CurrencyFormatPipe} from "../../shared/pipes/currency-format.pipe";
 import {DateFormatPipe} from "../../shared/pipes/date-format.pipe";
 import {PhoneFormatPipe} from "../../shared/pipes/phone-format.pipe";
 import {LicensePlateFormatPipe} from "../../shared/pipes/license-plate-format.pipe";
+import {RefreshService} from "../../services/refresh.service";
 
 @Component({
   selector: 'app-regular-student',
@@ -23,7 +24,7 @@ import {LicensePlateFormatPipe} from "../../shared/pipes/license-plate-format.pi
   styleUrls: ['./regular-student.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, NotRegularStudentCardComponent, PendingRequestsComponent, CurrencyFormatPipe, DateFormatPipe, PhoneFormatPipe, LicensePlateFormatPipe],
-  providers: [StudentService, AuthenticationService]
+  providers: [StudentService, AuthenticationService, RefreshService]
 })
 export class RegularStudentPage implements OnInit {
   private loggedUser!: LoginResponse;
@@ -36,7 +37,8 @@ export class RegularStudentPage implements OnInit {
 
   constructor(private studentService: StudentService,
               private authService: AuthenticationService,
-              private toastService: ToastService) {
+              private toastService: ToastService,
+              private refreshService: RefreshService) {
   }
 
   ngOnInit() {
@@ -55,5 +57,9 @@ export class RegularStudentPage implements OnInit {
 
     this.pendingSubscriptions$ = this.studentService.findPendingSubscriptions(userId);
     this.studentSubscription$ = this.studentService.findStudentSubscription(userId);
+  }
+
+  onRefresh() {
+    this.refreshService.handleRefresh();
   }
 }
