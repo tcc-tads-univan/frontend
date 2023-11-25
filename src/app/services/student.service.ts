@@ -7,7 +7,6 @@ import {Student} from "../shared/models/student/student";
 import {PendingSubscriptions} from "../shared/models/subscriptions/pending-subscriptions";
 import {StudentSubscription} from "../shared/models/subscriptions/student-subscription";
 import {Address} from "../shared/models/address/address";
-import {DriverRegistration} from "../shared/models/driver/driver-registration";
 import {Rating} from "../shared/models/rating/rating";
 
 @Injectable({
@@ -30,6 +29,11 @@ export class StudentService {
 
   findStudentById(userId: number) {
     const endpoint = getApiURL(ApiEndpoints.STUDENT) + "/" + userId;
+    return this.http.get<Student>(endpoint);
+  }
+
+  findStudentBasicInfosById(userId: number) {
+    const endpoint = getApiURL(ApiEndpoints.STUDENT) + "/" + userId + "/basic-infos";
     return this.http.get<Student>(endpoint);
   }
 

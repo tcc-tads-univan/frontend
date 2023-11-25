@@ -7,6 +7,7 @@ export interface Student {
   phoneNumber: string,
   rating: number,
   photoUrl: string,
-  addressId: number
+  addressId: number,
+  lineAddress: string
 }
 

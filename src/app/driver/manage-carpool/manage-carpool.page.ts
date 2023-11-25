@@ -5,7 +5,7 @@ import {IonicModule} from '@ionic/angular';
 import {Router, RouterLink} from "@angular/router";
 import {CarpoolService} from "../../services/carpool.service";
 import {AuthenticationService} from "../../services/authentication/authentication.service";
-import {map, Observable} from "rxjs";
+import {forkJoin, map, Observable} from "rxjs";
 import {Schedule} from "../../shared/models/carpool/schedule";
 import {ToastService} from "../../services/toast.service";
 import {CollegeService} from "../../services/college.service";
@@ -22,6 +22,7 @@ import {LocalStorageKeys} from "../../shared/enums/local-storage-keys";
 import {DateFormatPipe} from "../../shared/pipes/date-format.pipe";
 import {CurrencyFormatPipe} from "../../shared/pipes/currency-format.pipe";
 import {PhoneFormatPipe} from "../../shared/pipes/phone-format.pipe";
+import {Student} from "../../shared/models/student/student";
 
 @Component({
   selector: 'app-manage-carpool',
@@ -40,17 +41,20 @@ export class ManageCarpoolPage implements OnInit {
   userId: number;
   currentDate: Date = new Date();
   studentsId!: number[];
+  studentsTripId!: number[];
   campus!: CollegeCampus;
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
   scheduleId!: number;
   noSchedules!: boolean;
+  students!: Student[];
 
   constructor(private authService: AuthenticationService,
               private carpoolService: CarpoolService,
               private toastService: ToastService,
               private collegeService: CollegeService,
               private mapDirectionsService: MapDirectionsService,
-              private router: Router
+              private router: Router,
+              private studentService: StudentService
   ) {
     this.userId = this.authService.loggedUser!.userId;
   }
@@ -81,7 +85,7 @@ export class ManageCarpoolPage implements OnInit {
     );
   }
 
-  private findRouteDirections(driverId: number, studentId: number, campusPlaceId: string) {
+  findRouteDirections(driverId: number, studentId: number, campusPlaceId: string) {
     this.carpoolService.findRouteDirections(driverId, studentId)
       .subscribe({
         next: response => {
@@ -94,12 +98,32 @@ export class ManageCarpoolPage implements OnInit {
             optimizeWaypoints: true,
             waypoints: response.waypoints.map(waypoint => ({location: {placeId: waypoint.placeId}} as DirectionsWaypoint))
           };
+          this.studentsTripId = response.waypoints.map(waypoint => waypoint.userId);
           this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => response.result));
+          this.findStudents();
         },
         error: err => {
           this.toastService.showErrorToastAndLog("Problema ao pesquisar a rota", err);
         }
       });
+  }
+
+  findStudents() {
+    const observables = this.studentsTripId.map(userId =>
+      this.studentService.findStudentBasicInfosById(userId)
+    );
+
+    forkJoin(observables).subscribe(
+      (responses: Student[]) => {
+        this.students = responses;
+      },
+      error => {
+        console.error(error);
+      },
+      () => {
+        console.log('All requests completed');
+      }
+    );
   }
 
   redirectToMaps() {

@@ -70,9 +70,33 @@
       </map-directions-renderer>
     </google-map>
   </div>
-
-  <ng-template #emptySubscriptions>
-  </ng-template>
+  <div *ngIf="carpoolStarted">
+    <h3>Alunos</h3>
+    <ion-card class="ion-padding" *ngFor="let student of students">
+      <ion-item>
+        <ion-avatar slot="start">
+          <img alt="Silhouette of a person's head" src="{{student.photoUrl}}"/>
+        </ion-avatar>
+        <ion-col class="ion-justify-content-between">
+          <ion-label>
+            {{student.name}}
+          </ion-label>
+          <ion-card-subtitle>
+            <ion-icon name="call-outline"></ion-icon>
+            {{student.phoneNumber | phoneFormat}}
+          </ion-card-subtitle>
+        </ion-col>
+      </ion-item>
+      <ion-card-content>
+        <ion-text>
+          <p>
+          <p>
+            <ion-icon name="location-outline"></ion-icon>
+          Destino: {{student.lineAddress}}</p>
+        </ion-text>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
 
 <ion-footer>
