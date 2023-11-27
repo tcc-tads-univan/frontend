@@ -13,11 +13,11 @@ Antes de começar, certifique-se de ter os seguintes pré-requisitos instalados:
 1. **Clone o Repositório:**
 
    ```bash
-   git clone https://github.com/seu-usuario/nome-do-repositorio.git
+   git clone git@github.com:tcc-tads-univan/frontend.git
    
 2. **Navegue até o Diretório do Projeto:**
    ```bash
-   cd nome-do-repositorio
+   cd <nome-do-repositorio>
 
 3. **Instale as Dependências do Projeto:**
    ```bash
