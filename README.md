@@ -17,11 +17,11 @@ Antes de começar, certifique-se de ter os seguintes pré-requisitos instalados:
    
 2. **Navegue até o Diretório do Projeto:**
    ```bash
-     cd nome-do-repositorio
+   cd nome-do-repositorio
 
 3. **Instale as Dependências do Projeto:**
    ```bash
-    npm install
+   npm install
 
 ## Executando a Aplicação
 
