@@ -16,9 +16,11 @@ Antes de começar, certifique-se de ter os seguintes pré-requisitos instalados:
    git clone https://github.com/seu-usuario/nome-do-repositorio.git
    
 2. **Navegue até o Diretório do Projeto:**
+   ```bash
      cd nome-do-repositorio
 
 3. **Instale as Dependências do Projeto:**
+   ```bash
     npm install
 
 ## Executando a Aplicação
