@@ -39,9 +39,4 @@ git commit -m "Sua mensagem de commit"
 
 # Envie as Alterações para o Repositório:
 git push origin nome-do-branch
-
-
-## Problemas Comuns
-
-Se encontrar problemas ao configurar ou executar a aplicação, consulte a documentação oficial do Ionic ou procure ajuda na comunidade Ionic.
-
+    
