@@ -11,7 +11,8 @@
   <div *ngIf="(subscriptions$ | async) as subscriptions; else emptySubscriptions">
     <div class="card-header">
       <h1 style="padding: 18px 0 0 24px; font-weight: 600;">Olá, {{username}}</h1>
-      <p style="padding: 11px 0 0 25px;">Hoje é<b> dia {{ currentDate | dateFormat:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}</b></p>
+      <p style="padding: 11px 0 0 25px;">Hoje é<b>
+        dia {{ currentDate | dateFormat:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}</b></p>
       <p *ngIf="subscriptions.availableSeats > 0" style="padding: 11px 0 0 25px;">
         Você tem <strong>{{subscriptions.availableSeats}} assentos vagos.</strong>
       </p>
@@ -19,7 +20,7 @@
         Você não tem assentos vagos.
       </p>
     </div>
-    <ion-refresher slot="fixed" (ionRefresh)="onRefresh()" >
+    <ion-refresher slot="fixed" (ionRefresh)="onRefresh()">
       <ion-refresher-content
         pullingIcon="chevron-down-circle-outline"
         pullingText="Puxe para recarregar"
@@ -83,16 +84,19 @@
               <ion-input readonly
                          label="Valor"
                          labelPlacement="stacked" value="R$ {{regular?.payment?.value}}"
+                         [maskito]="brlMask"
               ></ion-input>
             </ion-item>
             <ion-row>
               <ion-col size="6">
-                <ion-button class="ion-margin-bottom" color="primary" expand="block" style="font-size: 11px;" (click)="createNewPayment(driverId, regular.subscriptionId)">
+                <ion-button class="ion-margin-bottom" color="primary" expand="block" style="font-size: 11px;"
+                            (click)="createNewPayment(driverId, regular.subscriptionId)">
                   Nova cobrança
                 </ion-button>
               </ion-col>
               <ion-col size="6">
-                <ion-button color="success" expand="block" style="font-size: 11px;" (click)="updatePaymentStatus(driverId, regular.subscriptionId, regular.payment.paymentId)">
+                <ion-button color="success" expand="block" style="font-size: 11px;"
+                            (click)="updatePaymentStatus(driverId, regular.subscriptionId, regular.payment.paymentId)">
                   Confirmar Pagamento
                 </ion-button>
               </ion-col>

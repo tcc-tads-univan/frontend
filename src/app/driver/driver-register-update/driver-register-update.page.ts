@@ -47,7 +47,7 @@ export class DriverRegisterUpdatePage implements OnInit {
       this.setEditPage();
     }
   }
-  
+
   private setEditPage() {
     this.isEdit = true;
 

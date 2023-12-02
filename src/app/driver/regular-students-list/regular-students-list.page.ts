@@ -37,7 +37,8 @@ export class RegularStudentsListPage implements OnInit {
   readonly phoneMask: MaskitoOptions = {
     mask: ['+', '55', ' ', '(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
   };
-
+  readonly brlMask: MaskitoOptions = {
+    mask: ['R', '$', ' ', /\d/, '.', /\d/, /\d/, /\d/, ',',  '0', '0'],  };
   constructor(private driverService: DriverService,
               private authService: AuthenticationService,
               private toastService: ToastService,

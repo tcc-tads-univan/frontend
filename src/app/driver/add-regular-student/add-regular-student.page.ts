@@ -8,13 +8,16 @@ import {Router} from "@angular/router";
 import {ToastService} from 'src/app/services/toast.service';
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 import {HttpStatusCode} from "@angular/common/http";
+import {MaskitoOptions} from "@maskito/core";
+import {MaskitoModule} from "@maskito/angular";
+import {CurrencyFormatDirective} from "../../shared/directives/currency-format.directive";
 
 @Component({
   selector: 'app-add-regular-student',
   templateUrl: './add-regular-student.page.html',
   styleUrls: ['./add-regular-student.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, MaskitoModule, CurrencyFormatDirective],
   providers: [DriverService, ToastService, AuthenticationService]
 })
 export class AddRegularStudentPage implements OnInit {
@@ -24,6 +27,8 @@ export class AddRegularStudentPage implements OnInit {
     {value: 5, text: "Dia 05"},
     {value: 15, text: "Dia 15"},
   ]
+  readonly brlMask: MaskitoOptions = {
+    mask: ['R', '$', ' ', /\d/, '.', /\d/, /\d/, /\d/, ',',  '0', '0'],  };
 
   regularStudentForm = this.fb.group({
     studentId: ['', [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]],
