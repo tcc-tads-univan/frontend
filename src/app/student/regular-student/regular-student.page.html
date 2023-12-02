@@ -53,7 +53,7 @@
       </ion-card-header>
 
       <ion-card-content>
-        Data: {{payments.date | dateFormat:'dd/MM/yyyy HH:mm':'America/Sao_Paulo'}}
+        Data: {{payments.date | dateFormatWs:'dd/MM/yyyy':'America/Sao_Paulo'}}
       </ion-card-content>
     </ion-card>
     <div *ngIf="studentSubscription.payments.length === 0">

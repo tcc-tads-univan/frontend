@@ -6,7 +6,7 @@ import {DriverService} from "../../services/driver.service";
 import {Observable} from "rxjs";
 import {DriverSubscriptions} from "../../shared/models/subscriptions/driver-subscriptions";
 import {RegularStudent} from "../../shared/models/regular-student/regular-student";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 import {
   EmptyRegularStudentsComponent
@@ -17,13 +17,14 @@ import {MaskitoModule} from "@maskito/angular";
 import {DateFormatPipe} from "../../shared/pipes/date-format.pipe";
 import {CurrencyFormatPipe} from "../../shared/pipes/currency-format.pipe";
 import {RefreshService} from "../../services/refresh.service";
+import {DateFormatPipeWsPipe} from "../../shared/pipes/date-format-pipe-ws.pipe";
 
 @Component({
   selector: 'app-register-edit-regular-student',
   templateUrl: './regular-students-list.page.html',
   styleUrls: ['./regular-students-list.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterLink, EmptyRegularStudentsComponent, MaskitoModule, DateFormatPipe, CurrencyFormatPipe],
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink, EmptyRegularStudentsComponent, MaskitoModule, DateFormatPipe, DateFormatPipeWsPipe, CurrencyFormatPipe],
   providers: [DriverService, AuthenticationService, RefreshService]
 })
 export class RegularStudentsListPage implements OnInit {
@@ -37,12 +38,12 @@ export class RegularStudentsListPage implements OnInit {
   readonly phoneMask: MaskitoOptions = {
     mask: ['+', '55', ' ', '(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
   };
-  readonly brlMask: MaskitoOptions = {
-    mask: ['R', '$', ' ', /\d/, '.', /\d/, /\d/, /\d/, ',',  '0', '0'],  };
+
   constructor(private driverService: DriverService,
               private authService: AuthenticationService,
               private toastService: ToastService,
-              private refreshService: RefreshService) {
+              private refreshService: RefreshService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -85,6 +86,18 @@ export class RegularStudentsListPage implements OnInit {
         }
       }
     )
+  }
+
+  deleteStudent(driverId: number, subscriptionId: number) {
+    this.driverService.deleteStudentSubscription(driverId, subscriptionId).subscribe({
+      next: _ => {
+        this.toastService.showSuccessToast('Mensalista deletado.');
+        this.router.navigate(['motorista/mensalistas'])
+      },
+      error: err => {
+        this.toastService.showErrorToastAndLog('Houve algum erro ao deletar o mensalista.', err);
+      }
+    })
   }
 
   onRefresh() {

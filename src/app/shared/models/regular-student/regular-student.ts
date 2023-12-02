@@ -6,6 +6,6 @@ export interface RegularStudent {
   phone: string;
   finalAddress: string;
   subscriptionStatus: string;
-  payment: Payment;
+  payment: Payment
 }
 

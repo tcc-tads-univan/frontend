@@ -80,6 +80,10 @@ export class DriverService {
     return this.http.post(getApiURL(ApiEndpoints.DRIVER + "/" + driverId + "/subscriptions/" + subscriptionId + "/payment/" + paymentId + "/complete"), httpOptions);
   }
 
+  deleteStudentSubscription(driverId: number, subscriptionId: number) {
+    return this.http.delete(getApiURL(ApiEndpoints.DRIVER + "/" + driverId +"/subscriptions/" + subscriptionId), httpOptions);
+  }
+
   rankDriver(driverId: number, rating: Rating) {
     const body = {
       rating: rating.rating,

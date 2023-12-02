@@ -13,17 +13,17 @@ import {NotRegularStudentCardComponent} from "./components/not-regular-student-i
 import {Student} from "../../shared/models/student/student";
 import {PendingRequestsComponent} from "./components/pending-requests/pending-requests.component";
 import {CurrencyFormatPipe} from "../../shared/pipes/currency-format.pipe";
-import {DateFormatPipe} from "../../shared/pipes/date-format.pipe";
 import {PhoneFormatPipe} from "../../shared/pipes/phone-format.pipe";
 import {LicensePlateFormatPipe} from "../../shared/pipes/license-plate-format.pipe";
 import {RefreshService} from "../../services/refresh.service";
+import {DateFormatPipeWsPipe} from "../../shared/pipes/date-format-pipe-ws.pipe";
 
 @Component({
   selector: 'app-regular-student',
   templateUrl: './regular-student.page.html',
   styleUrls: ['./regular-student.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, NotRegularStudentCardComponent, PendingRequestsComponent, CurrencyFormatPipe, DateFormatPipe, PhoneFormatPipe, LicensePlateFormatPipe],
+  imports: [IonicModule, CommonModule, FormsModule, NotRegularStudentCardComponent, PendingRequestsComponent, CurrencyFormatPipe, DateFormatPipeWsPipe, PhoneFormatPipe, LicensePlateFormatPipe],
   providers: [StudentService, AuthenticationService, RefreshService]
 })
 export class RegularStudentPage implements OnInit {
