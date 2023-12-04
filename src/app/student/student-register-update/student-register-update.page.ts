@@ -12,14 +12,16 @@ import {PhoneNumberDirective} from "../../shared/directives/phone-number-directi
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
 import {ToastService} from "../../services/toast.service";
 import {RefreshService} from "../../services/refresh.service";
+import {CpfPipe} from "../../shared/pipes/cpf-pipe";
+import {PhoneFormatPipe} from "../../shared/pipes/phone-format.pipe";
 
 @Component({
   selector: 'app-student-register-update',
   templateUrl: './student-register-update.page.html',
   styleUrls: ['./student-register-update.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, HttpClientModule, CpfFormatDirective, PhoneNumberDirective],
-  providers: [StudentService, AuthenticationService, RefreshService]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, HttpClientModule, CpfFormatDirective, PhoneNumberDirective, CpfPipe, PhoneFormatPipe],
+  providers: [StudentService, AuthenticationService, RefreshService, CpfPipe, PhoneFormatPipe]
 })
 export class StudentRegisterUpdatePage implements OnInit {
   isEdit = false;
@@ -42,7 +44,9 @@ export class StudentRegisterUpdatePage implements OnInit {
     private router: Router,
     private toastService: ToastService,
     private authService: AuthenticationService,
-    private refreshService: RefreshService) {
+    private refreshService: RefreshService,
+    private cpfFormatPipe: CpfPipe,
+    private phonePipe: PhoneFormatPipe) {
   }
 
   ngOnInit() {
@@ -64,10 +68,10 @@ export class StudentRegisterUpdatePage implements OnInit {
           this.registrationForm.setValue({
             name: data.name,
             email: data.email,
-            cpf: data.cpf,
+            cpf: this.cpfFormatPipe.transform(data.cpf),
             birthdate: data.birthday,
             password: "",
-            phonenumber: data.phoneNumber
+            phonenumber: this.phonePipe.transform(data.phoneNumber)
           });
         },
         error: err => {

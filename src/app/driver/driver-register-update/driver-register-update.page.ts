@@ -10,17 +10,22 @@ import {CnhFormatDirective} from "../../shared/directives/cnh-format-directive";
 import {PhoneNumberDirective} from "../../shared/directives/phone-number-directive";
 import {ToastService} from 'src/app/services/toast.service';
 import {AuthenticationService} from 'src/app/services/authentication/authentication.service';
+import {CpfPipe} from "../../shared/pipes/cpf-pipe";
+import {Driver} from "../../shared/models/driver/driver";
+import {CnhFormatPipe} from "../../shared/pipes/cnh-format.pipe";
+import {PhoneFormatPipe} from "../../shared/pipes/phone-format.pipe";
 
 @Component({
   selector: 'app-driver-registration',
   templateUrl: './driver-register-update.page.html',
   styleUrls: ['./driver-register-update.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, CpfFormatDirective, CnhFormatDirective, PhoneNumberDirective],
-  providers: [DriverService, ToastService, AuthenticationService]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, CpfFormatDirective, CnhFormatDirective, PhoneNumberDirective, CpfPipe, PhoneFormatPipe],
+  providers: [DriverService, ToastService, AuthenticationService, CpfPipe, CnhFormatPipe, PhoneFormatPipe]
 })
 export class DriverRegisterUpdatePage implements OnInit {
   isEdit = false;
+  driver!: Driver;
 
   registrationForm = this.fb.group({
     name: ['', [Validators.minLength(5), Validators.required]],
@@ -39,7 +44,10 @@ export class DriverRegisterUpdatePage implements OnInit {
               private authService: AuthenticationService,
               private driverService: DriverService,
               private router: Router,
-              private toastService: ToastService) {
+              private toastService: ToastService,
+              private cpfFormatPipe: CpfPipe,
+              private cnhPipe: CnhFormatPipe,
+              private phonePipe: PhoneFormatPipe) {
   }
 
   ngOnInit() {
@@ -63,11 +71,11 @@ export class DriverRegisterUpdatePage implements OnInit {
         this.registrationForm.setValue({
           name: data.name,
           email: data.email,
-          cpf: data.cpf,
-          cnh: data.cnh,
+          cpf: this.cpfFormatPipe.transform(data.cpf),
+          cnh: this.cnhPipe.transform(data.cnh),
           birthdate: data.birthday,
           password: '',
-          phonenumber: data.phoneNumber
+          phonenumber: this.phonePipe.transform(data.phoneNumber)
         });
       },
       error: err => {

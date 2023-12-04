@@ -4,28 +4,19 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" class="ion-padding">
-  <h1 *ngIf="userType === UserType.STUDENT">Qual nota você dá para esse motorista?</h1>
-  <h1 *ngIf="userType === UserType.DRIVER">Qual nota você dá para esse aluno?</h1>
-  <form *ngIf="userType === UserType.STUDENT" [formGroup]="rankForm" (ngSubmit)="ratingDriver()">
+  <h1 *ngIf="userType === UserType.STUDENT">Qual nota você dá para {{userName}}?</h1>
+  <h1 *ngIf="userType === UserType.DRIVER">Qual nota você dá para  {{userName}}?</h1>
+    <div [align]="alignment" style="padding-top: 29px">
+      <ion-icon
+        *ngFor="let star of stars; let i = index"
+        [style.marginRight.px]="5"
+        [style.fontSize]="size"
+        [name]="star.icon"
+        [color]="star.color"
+        (click)="rate(i + 1)">
+      </ion-icon>
+    </div>
 
-    <ion-item-group>
-      <ion-item>
-        <ion-select label="Nota" formControlName="tripStars">
-          <ion-select-option *ngFor="let trip of tripStars" [value]="trip.value">{{trip.text}}</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </ion-item-group>
-  </form>
-  <form *ngIf="userType === UserType.DRIVER" [formGroup]="rankForm" (ngSubmit)="ratingStudent()">
-
-    <ion-item-group>
-      <ion-item>
-        <ion-select label="Nota" formControlName="tripStars">
-          <ion-select-option *ngFor="let trip of tripStars" [value]="trip.value">{{trip.text}}</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </ion-item-group>
-  </form>
 </ion-content>
 <ion-footer>
   <ion-button *ngIf="userType === UserType.STUDENT" color="success" expand="block" (click)="ratingDriver()">

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
@@ -19,28 +19,40 @@ import {LoginResponse} from "../../models/user/login-response.model";
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule],
   providers: [DriverService, StudentService, AuthenticationService]
 })
+
+
 export class RankTripPage implements OnInit {
   loggedUser!: LoginResponse;
   userId!: number;
+  userName!: string;
   userType!: UserType
   rankForm = this.fb.group({
     tripStars: [1, [Validators.required]],
   });
+  ratingValue!: number;
 
-  readonly tripStars = [
-    {value: 1, text: "1"},
-    {value: 2, text: "2"},
-    {value: 3, text: "3"},
-    {value: 4, text: "4"},
-    {value: 5, text: "5"},
-  ]
+
+  stars: { icon: string; color: string }[] = [
+    {icon: 'star-outline', color: 'medium'},
+    {icon: 'star-outline', color: 'medium'},
+    {icon: 'star-outline', color: 'medium'},
+    {icon: 'star-outline', color: 'medium'},
+    {icon: 'star-outline', color: 'medium'},
+  ];
+
+  @Input() initialRating: number = 0;
+  @Input() readonly: boolean = false;
+  @Input() alignment = 'center';
+  @Input() size: string = '2rem';
+  @Output() ratingChange: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(private fb: FormBuilder,
               private driverService: DriverService,
               private route: ActivatedRoute,
               private toastService: ToastService,
               private router: Router,
-              private studentService: StudentService) {
+              private studentService: StudentService,
+  ) {
   }
 
   ngOnInit() {
@@ -48,46 +60,81 @@ export class RankTripPage implements OnInit {
       this.userType = params['userType']
       this.userId = params['userId'];
     })
-  }
-
-  ratingDriver() {
-    if (this.rankForm.valid) {
-      const rating: Rating = {
-        rating: this.rating!.value ?? 1,
-      }
-
-      this.driverService.rankDriver(this.userId, rating).subscribe({
-        next: next => {
-          this.toastService.showSuccessToast("Carona finalizada com sucesso!");
-          this.router.navigate(['/aluno']);
-        },
-        error: error => {
-          this.toastService.showErrorToastAndLog("Houve algum erro ao avaliar o motorista", error);
+    this.setRating(this.initialRating);
+    if (this.userType === UserType.STUDENT) {
+      this.driverService.findDriverById(this.userId).subscribe({
+          next: next => {
+            this.userName = next.name;
+          }
         }
-      });
+      )
     }
-  }
-
-  ratingStudent() {
-    if (this.rankForm.valid) {
-      const rating: Rating = {
-        rating: this.rating!.value ?? 1,
-      }
-
-      this.studentService.rankStudent(this.userId, rating).subscribe(
-        next => {
-          this.toastService.showSuccessToast("Carona finalizada com sucesso!");
-          this.router.navigate(['/motorista']);
-        },
-        error => {
-          this.toastService.showErrorToastAndLog("Houve algum erro ao avaliar o aluno", error);
+    if (this.userType === UserType.DRIVER) {
+      this.studentService.findStudentById(this.userId).subscribe({
+          next: next => {
+            this.userName = next.name;
+          }
         }
       )
     }
   }
 
-  public get rating() {
-    return this.rankForm.get('tripStars');
+
+  ratingDriver() {
+    const rating: Rating = {
+      rating: this.ratingValue
+    }
+
+    this.driverService.rankDriver(this.userId, rating).subscribe({
+      next: next => {
+        this.toastService.showSuccessToast("Carona finalizada com sucesso!");
+        this.router.navigate(['/aluno']);
+      },
+      error: error => {
+        this.toastService.showErrorToastAndLog("Houve algum erro ao avaliar o motorista", error);
+      }
+    });
+
+  }
+
+  ratingStudent() {
+    const rating: Rating = {
+      rating: this.ratingValue
+    }
+
+    this.studentService.rankStudent(this.userId, rating).subscribe(
+      next => {
+        this.toastService.showSuccessToast("Carona finalizada com sucesso!");
+        this.router.navigate(['/motorista']);
+      },
+      error => {
+        this.toastService.showErrorToastAndLog("Houve algum erro ao avaliar o aluno", error);
+      }
+    )
+  }
+
+  rate(value: number) {
+    if (!this.readonly) {
+      this.setRating(value);
+    }
+  }
+
+  setRating(rating: number) {
+    for (let i = 0; i < this.stars.length; i++) {
+      if (rating >= i + 1) {
+        this.stars[i].icon = 'star';
+        this.stars[i].color = 'warning';
+      } else if (rating > i) {
+        this.stars[i].icon = 'star-half';
+        this.stars[i].color = 'warning';
+      } else {
+        this.stars[i].icon = 'star-outline';
+        this.stars[i].color = 'medium';
+      }
+    }
+    this.ratingValue = rating;
+    console.log(this.ratingValue)
+    this.ratingChange.emit(rating);
   }
 
   protected readonly UserType = UserType;
